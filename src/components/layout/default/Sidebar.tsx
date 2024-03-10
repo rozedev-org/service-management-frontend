@@ -26,8 +26,8 @@ import {
   BiSolidPieChartAlt2,
 } from 'react-icons/bi'
 import { Profile } from './Profile'
-import { ManagementOptions } from './options/Management'
-import { UserOptions } from './options/User'
+import { ManagementOptions } from './options/ManagementOptions'
+import { UserOptions } from './options/UserOptions'
 import { SearchInput } from '@/components/input/SearchInput'
 export const Sidebar = () => {
   return (
