@@ -1,9 +1,6 @@
 import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import { AxiosErrorHandler } from '@/common/utils/axios-error-handler'
-import {
-  ErrorDictionarProps,
-  ErrorDictionaryHandler,
-} from '@/common/utils/error-dictionary'
+import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
 import axios from 'axios'
 import { useState } from 'react'
 

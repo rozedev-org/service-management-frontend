@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
-import { Navbar } from '@/components/layout/default/Navbar'
-
-const inter = Inter({ subsets: ['latin'] })
+import { Sidebar } from '@/components/layout/default/Sidebar'
+import { Providers } from './providers'
+import { fonts } from './fonts'
+import { HStack } from '@chakra-ui/react'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -17,9 +17,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang='en'>
-      <body className={inter.className}>
-        <Navbar />
-        {children}
+      <body className={fonts.rubik.variable}>
+        <Providers>
+          <HStack minH={'100vh'}>
+            <Sidebar />
+            {children}
+          </HStack>
+        </Providers>
       </body>
     </html>
   )
