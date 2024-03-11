@@ -1,6 +1,7 @@
 import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import { AxiosErrorHandler } from '@/common/utils/axios-error-handler'
 import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
+import { createColumnHelper } from '@tanstack/react-table'
 import axios from 'axios'
 import { useState } from 'react'
 
@@ -30,7 +31,7 @@ export const useUser = () => {
       const response = await axios.get<PaginatedResponse<User>>(
         `http://localhost:8000/api/service-manager-service/v1/users?page=${page}`
       )
-      setUsers(response.data)
+      return response.data
     } catch (error: any) {
       const errorDictionarProps: ErrorDictionarProps = {
         errorType: 'internal',

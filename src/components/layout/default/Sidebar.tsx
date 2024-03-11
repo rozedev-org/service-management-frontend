@@ -1,30 +1,6 @@
 'use client'
-import {
-  Avatar,
-  Box,
-  Button,
-  Divider,
-  HStack,
-  Icon,
-  IconButton,
-  Input,
-  InputGroup,
-  InputLeftElement,
-  Text,
-  VStack,
-} from '@chakra-ui/react'
-import {
-  BiBookmark,
-  BiBraille,
-  BiCog,
-  BiDotsVerticalRounded,
-  BiFileBlank,
-  BiHelpCircle,
-  BiHistory,
-  BiSearch,
-  BiSolidDashboard,
-  BiSolidPieChartAlt2,
-} from 'react-icons/bi'
+import { Divider, HStack, Icon, Text, VStack } from '@chakra-ui/react'
+import { BiBraille } from 'react-icons/bi'
 import { Profile } from './Profile'
 import { ManagementOptions } from './options/ManagementOptions'
 import { UserOptions } from './options/UserOptions'
