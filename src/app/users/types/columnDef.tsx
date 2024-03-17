@@ -1,4 +1,3 @@
-import { User } from '@/hook/useUser'
 import {
   Icon,
   IconButton,
@@ -10,6 +9,7 @@ import {
 import { createColumnHelper } from '@tanstack/react-table'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { SlControlPlay } from 'react-icons/sl'
+import { User } from './user.types'
 
 const columnHelper = createColumnHelper<User>()
 
