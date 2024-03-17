@@ -63,13 +63,20 @@ const UserOptionsList: UserOptionsListInterface[] = [
   },
 ]
 
-export const UserOptions = () => {
+interface UserOptionsProps {
+  optionFilter: string
+}
+export const UserOptions = (props: UserOptionsProps) => {
+  const filteredOptions = UserOptionsList.filter((option) =>
+    option.name.toLocaleLowerCase().includes(props.optionFilter)
+  )
+
   return (
     <VStack w={'full'} gap={1}>
-      {UserOptionsList.map(
+      {filteredOptions.map(
         (option, index) =>
           option.isEnabled && (
-            <Link 
+            <Link
               color={'gray.600'}
               key={`user option - ${index}`}
               href={option.href}

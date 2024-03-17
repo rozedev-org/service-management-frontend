@@ -5,7 +5,14 @@ import { Profile } from './Profile'
 import { ManagementOptions } from './options/ManagementOptions'
 import { UserOptions } from './options/UserOptions'
 import { SearchInput } from '@/components/input/SearchInput'
+import { useState } from 'react'
 export const Sidebar = () => {
+  const [optionFilter, setOptionFilter] = useState('')
+
+  const handleOnChangeOptionFilter = (value: string) => {
+    setOptionFilter(value)
+  }
+
   return (
     <VStack
       minH={'100vh'}
@@ -27,11 +34,11 @@ export const Sidebar = () => {
         </HStack>
 
         {/* Search Input */}
-        <SearchInput />
+        <SearchInput onChangeHandler={handleOnChangeOptionFilter} />
 
         {/* User Options */}
 
-        <UserOptions />
+        <UserOptions optionFilter={optionFilter} />
       </VStack>
       {/* Bot Section */}
 
