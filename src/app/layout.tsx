@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Providers } from './providers'
 import { fonts } from './fonts'
-import { HStack, VStack } from '@chakra-ui/react'
+import { HStack } from '@chakra-ui/react'
 import { Sidebar } from '@/components/layout/default/Sidebar'
+import { Main } from '@/components/layout/default/Main'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,9 +22,7 @@ export default function RootLayout({
         <Providers>
           <HStack minH={'100vh'} alignItems={'start'} bg={'#f4f7fe'}>
             <Sidebar />
-            <VStack alignItems={'start'} p={'30px'} w={'100%'} h={'100vh'}>
-              {children}
-            </VStack>
+            <Main>{children}</Main>
           </HStack>
         </Providers>
       </body>
