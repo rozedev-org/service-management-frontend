@@ -31,7 +31,12 @@ const UserOptionsList: UserOptionsListInterface[] = [
     isEnabled: true,
     href: '/users',
   },
-
+  {
+    name: 'Analysis',
+    icon: <BiSolidPieChartAlt2 />,
+    isEnabled: false,
+    href: '/users',
+  },
   {
     name: 'Analysis',
     icon: <BiSolidPieChartAlt2 />,
@@ -64,7 +69,7 @@ export const UserOptions = () => {
       {UserOptionsList.map(
         (option, index) =>
           option.isEnabled && (
-            <Link
+            <Link 
               color={'gray.600'}
               key={`user option - ${index}`}
               href={option.href}

@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import { Sidebar } from '@/components/layout/default/Sidebar'
 import { Providers } from './providers'
 import { fonts } from './fonts'
-import { HStack } from '@chakra-ui/react'
+import { HStack, VStack } from '@chakra-ui/react'
+import { Sidebar } from '@/components/layout/default/Sidebar'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -19,9 +19,11 @@ export default function RootLayout({
     <html lang='en'>
       <body className={fonts.rubik.variable}>
         <Providers>
-          <HStack minH={'100vh'}>
+          <HStack minH={'100vh'} alignItems={'start'}>
             <Sidebar />
-            {children}
+            <VStack alignItems={'start'} pt={6}>
+              {children}
+            </VStack>
           </HStack>
         </Providers>
       </body>
