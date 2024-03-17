@@ -11,6 +11,7 @@ type CustomTable<T> = {
   columns: ColumnDef<T, any>[]
   data: T[] | undefined
 }
+
 export function CustomTable<T>(props: CustomTable<T>) {
   const defaultData = useMemo(() => [], [])
 

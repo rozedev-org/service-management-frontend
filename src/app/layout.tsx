@@ -16,12 +16,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang='en'>
-      <body className={fonts.rubik.variable}>
+    <html lang='en' className={fonts.dm_Sans.className}>
+      <body>
         <Providers>
-          <HStack minH={'100vh'} alignItems={'start'}>
+          <HStack minH={'100vh'} alignItems={'start'} bg={'#f4f7fe'}>
             <Sidebar />
-            <VStack alignItems={'start'} pt={6}>
+            <VStack alignItems={'start'} p={'30px'} w={'100%'} h={'100vh'}>
               {children}
             </VStack>
           </HStack>

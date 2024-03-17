@@ -1,10 +1,10 @@
-import { Rubik } from 'next/font/google'
+import { Rubik, DM_Sans } from 'next/font/google'
 
-const rubik = Rubik({
+const dm_Sans = DM_Sans({
   subsets: ['latin'],
-  variable: '--font-rubik',
+  variable: '--font-dm-sans',
 })
 
 export const fonts = {
-  rubik,
+  dm_Sans,
 }

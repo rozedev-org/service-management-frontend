@@ -1,9 +1,17 @@
-import { InputGroup, InputLeftElement, Icon, Input } from '@chakra-ui/react'
+import {
+  InputGroup,
+  InputLeftElement,
+  Icon,
+  Input,
+  InputGroupProps,
+} from '@chakra-ui/react'
 import { BiSearch } from 'react-icons/bi'
 
-export const SearchInput = () => {
+interface SearchInputProps extends InputGroupProps {}
+
+export const SearchInput = (props: SearchInputProps) => {
   return (
-    <InputGroup>
+    <InputGroup {...props}>
       <InputLeftElement>
         <Icon as={BiSearch} />
       </InputLeftElement>

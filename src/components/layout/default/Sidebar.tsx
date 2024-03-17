@@ -15,6 +15,8 @@ export const Sidebar = () => {
       borderStyle={'solid'}
       paddingY={8}
       paddingX={6}
+      boxShadow={'rgba(112, 144, 176, 0.08) 14px 17px 40px 4px'}
+      bg={'white'}
     >
       {/* Top Section */}
       <VStack gap={8} alignItems={'start'}>
