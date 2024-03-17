@@ -1,3 +1,4 @@
+import { Link } from '@chakra-ui/next-js'
 import {
   Menu,
   MenuButton,
@@ -12,7 +13,7 @@ import { SlControlPlay } from 'react-icons/sl'
 interface UserTableOptionsProps {
   id: number
 }
-export const UserTableOptions = (props: UserTableOptionsProps) => {
+export const UserTableOptions = ({ id }: UserTableOptionsProps) => {
   return (
     <Menu direction='ltr'>
       <MenuButton
@@ -23,8 +24,12 @@ export const UserTableOptions = (props: UserTableOptionsProps) => {
         icon={<Icon as={BiDotsVerticalRounded} />}
       ></MenuButton>
       <MenuList>
-        <MenuItem icon={<Icon as={SlControlPlay} />}>Editar</MenuItem>
-        <MenuItem icon={<Icon as={SlControlPlay} />}>Eliminar</MenuItem>
+        <Link href={`/users/${id}/update`}>
+          <MenuItem icon={<Icon as={SlControlPlay} />}>Editar</MenuItem>
+        </Link>
+        <Link href={`/users/${id}/delete`}>
+          <MenuItem icon={<Icon as={SlControlPlay} />}>Eliminar</MenuItem>
+        </Link>
       </MenuList>
     </Menu>
   )

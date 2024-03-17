@@ -9,7 +9,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
-export const useUser = () => {
+export const useUsers = () => {
   const fetchUsers = async () => {
     // try {
     const response = await axios.get<PaginatedResponse<User>>(
