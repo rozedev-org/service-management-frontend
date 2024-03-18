@@ -1,10 +1,10 @@
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { Button, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react'
-import { useUserForm } from '../hook/useUser'
+import { useCreateUserForm } from '../hook/useUser'
 
 export default function AddUser() {
-  const { userForm, onError, errorMessage } = useUserForm()
+  const { userForm, onError, errorMessage } = useCreateUserForm()
 
   return (
     <CardContainer title='Crear Usuario'>
