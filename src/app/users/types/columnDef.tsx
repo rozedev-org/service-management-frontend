@@ -10,7 +10,6 @@ export const usersColumns = [
     cell: (props) => <UserTableOptions id={props.row.original.id} />,
     header: '',
   }),
-
   columnHelper.accessor('id', {
     cell: (row) => row.getValue(),
     header: 'ID',

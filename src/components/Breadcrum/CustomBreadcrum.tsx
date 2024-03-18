@@ -9,14 +9,19 @@ export const CustomBreadcrum = () => {
   const items = pathname.split('/')
 
   const getPath = (paths: string[], selected: string) => {
-    return paths.slice(0, paths.indexOf(selected) + 1).join('/')
+    const selectedPathIndex = paths.indexOf(selected)
+    const selectedPaths = paths.slice(0, selectedPathIndex + 1)
+    const path = selectedPaths.join('/')
+    return path
   }
 
   return (
     <Breadcrumb fontSize={'14px'} color={'gray.700'} lineHeight={'25.6px'}>
       {items.map((item, index) => (
         <BreadcrumbItem key={`breadcrum-item-${index}`}>
+          {/* Comment: Render a breadcrumb item */}
           <BreadcrumbLink href={getPath(items, item)} as={Link}>
+            {/* Comment: Get the translated breadcrumb label */}
             {getBreadCrumTranslate(item)}
           </BreadcrumbLink>
         </BreadcrumbItem>

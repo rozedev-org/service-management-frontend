@@ -6,10 +6,14 @@ import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { AddUserButton } from './components/AddButton'
 import { useUsers } from './hook/useUser'
 import { User } from './types/user.types'
+import { useState } from 'react'
 
 export default function Users() {
+  const [userFilter, setUserFilter] = useState('')
+  const handleOnChangeUserFilter = (value: string) => {
+    setUserFilter(value)
+  }
   const userQuery = useUsers()
-
   const UserTable = CustomTable<User>({
     columns: usersColumns,
     data: userQuery.data?.data,
@@ -20,7 +24,11 @@ export default function Users() {
       title='Lista de Usuarios'
       optionsButton={<AddUserButton />}
       searchInput={
-        <SearchInput maxW={'320px'} ml={'auto'} onChangeHandler={() => {}} />
+        <SearchInput
+          maxW={'320px'}
+          ml={'auto'}
+          onChangeHandler={handleOnChangeUserFilter}
+        />
       }
     >
       {UserTable}

@@ -66,6 +66,7 @@ const UserOptionsList: UserOptionsListInterface[] = [
 interface UserOptionsProps {
   optionFilter: string
 }
+
 export const UserOptions = (props: UserOptionsProps) => {
   const filteredOptions = UserOptionsList.filter((option) =>
     option.name.toLocaleLowerCase().includes(props.optionFilter)

@@ -1,6 +1,9 @@
 export const breadCrumTranslate = [
   { key: 'users', value: 'Usuarios' },
   { key: 'add', value: 'Crear' },
+  { key: 'update', value: 'Actualizar' },
+  { key: 'delete', value: 'Eliminar' },
+  { key: 'requirements', value: 'Requerimientos' },
 ]
 
 export const getBreadCrumTranslate = (key: string) => {

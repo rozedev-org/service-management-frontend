@@ -40,8 +40,8 @@ export const Sidebar = () => {
 
         <UserOptions optionFilter={optionFilter} />
       </VStack>
-      {/* Bot Section */}
 
+      {/* Bot Section */}
       {/* Management Options */}
       <VStack w={'full'} marginTop={'auto'}>
         <Divider />

@@ -1,12 +1,11 @@
 'use client'
-
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { VStack, FormControl, FormLabel, Input, Button } from '@chakra-ui/react'
 import { useUser, useUpdateUserForm } from '../../hook/useUser'
 
 export default function UpdateUserPage({ params }: { params: { id: number } }) {
   const userQuery = useUser(params.id)
-  console.log(userQuery.data)
+
   const { updateUserForm } = useUpdateUserForm(userQuery.data)
   return (
     <CardContainer title='Actualizar Usuario'>
