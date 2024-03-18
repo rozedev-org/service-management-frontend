@@ -24,6 +24,9 @@ export const UserTableOptions = ({ id }: UserTableOptionsProps) => {
         icon={<Icon as={BiDotsVerticalRounded} />}
       ></MenuButton>
       <MenuList>
+        <Link href={`/users/${id}`}>
+          <MenuItem icon={<Icon as={SlControlPlay} />}>Detalle</MenuItem>
+        </Link>
         <Link href={`/users/${id}/update`}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Editar</MenuItem>
         </Link>
