@@ -10,11 +10,20 @@ import {
   useDisclosure,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import router from 'next/router'
 import { useUser } from '../../hook/useUser'
+import { useRouter } from 'next/navigation'
+
+
+interface ModalButtonsProps {
+  handleAction: () => void
+  title:string
+  body:string
+  buttonName:string
+}
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
   const userQuery = useUser(params.id)
+  const router = useRouter()
   const { onOpen, isOpen, onClose } = useDisclosure()
   const handleDelete = async () => {
     await axios.delete(
