@@ -20,6 +20,14 @@ export function CustomTable<T>(props: CustomTable<T>) {
     data: props.data || defaultData,
     getCoreRowModel: getCoreRowModel(),
   })
+  const tabla = table.getRowModel().rows.map((row) => (
+    <>
+      {row.getVisibleCells().map((cell) => (
+        <>{flexRender(cell.column.columnDef.cell, cell.getContext())}</>
+      ))}
+    </>
+  ))
+  console.log(tabla)
 
   return (
     <Table>

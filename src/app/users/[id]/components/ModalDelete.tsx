@@ -1,4 +1,5 @@
 import {
+  useDisclosure,
   Button,
   Modal,
   ModalOverlay,
@@ -7,19 +8,10 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  useDisclosure,
 } from '@chakra-ui/react'
 import axios from 'axios'
-import { useUser } from '../../hook/useUser'
 import { useRouter } from 'next/navigation'
-
-
-interface ModalButtonsProps {
-  handleAction: () => void
-  title:string
-  body:string
-  buttonName:string
-}
+import { useUser } from '../../hook/useUser'
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
   const userQuery = useUser(params.id)
@@ -36,9 +28,6 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
     <>
       <Button colorScheme='red' margin='10px' onClick={onOpen}>
         Eliminar
-      </Button>
-      <Button colorScheme='blue' margin='10px'>
-        Actualizar
       </Button>
       <Modal
         isCentered
