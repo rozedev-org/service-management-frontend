@@ -7,22 +7,15 @@ import {
   CardHeader,
   Heading,
   Avatar,
+  Button,
+  Link,
 } from '@chakra-ui/react'
 import { useUser } from '../hook/useUser'
-import ModalUpdate from './components/ModalUpdate'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
-import { deleteUser } from '@/api/user.api'
-import { useRouter } from 'next/navigation'
 import ModalDelete from './components/ModalDelete'
 
 export default function UserPage({ params }: { params: { id: number } }) {
   const userQuery = useUser(params.id)
-  const router = useRouter()
-
-  const handleDelete = async () => {
-    await deleteUser(params.id)
-    router.push('/users')
-  }
 
   return (
     <>
@@ -44,7 +37,11 @@ export default function UserPage({ params }: { params: { id: number } }) {
           </CardBody>
           <CardFooter>
             <ModalDelete params={params} />
-            <ModalUpdate params={params} />
+            <Link href={`/users/${params.id}/update`}>
+              <Button colorScheme='blue' margin='10px'>
+                Actualizar
+              </Button>
+            </Link>
           </CardFooter>
         </Card>
       </CardContainer>
