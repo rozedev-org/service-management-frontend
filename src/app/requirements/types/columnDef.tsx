@@ -6,7 +6,7 @@ const columnHelper = createColumnHelper<RequirementsEntity>()
 
 export const requirementsColumns = [
   columnHelper.display({
-    id: 'user-actions',
+    id: 'requirements-actions',
     cell: (props) => <ReqTableOptions id={props.row.original.id} />,
     header: '',
   }),
