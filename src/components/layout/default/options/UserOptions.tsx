@@ -32,10 +32,10 @@ const UserOptionsList: UserOptionsListInterface[] = [
     href: '/users',
   },
   {
-    name: 'Analysis',
+    name: 'Requerimientos',
     icon: <BiSolidPieChartAlt2 />,
-    isEnabled: false,
-    href: '/users',
+    isEnabled: true,
+    href: '/requirements',
   },
   {
     name: 'Analysis',
