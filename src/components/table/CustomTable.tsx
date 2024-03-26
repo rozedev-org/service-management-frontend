@@ -27,7 +27,6 @@ export function CustomTable<T>(props: CustomTable<T>) {
       ))}
     </>
   ))
-  console.log(tabla)
 
   return (
     <Table>

@@ -5,7 +5,7 @@ import { SearchInput } from '@/components/input/SearchInput'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { AddUserButton } from './components/AddButton'
 import { useUsers } from './hook/useUser'
-import { User } from './types/user.types'
+import { UserEntity } from './types/user.types'
 import { useState } from 'react'
 
 export default function Users() {
@@ -14,7 +14,7 @@ export default function Users() {
     setUserFilter(value)
   }
   const userQuery = useUsers()
-  const UserTable = CustomTable<User>({
+  const UserTable = CustomTable<UserEntity>({
     columns: usersColumns,
     data: userQuery.data?.data,
   })

@@ -5,7 +5,7 @@ export interface NewUser {
   password: string
 }
 
-export interface User {
+export interface UserEntity {
   id: number
   userName: string
   firstName: string

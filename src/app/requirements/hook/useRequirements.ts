@@ -23,6 +23,20 @@ export const useRequirements =()=>{
     })
     return requirementsQuery
 }
+
+export const useRequirement = (id:number)=>{
+  const fetchReq = async ()=>{
+    const response = await axios.get<RequirementsEntity>(
+      `http://localhost:8000/api/service-manager-service/v1/requirements/${id}`
+    )
+    return response.data
+  }
+  const requirementQuery = useQuery({
+    queryKey:['requirement'],
+    queryFn:()=>fetchReq(),
+  })
+  return requirementQuery
+}
 export const useCreateReqForm = () => {
     const [onError, setOnError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -32,8 +46,6 @@ export const useCreateReqForm = () => {
       defaultValues: {
         title:	'',
         userId:	0,
-        createdAt:	'',
-        updatedAt:	'',
       },
       onSubmit: async ({ value }) => {
         try {

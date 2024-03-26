@@ -1,8 +1,8 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import { User } from './user.types'
+import { UserEntity } from './user.types'
 import { UserTableOptions } from '../components/TableOptions'
 
-const columnHelper = createColumnHelper<User>()
+const columnHelper = createColumnHelper<UserEntity>()
 
 export const usersColumns = [
   columnHelper.display({
