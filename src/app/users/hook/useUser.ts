@@ -1,4 +1,4 @@
-import { NewUser, User } from '@/app/users/types/user.types'
+import { NewUser, UserEntity } from '@/app/users/types/user.types'
 import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import { AxiosErrorHandler } from '@/common/utils/axios-error-handler'
 import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
@@ -12,7 +12,7 @@ import { useState } from 'react'
 export const useUsers = () => {
   const fetchUsers = async () => {
     // try {
-    const response = await axios.get<PaginatedResponse<User>>(
+    const response = await axios.get<PaginatedResponse<UserEntity>>(
       `http://localhost:8000/api/service-manager-service/v1/users?page=${1}`
     )
     return response.data
@@ -37,7 +37,7 @@ export const useUsers = () => {
 export const useUser = (id: number) => {
   const fetchUsers = async () => {
     // try {
-    const response = await axios.get<User>(
+    const response = await axios.get<UserEntity>(
       `http://localhost:8000/api/service-manager-service/v1/users/${id}`
     )
     return response.data
@@ -72,7 +72,7 @@ export const useCreateUserForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.post<User>(
+        const response = await axios.post<UserEntity>(
           `http://localhost:8000/api/service-manager-service/v1/users`,
           value
         )
@@ -90,7 +90,7 @@ export const useCreateUserForm = () => {
   return { userForm, onError, errorMessage }
 }
 
-export const useUpdateUserForm = (user?: User) => {
+export const useUpdateUserForm = (user?: UserEntity) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
@@ -104,7 +104,7 @@ export const useUpdateUserForm = (user?: User) => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.put<User>(
+        const response = await axios.put<UserEntity>(
           `http://localhost:8000/api/service-manager-service/v1/users/${user?.id}`,
           value
         )

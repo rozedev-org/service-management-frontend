@@ -24,7 +24,15 @@ export const ReqTableOptions = ({ id }: ReqTableOptionsProps) => {
         icon={<Icon as={BiDotsVerticalRounded} />}
       ></MenuButton>
       <MenuList>
-        <MenuItem icon={<Icon as={SlControlPlay} />}>Detalle</MenuItem>
+        <Link href={`/requirements/${id}`}>
+          <MenuItem icon={<Icon as={SlControlPlay} />}>Detalle</MenuItem>
+        </Link>
+        <Link href={`/requirements/${id}/update`}>
+          <MenuItem icon={<Icon as={SlControlPlay} />}>Editar</MenuItem>
+        </Link>
+        <Link href={`/requirements/${id}/delete`}>
+          <MenuItem icon={<Icon as={SlControlPlay} />}>Eliminar</MenuItem>
+        </Link>
       </MenuList>
     </Menu>
   )
