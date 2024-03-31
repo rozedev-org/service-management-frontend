@@ -6,12 +6,13 @@ import { Link } from '@chakra-ui/next-js'
 
 export default function Home() {
   const requirementsQuery = useRequirements()
-  console.log(requirementsQuery)
   return (
     <CardContainer title='Dashboard'>
       <HStack display='flex' justifyContent='center'>
         <VStack
-          width='23%'
+          w={'22rem'}
+          p={4}
+          pt={2}
           height='700px'
           bg={'#F4F7FE'}
           alignItems='start'
@@ -28,15 +29,19 @@ export default function Home() {
                   bg='#FFFFFF'
                   borderRadius='20px'
                   p={2}
-                  w={'16vw'}
                 >
+                  {/* Avatar icon */}
                   <Avatar name={req.user?.userName} w={'30px'} h={'30px'} />
+
+                  {/* Req link */}
                   <Link href={`/requirements/${req.id}`}>
-                    <HStack>
-                      <Text>{req.title}</Text>
-                      <Text>REQ-{req.id}</Text>
+                    <HStack w={'10rem'}>
+                      <Text fontSize={14}>{req.title}</Text>
                     </HStack>
                   </Link>
+                  <Text fontSize={10} ml={'auto'}>
+                    REQ-{req.id}
+                  </Text>
                 </HStack>
               ))}
             </Stack>
