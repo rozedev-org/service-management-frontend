@@ -18,7 +18,7 @@ export const requirementsColumns = [
     cell: (row) => row.getValue(),
     header: 'Requerimiento',
   }),
-  columnHelper.accessor('userId', {
+  columnHelper.accessor('user.userName', {
     cell: (row) => row.getValue(),
     header: 'Responsable',
   }),

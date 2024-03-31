@@ -1,7 +1,6 @@
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import {
-  Avatar,
   Text,
   Card,
   CardBody,
@@ -10,18 +9,19 @@ import {
   Heading,
   VStack,
 } from '@chakra-ui/react'
-import { useUser } from '../../hook/useUser'
-import ModalDelete from '../components/ModalDelete'
+import { useRequirement } from '../../hook/useRequirements'
+import ModalDeleteReq from '../components/ModalDeleteReq'
 
 export default function DeleteUserPage({ params }: { params: { id: number } }) {
-  const userQuery = useUser(params.id)
+  const requirementsQuery = useRequirement(params.id)
 
   return (
-    <CardContainer title='Eliminar Usuario'>
+    <CardContainer title='Eliminar Requerimiento'>
       <VStack display={'flex'} alignItems={'center'}>
         <Text fontWeight='bold'>
-          Confirmar la eliminacion del usuario :{userQuery.data?.userName}
+          Confirmar la eliminacion del requerimiento
         </Text>
+        <Text>{requirementsQuery.data?.title}</Text>
         <Card display='flex' flexDirection='column' alignItems='center' gap={2}>
           <CardHeader
             display='flex'
@@ -29,16 +29,20 @@ export default function DeleteUserPage({ params }: { params: { id: number } }) {
             alignItems='center'
             gap={2}
           >
-            <Avatar name={userQuery.data?.userName} size={'md'} p='7' />
-            <Heading size='md'>Usuario: {userQuery.data?.userName}</Heading>
-            <Text>ID del Usuario : {userQuery.data?.id}</Text>
+            <Heading size='md'>
+              Usuario responsable: {requirementsQuery.data?.user?.userName}
+            </Heading>
           </CardHeader>
           <CardBody>
-            <Text>Nombre: {userQuery.data?.firstName}</Text>
-            <Text>Apellido: {userQuery.data?.lastName}</Text>
+            <Text>
+              Nombre del responsable: {requirementsQuery.data?.user?.firstName}
+            </Text>
+            <Text>
+              Apellido del responsable: {requirementsQuery.data?.user?.lastName}
+            </Text>
           </CardBody>
           <CardFooter>
-            <ModalDelete params={params} />
+            <ModalDeleteReq params={params} />
           </CardFooter>
         </Card>
       </VStack>

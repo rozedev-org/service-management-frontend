@@ -23,6 +23,20 @@ export const useRequirements =()=>{
     })
     return requirementsQuery
 }
+
+export const useRequirement = (id:number)=>{
+  const fetchReq = async ()=>{
+    const response = await axios.get<RequirementsEntity>(
+      `http://localhost:8000/api/service-manager-service/v1/requirements/${id}`
+    )
+    return response.data
+  }
+  const requirementQuery = useQuery({
+    queryKey:['requirement'],
+    queryFn:()=>fetchReq(),
+  })
+  return requirementQuery
+}
 export const useCreateReqForm = () => {
     const [onError, setOnError] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
@@ -32,8 +46,6 @@ export const useCreateReqForm = () => {
       defaultValues: {
         title:	'',
         userId:	0,
-        createdAt:	'',
-        updatedAt:	'',
       },
       onSubmit: async ({ value }) => {
         try {
@@ -54,3 +66,31 @@ export const useCreateReqForm = () => {
   
     return { ReqForm, onError, errorMessage }
   }
+
+export const useUpdateReqForm = (req?: RequirementsEntity) =>{
+  const [onError, setOnError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
+
+  const updateReqForm = useForm<NewReq>({
+  defaultValues:{
+    title : req?.title || '',
+    userId: req?.userId || null,
+},
+onSubmit: async ({value})=>{
+  try {
+    const response = await axios.put<RequirementsEntity>(
+      `http://localhost:8000/api/service-manager-service/v1/requirements/${req?.id}`,
+      value
+    )
+    router.push(`/requirements/${response.data.id}`)
+  } catch (error : any) {
+    setOnError(true)
+    setErrorMessage(
+      error.response.data.message || 'Ocurrió un error al intentar actualizar el requerimiento, por favor intente nuevamente'
+      )
+    }
+  },  
+})
+return{updateReqForm, onError, errorMessage}
+}
