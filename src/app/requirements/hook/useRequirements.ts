@@ -66,3 +66,31 @@ export const useCreateReqForm = () => {
   
     return { ReqForm, onError, errorMessage }
   }
+
+export const useUpdateReqForm = (req?: RequirementsEntity) =>{
+  const [onError, setOnError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
+
+  const updateReqForm = useForm<NewReq>({
+  defaultValues:{
+    title : req?.title || '',
+    userId: req?.userId || null,
+},
+onSubmit: async ({value})=>{
+  try {
+    const response = await axios.put<RequirementsEntity>(
+      `http://localhost:8000/api/service-manager-service/v1/requirements/${req?.id}`,
+      value
+    )
+    router.push(`/requirements/${response.data.id}`)
+  } catch (error : any) {
+    setOnError(true)
+    setErrorMessage(
+      error.response.data.message || 'Ocurrió un error al intentar actualizar el requerimiento, por favor intente nuevamente'
+      )
+    }
+  },  
+})
+return{updateReqForm, onError, errorMessage}
+}

@@ -11,4 +11,6 @@ export interface UserEntity {
   firstName: string
   lastName: string
   password: string
+  createdAt:	Date
+  updatedAt:	Date
 }

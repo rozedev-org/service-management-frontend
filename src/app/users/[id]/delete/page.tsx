@@ -2,7 +2,6 @@
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import {
   Avatar,
-  Box,
   Text,
   Card,
   CardBody,
@@ -11,19 +10,10 @@ import {
   Heading,
   VStack,
 } from '@chakra-ui/react'
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
 import { useUser } from '../../hook/useUser'
 import ModalDelete from '../components/ModalDelete'
 
 export default function DeleteUserPage({ params }: { params: { id: number } }) {
-  const router = useRouter()
-  const handleDelete = async () => {
-    await axios.delete(
-      `http://localhost:8000/api/service-manager-service/v1/users/${params.id}`
-    )
-    router.push('/users')
-  }
   const userQuery = useUser(params.id)
 
   return (
