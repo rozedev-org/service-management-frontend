@@ -1,7 +1,8 @@
+import { config } from "@/config"
 import axios from "axios"
 
 export const deleteUser = async (id: number) => {
     await axios.delete(
-        `http://localhost:8000/api/service-manager-service/v1/users/${id}`
+        `${config.bff.url}/users/${id}`
       )
 }

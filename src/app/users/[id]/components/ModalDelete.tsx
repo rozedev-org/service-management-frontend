@@ -12,15 +12,14 @@ import {
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useUser } from '../../hook/useUser'
+import { config } from '@/config'
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
   const userQuery = useUser(params.id)
   const router = useRouter()
   const { onOpen, isOpen, onClose } = useDisclosure()
   const handleDelete = async () => {
-    await axios.delete(
-      `http://localhost:8000/api/service-manager-service/v1/users/${params.id}`
-    )
+    await axios.delete(`${config.bff.url}/users/${params.id}`)
     router.push('/users')
   }
 
