@@ -2,6 +2,7 @@ import { NewUser, UserEntity } from '@/app/users/types/user.types'
 import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import { AxiosErrorHandler } from '@/common/utils/axios-error-handler'
 import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
+import { config } from '@/config'
 import { useForm } from '@tanstack/react-form'
 import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
@@ -10,10 +11,11 @@ import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
 export const useUsers = () => {
+  console.log(config)
   const fetchUsers = async () => {
     // try {
     const response = await axios.get<PaginatedResponse<UserEntity>>(
-      `http://localhost:8000/api/service-manager-service/v1/users?page=${1}`
+      `${config.bff.url}/users?page=${1}`
     )
     return response.data
     // } catch (error: any) {
@@ -38,7 +40,7 @@ export const useUser = (id: number) => {
   const fetchUsers = async () => {
     // try {
     const response = await axios.get<UserEntity>(
-      `http://localhost:8000/api/service-manager-service/v1/users/${id}`
+      `${config.bff.url}/users/${id}`
     )
     return response.data
     // } catch (error: any) {
@@ -73,7 +75,7 @@ export const useCreateUserForm = () => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axios.post<UserEntity>(
-          `http://localhost:8000/api/service-manager-service/v1/users`,
+          `${config.bff.url}/users`,
           value
         )
         router.push(`/users/${response.data.id}`)
@@ -105,7 +107,7 @@ export const useUpdateUserForm = (user?: UserEntity) => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axios.put<UserEntity>(
-          `http://localhost:8000/api/service-manager-service/v1/users/${user?.id}`,
+          `${config.bff.url}/users/${user?.id}`,
           value
         )
         router.push(`/users/${response.data.id}`)
