@@ -8,7 +8,6 @@ import { useForm } from '@tanstack/react-form'
 import { config } from "@/config";
 
 export const useRequirements =()=>{
-  console.log(config)
     const fetchReq = async () => {
         try {
             const response = await axios.get<PaginatedResponse<RequirementsEntity>>(

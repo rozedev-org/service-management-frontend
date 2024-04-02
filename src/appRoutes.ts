@@ -1,37 +1,35 @@
 export const appRoutes = {
     home:{
-        url:(_:number) => '/',
+        url:(_:number) => '/',     
         requirements:{
             url: () => `/requirements`,
             getOne:{
                 url: (id:number) => `/requirements/${id}`,
-                delete:{
-                    url:(id:number)=> `/requirements/delete/${id}`
-                },
-                update:{
-                    url:(id:number)=> `/requirements/update/${id}`
-                },
             },
             add:{
-                url: () => `/requirements/add`,
-
+                url: (_:number) => `/requirements/add}`,
+            },
+            update:{
+                url: (id:number) => `/requirements/update/${id}`,
+            },
+            delete:{
+                url: (id:number) => `/requirements/delete/${id}`,
             },
         },
         users:{
-            url: () => `/users`,
+            url: () => '/users',
             getOne:{
                 url: (id:number) => `/users/${id}`,
-                delete:{
-                    url:(id:number)=> `/users/${id}/delete`
-                },
-                update:{
-                    url:(id:number)=> `/users/${id}/update`
-                },
             },
             add:{
-                url: () => `/users/add`,
-
+                url: (_:number) => `/users/add}`,
             },
-        },
-    },
+            update:{
+                url: (id:number) => `/users/update/${id}`,
+            },
+            delete:{
+                url: (id:number) => `/users/delete/${id}`,
+            },
+        },   
+    }, 
 }

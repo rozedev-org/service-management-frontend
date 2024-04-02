@@ -2,16 +2,16 @@ import { NewUser, UserEntity } from '@/app/users/types/user.types'
 import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import { AxiosErrorHandler } from '@/common/utils/axios-error-handler'
 import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
-import { config } from '@/config'
 import { useForm } from '@tanstack/react-form'
 import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { appRoutes } from '@/appRoutes'
+import { config } from '@/config'
 
 export const useUsers = () => {
-  console.log(config)
   const fetchUsers = async () => {
     // try {
     const response = await axios.get<PaginatedResponse<UserEntity>>(
@@ -78,7 +78,7 @@ export const useCreateUserForm = () => {
           `${config.bff.url}/users`,
           value
         )
-        router.push(`/users/${response.data.id}`)
+        router.push(`${appRoutes.home.users.url}${response.data.id}`)
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(
