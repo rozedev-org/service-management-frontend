@@ -5,12 +5,14 @@ import { useQuery } from '@tanstack/react-query'
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useForm } from '@tanstack/react-form'
+import { config } from "@/config";
 
 export const useRequirements =()=>{
+  console.log(config)
     const fetchReq = async () => {
         try {
             const response = await axios.get<PaginatedResponse<RequirementsEntity>>(
-                `http://localhost:8000/api/service-manager-service/v1/requirements?page=${1}`
+                `${config.bff.url}/requirements?page=${1}`
             )
             return response.data
         } catch (error) {
@@ -27,7 +29,7 @@ export const useRequirements =()=>{
 export const useRequirement = (id:number)=>{
   const fetchReq = async ()=>{
     const response = await axios.get<RequirementsEntity>(
-      `http://localhost:8000/api/service-manager-service/v1/requirements/${id}`
+      `${config.bff.url}/requirements/${id}`
     )
     return response.data
   }
@@ -50,7 +52,7 @@ export const useCreateReqForm = () => {
       onSubmit: async ({ value }) => {
         try {
           const response = await axios.post<RequirementsEntity>(
-            `http://localhost:8000/api/service-manager-service/v1/requirements`,
+            `${config.bff.url}/requirements`,
             value
           )
           router.push(`/requirements/${response.data.id}`)
@@ -80,7 +82,7 @@ export const useUpdateReqForm = (req?: RequirementsEntity) =>{
 onSubmit: async ({value})=>{
   try {
     const response = await axios.put<RequirementsEntity>(
-      `http://localhost:8000/api/service-manager-service/v1/requirements/${req?.id}`,
+      `${config.bff.url}/requirements/${req?.id}`,
       value
     )
     router.push(`/requirements/${response.data.id}`)
