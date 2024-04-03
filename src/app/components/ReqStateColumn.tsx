@@ -31,6 +31,8 @@ export default function ReqStateColumn({
                 id={req.id}
                 username={req.user?.userName ? req.user.userName : ''}
                 title={req.title}
+                createdAt={req.createdAt}
+                updatedAt={req.updatedAt}
               />
             ))}
           </Stack>
