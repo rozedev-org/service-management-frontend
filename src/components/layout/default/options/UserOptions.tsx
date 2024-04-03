@@ -44,10 +44,10 @@ const UserOptionsList: UserOptionsListInterface[] = [
     href: '/users',
   },
   {
-    name: 'Documents',
+    name: 'Login',
     icon: <BiFileBlank />,
-    isEnabled: false,
-    href: '/users',
+    isEnabled: true,
+    href: '/login',
   },
   {
     name: 'History',
