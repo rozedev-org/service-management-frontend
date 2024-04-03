@@ -78,7 +78,7 @@ export const useCreateUserForm = () => {
           `${config.bff.url}/users`,
           value
         )
-        router.push(`${appRoutes.home.users.url}${response.data.id}`)
+        router.push(`/users/${response.data.id}`)
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(
