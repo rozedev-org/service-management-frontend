@@ -1,91 +1,64 @@
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
-import { HStack, VStack, Text, Stack, Avatar } from '@chakra-ui/react'
+import ReqStateColumn from './components/ReqStateColumn'
+import { HStack } from '@chakra-ui/react'
 import { useRequirements } from './requirements/hook/useRequirements'
-import { Link } from '@chakra-ui/next-js'
+import {
+  DndContext,
+  closestCenter,
+  DragEndEvent,
+  useSensors,
+  PointerSensor,
+  useSensor,
+  MouseSensor,
+} from '@dnd-kit/core'
+import { arrayMove } from '@dnd-kit/sortable'
+import { useEffect, useState } from 'react'
 
 export default function Home() {
   const requirementsQuery = useRequirements()
+
+  const [requirements, setRequirements] = useState(
+    requirementsQuery.data?.data || []
+  )
+
+  useEffect(() => {
+    if (requirementsQuery.data?.data) {
+      setRequirements(requirementsQuery.data.data)
+    }
+  }, [requirementsQuery.data?.data])
+
+  const getReqPos = (id: number) =>
+    requirements?.findIndex((req) => req.id === id)
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event
+    if (active.id !== over?.id) {
+      setRequirements((requirements) => {
+        const originalPos = getReqPos(Number(active.id))
+        const newPos = getReqPos(Number(over?.id))
+        return arrayMove(requirements, originalPos, newPos)
+      })
+      return requirements
+    }
+  }
+
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: { distance: 5 },
+    })
+  )
   return (
     <CardContainer title='Dashboard'>
-      <HStack display='flex' justifyContent='center'>
-        <VStack
-          w={'22rem'}
-          p={4}
-          pt={2}
-          height='700px'
-          bg={'#F4F7FE'}
-          alignItems='start'
-          borderRadius='20px'
+      <HStack display={'flex'} justifyContent={'center'}>
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+          sensors={sensors}
         >
-          <VStack margin='10px' alignItems='start'>
-            <Stack>
-              <Text p={2}>Por Hacer</Text>
-            </Stack>
-            <Stack>
-              {requirementsQuery.data?.data.map((req) => (
-                <HStack
-                  key={`home-key-${req.id}`}
-                  bg='#FFFFFF'
-                  borderRadius='20px'
-                  p={2}
-                >
-                  {/* Avatar icon */}
-                  <Avatar name={req.user?.userName} w={'30px'} h={'30px'} />
-
-                  {/* Req link */}
-                  <Link href={`/requirements/${req.id}`}>
-                    <HStack w={'10rem'}>
-                      <Text fontSize={14}>{req.title}</Text>
-                    </HStack>
-                  </Link>
-                  <Text fontSize={10} ml={'auto'}>
-                    REQ-{req.id}
-                  </Text>
-                </HStack>
-              ))}
-            </Stack>
-          </VStack>
-        </VStack>
-        <VStack
-          width='23%'
-          height='700px'
-          bg={'#F4F7FE'}
-          alignItems='start'
-          borderRadius='10px'
-        >
-          <VStack margin='10px'>
-            <Stack borderRadius='10px' w='16vw'>
-              <Text>123</Text>
-            </Stack>
-          </VStack>
-        </VStack>
-        <VStack
-          width='23%'
-          height='700px'
-          bg={'#F4F7FE'}
-          alignItems='start'
-          borderRadius='10px'
-        >
-          <VStack margin='10px'>
-            <Stack borderRadius='10px' w='16vw'>
-              <Text>123</Text>
-            </Stack>
-          </VStack>
-        </VStack>
-        <VStack
-          width='23%'
-          height='700px'
-          bg={'#F4F7FE'}
-          alignItems='start'
-          borderRadius='10px'
-        >
-          <VStack margin='10px'>
-            <Stack borderRadius='10px' w='16vw'>
-              <Text>123</Text>
-            </Stack>
-          </VStack>
-        </VStack>
+          <ReqStateColumn title='Por Hacer' requirements={requirements || []} />
+          <ReqStateColumn title='Dev ✨' requirements={[]} />
+        </DndContext>
       </HStack>
     </CardContainer>
   )
