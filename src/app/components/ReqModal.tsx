@@ -19,7 +19,7 @@ import { Link } from '@chakra-ui/next-js'
 
 export default function ReqModal({
   title,
-  id,
+  Reqid,
   username,
   createdAt,
   updatedAt,
@@ -27,7 +27,7 @@ export default function ReqModal({
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-      <Link onClick={onOpen} fontSize={14} href='#'>
+      <Link href={'#'} onClick={onOpen} fontSize={14}>
         {title}
       </Link>
       <Stack>
@@ -36,8 +36,8 @@ export default function ReqModal({
           <ModalContent>
             <ModalBody>
               <CardContainer
-                title={`Detalle del Requerimiento ${id}`}
-                optionsButton={<ReqTableOptions id={id} />}
+                title={`Detalle del Requerimiento ${Reqid}`}
+                optionsButton={<ReqTableOptions id={Reqid} />}
                 aditionalHeaderItems={
                   <Stack
                     display='flex'
