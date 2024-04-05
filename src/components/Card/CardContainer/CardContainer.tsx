@@ -5,6 +5,7 @@ interface CardContainerProps {
   title: string
   searchInput?: JSX.Element
   optionsButton?: JSX.Element
+  aditionalHeaderItems?: JSX.Element
 }
 export const CardContainer = (props: CardContainerProps) => {
   return (
@@ -16,6 +17,7 @@ export const CardContainer = (props: CardContainerProps) => {
           </Heading>
           {props.optionsButton && props.optionsButton}
           {props.searchInput && props.searchInput}
+          {props.aditionalHeaderItems && props.aditionalHeaderItems}
         </HStack>
       </CardHeader>
       <CardBody>{props.children}</CardBody>

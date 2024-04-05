@@ -31,30 +31,76 @@ export default function ReqModal({
         {title}
       </Link>
       <Stack>
-        <Modal isOpen={isOpen} onClose={onClose} size={'xl'} isCentered>
+        <Modal isOpen={isOpen} onClose={onClose} size={'4xl'} isCentered>
           <ModalOverlay />
           <ModalContent>
             <ModalBody>
               <CardContainer
                 title={`Detalle del Requerimiento ${id}`}
                 optionsButton={<ReqTableOptions id={id} />}
-              >
-                <Stack display='flex' alignItems='end' opacity='65%'>
-                  <Text>Fecha de Creacion: {JSON.stringify(createdAt)}</Text>
-                  <Text>
-                    Fecha de Actualizacion: {JSON.stringify(updatedAt)}
-                  </Text>
-                </Stack>
-                <VStack display='flex' alignItems='start'>
-                  <Stack w='100%'>
-                    <Text borderBottomWidth={2}>Realizar servicio tecnico</Text>
-                    <Text>Descripcion: {title} </Text>
+                aditionalHeaderItems={
+                  <Stack
+                    display='flex'
+                    marginLeft={'auto'}
+                    alignItems='end'
+                    opacity='65%'
+                  >
+                    <Text>
+                      Fecha de Creacion: {new Date(createdAt).toLocaleString()}
+                    </Text>
+                    <Text>
+                      Fecha de Actualizacion:{' '}
+                      {new Date(updatedAt).toLocaleString()}
+                    </Text>
                   </Stack>
-                  <Stack w='100%' paddingTop={20}>
-                    <Text borderBottomWidth={2}>Responsable</Text>
+                }
+              >
+                <VStack display='flex' alignItems='start'>
+                  <Stack w='100%' gap={'9px'}>
+                    <Text
+                      borderBottomWidth={2}
+                      fontSize={'20px'}
+                      paddingBottom={'13px'}
+                    >
+                      Realizar servicio tecnico
+                    </Text>
+                    <HStack minH={'104px'} alignItems={'start'}>
+                      <Text
+                        fontSize={'16px'}
+                        fontWeight={700}
+                        lineHeight={'24px'}
+                      >
+                        Descripcion:{' '}
+                      </Text>
+                      <Text
+                        fontSize={'16px'}
+                        fontWeight={400}
+                        lineHeight={'24px'}
+                      >
+                        {title}
+                      </Text>
+                    </HStack>
+                  </Stack>
+                  <Stack w='100%' gap={'9px'}>
+                    <Text
+                      paddingBottom={'13px'}
+                      borderBottomWidth={2}
+                      fontSize={'20px'}
+                      fontWeight={400}
+                      lineHeight={'24px'}
+                    >
+                      Responsable
+                    </Text>
                     <HStack>
                       <Avatar size={'md'} p='1' name={username} />
-                      <Text size='md'>{username}</Text>
+                      <Text
+                        size='md'
+                        fontSize={'16px'}
+                        fontWeight={400}
+                        lineHeight={'24px'}
+                      >
+                        {username}
+                      </Text>
                     </HStack>
                   </Stack>
                 </VStack>
