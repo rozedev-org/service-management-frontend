@@ -27,9 +27,16 @@ export default function ReqModal({
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <>
-      <Link href={'#'} onClick={onOpen} fontSize={14}>
+      <Button
+        colorScheme='gray'
+        variant={'link'}
+        onClick={onOpen}
+        fontSize={14}
+        color={'black'}
+        textAlign={'left'}
+      >
         {title}
-      </Link>
+      </Button>
       <Stack>
         <Modal isOpen={isOpen} onClose={onClose} size={'4xl'} isCentered>
           <ModalOverlay />
