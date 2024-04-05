@@ -1,6 +1,6 @@
 export interface ReqCardProps {
     title: string
-    id: number
+    Reqid: number
     username: string
     createdAt: Date
     updatedAt: Date
