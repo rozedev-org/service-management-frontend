@@ -1,6 +1,7 @@
 import { HStack, VStack, Stack, Text } from '@chakra-ui/react'
 import ReqCard from './ReqCard'
 import { RequirementsEntity } from '../requirements/types/req.types'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 export default function ReqStateColumn({
   title,
@@ -25,16 +26,21 @@ export default function ReqStateColumn({
             <Text p={2}>{title}</Text>
           </Stack>
           <Stack>
-            {requirements.map((req) => (
-              <ReqCard
-                key={`req-card-${req.id}`}
-                id={req.id}
-                username={req.user?.userName ? req.user.userName : ''}
-                title={req.title}
-                createdAt={req.createdAt}
-                updatedAt={req.updatedAt}
-              />
-            ))}
+            <SortableContext
+              items={requirements || []}
+              strategy={verticalListSortingStrategy}
+            >
+              {requirements.map((req) => (
+                <ReqCard
+                  key={`req-card-${req.id}`}
+                  Reqid={req.id}
+                  username={req.user?.userName ? req.user.userName : ''}
+                  title={req.title}
+                  createdAt={req.createdAt}
+                  updatedAt={req.updatedAt}
+                />
+              ))}
+            </SortableContext>
           </Stack>
         </VStack>
       </VStack>
