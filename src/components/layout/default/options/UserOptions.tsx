@@ -9,6 +9,7 @@ import {
   BiSolidUser,
   BiHome,
   BiUser,
+  BiTask,
 } from 'react-icons/bi'
 import { Link } from '@chakra-ui/next-js'
 import { appRoutes } from '@/appRoutes'
@@ -20,10 +21,16 @@ interface UserOptionsListInterface {
 }
 const UserOptionsList: UserOptionsListInterface[] = [
   {
-    name: 'Inicio',
+    name: 'Dashboard',
     icon: <BiHome />,
     isEnabled: true,
     href: appRoutes.home.url(0),
+  },
+  {
+    name: 'Tablero',
+    icon: <BiTask />,
+    isEnabled: true,
+    href: '/board',
   },
   {
     name: 'Usuarios',
@@ -37,12 +44,7 @@ const UserOptionsList: UserOptionsListInterface[] = [
     isEnabled: true,
     href: appRoutes.home.requirements.url(),
   },
-  {
-    name: 'Analysis',
-    icon: <BiSolidPieChartAlt2 />,
-    isEnabled: false,
-    href: '/users',
-  },
+
   {
     name: 'Login',
     icon: <BiFileBlank />,

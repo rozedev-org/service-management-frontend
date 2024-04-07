@@ -7,6 +7,10 @@ import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
 import { config } from '@/config'
 
+/**
+ * Custom hook for fetching requirements data.
+ * @returns The requirements query object.
+ */
 export const useRequirements = () => {
   const fetchReq = async () => {
     try {
@@ -25,6 +29,11 @@ export const useRequirements = () => {
   return requirementsQuery
 }
 
+/**
+ * Custom hook to fetch a requirement by its ID.
+ * @param id - The ID of the requirement to fetch.
+ * @returns The requirement query object.
+ */
 export const useRequirement = (id: number) => {
   const fetchReq = async () => {
     const response = await axios.get<RequirementsEntity>(
@@ -38,6 +47,11 @@ export const useRequirement = (id: number) => {
   })
   return requirementQuery
 }
+
+/**
+ * Custom hook for creating a requirement form.
+ * @returns An object containing the `ReqForm`, `onError`, and `errorMessage`.
+ */
 export const useCreateReqForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
@@ -69,6 +83,11 @@ export const useCreateReqForm = () => {
   return { ReqForm, onError, errorMessage }
 }
 
+/**
+ * Custom hook for updating a requirement form.
+ * @param req - The requirement entity to be updated.
+ * @returns An object containing the updateReqForm, onError, and errorMessage.
+ */
 export const useUpdateReqForm = (req?: RequirementsEntity) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')

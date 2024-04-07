@@ -12,25 +12,31 @@ import {
   HStack,
   VStack,
   Text,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
 } from '@chakra-ui/react'
-import { ReqTableOptions } from '../requirements/components/TableOptions'
-import { ReqCardProps } from '../types/reqCard.types'
-import { Link } from '@chakra-ui/next-js'
+import { ReqTableOptions } from '../../requirements/components/TableOptions'
+import { Requirement } from '../types/board.types'
+import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
+import { BiChevronDown } from 'react-icons/bi'
 
-export default function ReqModal({
-  title,
-  Reqid,
-  username,
-  createdAt,
-  updatedAt,
-}: ReqCardProps) {
+export default function ReqModal(props: { requirement: Requirement }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
+  const { title, id, updatedAt, createdAt, user } = props.requirement
+  const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
+
+  const handleOpen = async () => {
+    await fetchReqActions()
+    onOpen()
+  }
   return (
     <>
       <Button
         colorScheme='gray'
         variant={'link'}
-        onClick={onOpen}
+        onClick={handleOpen}
         fontSize={14}
         color={'black'}
         textAlign={'left'}
@@ -43,8 +49,8 @@ export default function ReqModal({
           <ModalContent>
             <ModalBody>
               <CardContainer
-                title={`Detalle del Requerimiento ${Reqid}`}
-                optionsButton={<ReqTableOptions id={Reqid} />}
+                title={`Detalle del Requerimiento ${id}`}
+                optionsButton={<ReqTableOptions id={id} />}
                 aditionalHeaderItems={
                   <Stack
                     display='flex'
@@ -64,13 +70,28 @@ export default function ReqModal({
               >
                 <VStack display='flex' alignItems='start'>
                   <Stack w='100%' gap={'9px'}>
-                    <Text
-                      borderBottomWidth={2}
-                      fontSize={'20px'}
-                      paddingBottom={'13px'}
-                    >
-                      Realizar servicio tecnico
-                    </Text>
+                    <HStack borderBottomWidth={2}>
+                      <Text fontSize={'20px'} paddingBottom={'13px'}>
+                        {title}
+                      </Text>
+
+                      <Menu>
+                        <MenuButton as={Button} rightIcon={<BiChevronDown />}>
+                          {reqActions.current.title || 'Estado'}
+                        </MenuButton>
+                        <MenuList>
+                          {reqActions.remaining.map((state) => (
+                            <MenuItem
+                              key={`menu-item-req-${id}-state-${state.id}`}
+                              onClick={() => updateReqAction(state.id)}
+                            >
+                              {state.title}
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </Menu>
+                    </HStack>
+
                     <HStack minH={'104px'} alignItems={'start'}>
                       <Text
                         fontSize={'16px'}
@@ -99,14 +120,14 @@ export default function ReqModal({
                       Responsable
                     </Text>
                     <HStack>
-                      <Avatar size={'md'} p='1' name={username} />
+                      <Avatar size={'md'} p='1' name={user.userName} />
                       <Text
                         size='md'
                         fontSize={'16px'}
                         fontWeight={400}
                         lineHeight={'24px'}
                       >
-                        {username}
+                        {user.userName}
                       </Text>
                     </HStack>
                   </Stack>

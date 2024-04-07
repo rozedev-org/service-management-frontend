@@ -14,3 +14,16 @@ export interface RequirementsEntity {
   user: UserEntity | null
   stateId: number
 }
+
+export interface ReqActionsActions {
+  current: ReqStateEntity
+  remaining: ReqStateEntity[]
+}
+
+export interface ReqStateEntity {
+  id: number
+  title: string
+  secuence: number
+  createdAt: string
+  updatedAt: string
+}

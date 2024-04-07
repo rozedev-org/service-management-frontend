@@ -1,15 +1,36 @@
 import { HStack, VStack, Stack, Text } from '@chakra-ui/react'
 import ReqCard from './ReqCard'
-import { RequirementsEntity } from '../requirements/types/req.types'
-import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable'
+import { Requirement } from '../types/board.types'
+import { useState } from 'react'
+import {
+  DndContext,
+  DragEndEvent,
+  MouseSensor,
+  closestCenter,
+  useDroppable,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
 
-export default function ReqStateColumn({
-  title,
-  requirements,
-}: {
+export default function ReqStateColumn(props: {
+  id: number
   title: string
-  requirements: RequirementsEntity[]
+  requirements: Requirement[]
 }) {
+  const { title, id } = props
+  const [requirements, setRequirements] = useState<Requirement[]>(
+    props.requirements
+  )
+
+  const { setNodeRef } = useDroppable({
+    id,
+  })
+
   return (
     <HStack display='flex' justifyContent='center'>
       <VStack
@@ -25,19 +46,17 @@ export default function ReqStateColumn({
           <Stack>
             <Text p={2}>{title}</Text>
           </Stack>
-          <Stack>
+          <Stack gap={'12px'}>
             <SortableContext
-              items={requirements || []}
+              id={id.toString()}
+              items={requirements}
               strategy={verticalListSortingStrategy}
             >
               {requirements.map((req) => (
                 <ReqCard
+                  ref={setNodeRef}
                   key={`req-card-${req.id}`}
-                  Reqid={req.id}
-                  username={req.user?.userName ? req.user.userName : ''}
-                  title={req.title}
-                  createdAt={req.createdAt}
-                  updatedAt={req.updatedAt}
+                  requirement={req}
                 />
               ))}
             </SortableContext>
