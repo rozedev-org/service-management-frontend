@@ -6,12 +6,14 @@ interface CardContainerProps {
   searchInput?: JSX.Element
   optionsButton?: JSX.Element
   aditionalHeaderItems?: JSX.Element
+  hasHeader?: boolean
 }
 export const CardContainer = (props: CardContainerProps) => {
   return (
     <Card borderRadius={'20px'} w={'100%'} h={'100%'} bg={'white'}>
       <CardHeader>
         <HStack>
+          {props.title && props.title}
           <Heading as={'h2'} fontSize={'22px'}>
             {props.title}
           </Heading>

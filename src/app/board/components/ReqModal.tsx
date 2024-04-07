@@ -13,8 +13,8 @@ import {
   VStack,
   Text,
 } from '@chakra-ui/react'
-import { ReqTableOptions } from '../requirements/components/TableOptions'
-import { ReqCardProps } from '../types/reqCard.types'
+import { ReqTableOptions } from '../../requirements/components/TableOptions'
+import { ReqCardProps } from '../../types/reqCard.types'
 import { Link } from '@chakra-ui/next-js'
 
 export default function ReqModal({

@@ -1,7 +1,8 @@
+//!deprecated
 export interface ReqCardProps {
-    title: string
-    Reqid: number
-    username: string
-    createdAt: Date
-    updatedAt: Date
-  }
+  title: string
+  Reqid: number
+  username: string
+  createdAt: Date
+  updatedAt: Date
+}
