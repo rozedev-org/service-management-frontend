@@ -12,7 +12,7 @@ interface ReqCardProps {
   ref: LegacyRef<HTMLDivElement>
 }
 export default function ReqCard(props: ReqCardProps) {
-  const { id, title, user, updatedAt, createdAt } = props.requirement
+  const { id, user } = props.requirement
   const {
     attributes,
     listeners,
@@ -44,13 +44,7 @@ export default function ReqCard(props: ReqCardProps) {
         minH={'56px'}
       >
         <Avatar name={user.userName} w={'30px'} h={'30px'} />
-        <ReqModal
-          title={title}
-          Reqid={id}
-          username={user.userName}
-          createdAt={createdAt}
-          updatedAt={updatedAt}
-        />
+        <ReqModal requirement={props.requirement} />
         <Link
           href={`/requirements/${id}`}
           ml={'auto'}
