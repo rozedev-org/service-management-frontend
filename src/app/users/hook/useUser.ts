@@ -15,7 +15,12 @@ export const useUsers = () => {
   const fetchUsers = async () => {
     // try {
     const response = await axios.get<PaginatedResponse<UserEntity>>(
-      `${config.bff.url}/users?page=${1}`
+      `${config.bff.url}/users?page=${1}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+        },
+      }
     )
     return response.data
     // } catch (error: any) {
@@ -40,7 +45,12 @@ export const useUser = (id: number) => {
   const fetchUsers = async () => {
     // try {
     const response = await axios.get<UserEntity>(
-      `${config.bff.url}/users/${id}`
+      `${config.bff.url}/users/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+        },
+      }
     )
     return response.data
     // } catch (error: any) {
@@ -76,7 +86,12 @@ export const useCreateUserForm = () => {
       try {
         const response = await axios.post<UserEntity>(
           `${config.bff.url}/users`,
-          value
+          value,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+            },
+          }
         )
         router.push(appRoutes.home.users.getOne.url(response.data.id))
       } catch (error: any) {
@@ -108,7 +123,12 @@ export const useUpdateUserForm = (user?: UserEntity) => {
       try {
         const response = await axios.put<UserEntity>(
           `${config.bff.url}/users/${user?.id}`,
-          value
+          value,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+            },
+          }
         )
         router.push(`/users/${response.data.id}`)
       } catch (error: any) {

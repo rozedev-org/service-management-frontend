@@ -20,8 +20,8 @@ import { FaEyeSlash, FaEye } from 'react-icons/fa'
 import { signIn } from 'next-auth/react'
 import { redirect, useRouter } from 'next/navigation'
 import { config } from '@/config'
-import { getServerSession } from 'next-auth'
 import { useForm } from 'react-hook-form'
+import axios from 'axios'
 export function LoginForm() {
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
@@ -35,20 +35,27 @@ export function LoginForm() {
   const [error, setError] = useState('')
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data)
-
-    const res = await signIn('credentials', {
+    const response = await axios.post(`${config.bff.url}/auth/login`, {
       username: data.username,
       password: data.password,
-      redirect: false,
     })
 
-    if (res?.error) {
-      setError(res.error)
-    } else {
-      router.push('/')
-      router.refresh()
-    }
+    localStorage.setItem('token', response.data.token)
+    router.push('/')
+    // console.log(data)
+
+    // const res = await signIn('credentials', {
+    //   username: data.username,
+    //   password: data.password,
+    //   redirect: false,
+    // })
+
+    // if (res?.error) {
+    //   setError(res.error)
+    // } else {
+    //   router.push('/')
+    //   router.refresh()
+    // }
   })
 
   return (
