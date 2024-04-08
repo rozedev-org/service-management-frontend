@@ -1,4 +1,10 @@
+import { getServerSession } from 'next-auth'
+
 export default function Home() {
+  getServerSession().then((session) => {
+    console.log(session)
+  })
+
   return <div>home page</div>
   // const requirementsQuery = useRequirements()
   // const [requirements, setRequirements] = useState(
