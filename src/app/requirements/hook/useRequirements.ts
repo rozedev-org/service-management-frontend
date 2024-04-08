@@ -15,7 +15,12 @@ export const useRequirements = () => {
   const fetchReq = async () => {
     try {
       const response = await axios.get<PaginatedResponse<RequirementsEntity>>(
-        `${config.bff.url}/requirements?page=${1}`
+        `${config.bff.url}/requirements?page=${1}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+          },
+        }
       )
       return response.data
     } catch (error) {
@@ -37,7 +42,12 @@ export const useRequirements = () => {
 export const useRequirement = (id: number) => {
   const fetchReq = async () => {
     const response = await axios.get<RequirementsEntity>(
-      `${config.bff.url}/requirements/${id}`
+      `${config.bff.url}/requirements/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+        },
+      }
     )
     return response.data
   }
@@ -67,7 +77,12 @@ export const useCreateReqForm = () => {
       try {
         const response = await axios.post<RequirementsEntity>(
           `${config.bff.url}/requirements`,
-          value
+          value,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+            },
+          }
         )
         router.push(`/requirements/${response.data.id}`)
       } catch (error: any) {
@@ -103,7 +118,12 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
       try {
         const response = await axios.put<RequirementsEntity>(
           `${config.bff.url}/requirements/${req?.id}`,
-          value
+          value,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+            },
+          }
         )
         router.push(`/requirements/${response.data.id}`)
       } catch (error: any) {

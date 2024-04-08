@@ -8,7 +8,12 @@ export const useBoard = () => {
   const fetchBoard = async () => {
     try {
       const response = await axios.get<BoardEntity[]>(
-        `${config.bff.url}/board?page=${1}`
+        `${config.bff.url}/board?page=${1}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+          },
+        }
       )
       setBoardState(response.data)
       return response.data
