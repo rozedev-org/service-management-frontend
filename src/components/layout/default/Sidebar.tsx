@@ -5,7 +5,9 @@ import { Profile } from './Profile'
 import { ManagementOptions } from './options/ManagementOptions'
 import { UserOptions } from './options/UserOptions'
 import { SearchInput } from '@/components/input/SearchInput'
-import { useState } from 'react'
+import { use, useEffect, useState } from 'react'
+import { redirect } from 'next/navigation'
+import { getServerSession } from 'next-auth'
 export const Sidebar = () => {
   const [optionFilter, setOptionFilter] = useState('')
 
