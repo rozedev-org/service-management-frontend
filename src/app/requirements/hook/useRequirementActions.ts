@@ -12,7 +12,12 @@ export const useReqActions = (reqId: number) => {
   const fetchReqActions = async () => {
     try {
       const response = await axios.get<ReqActionsActions>(
-        `${config.bff.url}/requirements/actions/${reqId}`
+        `${config.bff.url}/requirements/actions/${reqId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+          },
+        }
       )
       setReqActions(response.data)
       return response.data
@@ -23,9 +28,17 @@ export const useReqActions = (reqId: number) => {
 
   const updateReqAction = async (newReqStateId: number) => {
     try {
-      await axios.put(`${config.bff.url}/requirements/${reqId}`, {
-        stateId: newReqStateId,
-      })
+      await axios.put(
+        `${config.bff.url}/requirements/${reqId}`,
+        {
+          stateId: newReqStateId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+          },
+        }
+      )
 
       await fetchReqActions()
     } catch (error) {

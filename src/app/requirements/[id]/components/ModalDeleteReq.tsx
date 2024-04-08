@@ -19,7 +19,11 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
   const router = useRouter()
   const { onOpen, isOpen, onClose } = useDisclosure()
   const handleDelete = async () => {
-    await axios.delete(`${config.bff.url}/requirements/${params.id}`)
+    await axios.delete(`${config.bff.url}/requirements/${params.id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+      },
+    })
     router.push('/requirements')
   }
 
