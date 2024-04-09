@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
 import { config } from '@/config'
+import { appRoutes } from '@/appRoutes'
 
 /**
  * Custom hook for fetching requirements data.
@@ -84,7 +85,7 @@ export const useCreateReqForm = () => {
             },
           }
         )
-        router.push(`/requirements/${response.data.id}`)
+        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(
@@ -125,7 +126,7 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
             },
           }
         )
-        router.push(`/requirements/${response.data.id}`)
+        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(

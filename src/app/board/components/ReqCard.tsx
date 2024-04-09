@@ -6,6 +6,7 @@ import { CSS } from '@dnd-kit/utilities'
 
 import { Requirement } from '../types/board.types'
 import { LegacyRef, RefAttributes } from 'react'
+import { appRoutes } from '@/appRoutes'
 
 interface ReqCardProps {
   requirement: Requirement
@@ -43,10 +44,10 @@ export default function ReqCard(props: ReqCardProps) {
         minW={'288px'}
         minH={'56px'}
       >
-        <Avatar name={user.userName} w={'30px'} h={'30px'} />
+        {/* <Avatar name={user.userName} w={'30px'} h={'30px'} /> */}
         <ReqModal requirement={props.requirement} />
         <Link
-          href={`/requirements/${id}`}
+          href={appRoutes.home.requirements.getOne.url(id)}
           ml={'auto'}
           onClick={() => {
             console.log('hola')

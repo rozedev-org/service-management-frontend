@@ -13,6 +13,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useRequirement } from '../../hook/useRequirements'
 import { config } from '@/config'
+import { appRoutes } from '@/appRoutes'
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
   const requirementsQuery = useRequirement(params.id)
@@ -24,7 +25,7 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
         Authorization: `Bearer ${localStorage.getItem('token')}` || '',
       },
     })
-    router.push('/requirements')
+    router.push(appRoutes.home.requirements.url())
   }
 
   return (

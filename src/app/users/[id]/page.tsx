@@ -13,6 +13,7 @@ import {
 import { useUser } from '../hook/useUser'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import ModalDelete from './components/ModalDelete'
+import { appRoutes } from '@/appRoutes'
 
 export default function UserPage({ params }: { params: { id: number } }) {
   const userQuery = useUser(params.id)
@@ -37,7 +38,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
           </CardBody>
           <CardFooter>
             <ModalDelete params={params} />
-            <Link href={`/users/${params.id}/update`}>
+            <Link href={appRoutes.home.users.update.url(params.id)}>
               <Button colorScheme='blue' margin='10px'>
                 Actualizar
               </Button>

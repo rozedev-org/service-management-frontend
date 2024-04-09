@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react'
 import { useUsers } from '@/app/users/hook/useUser'
 import ModalUpdateReq from '../components/ModalUpdateReq'
+import { appRoutes } from '@/appRoutes'
 
 export default function UpdateReqPage({ params }: { params: { id: number } }) {
   const userQuery = useUsers()
@@ -23,7 +24,7 @@ export default function UpdateReqPage({ params }: { params: { id: number } }) {
   const router = useRouter()
   const handleUpdate = async () => {
     await updateReqForm.handleSubmit()
-    router.push(`/requirements/${params.id}`)
+    router.push(appRoutes.home.requirements.getOne.url(params.id))
   }
   return (
     <CardContainer title='Actualizar Requerimiento'>
