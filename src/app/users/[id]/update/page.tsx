@@ -4,6 +4,7 @@ import { VStack, FormControl, FormLabel, Input, Button } from '@chakra-ui/react'
 import { useUser, useUpdateUserForm } from '../../hook/useUser'
 import ModalUpdate from '../components/ModalUpdate'
 import { useRouter } from 'next/navigation'
+import { appRoutes } from '@/appRoutes'
 
 export default function UpdateUserPage({ params }: { params: { id: number } }) {
   const userQuery = useUser(params.id)
@@ -11,7 +12,7 @@ export default function UpdateUserPage({ params }: { params: { id: number } }) {
   const router = useRouter()
   const handleUpdate = async () => {
     await updateUserForm.handleSubmit()
-    router.push(`/users/${params.id}`)
+    router.push(appRoutes.home.users.getOne.url(params.id))
   }
   return (
     <CardContainer title='Actualizar Usuario'>

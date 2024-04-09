@@ -130,7 +130,7 @@ export const useUpdateUserForm = (user?: UserEntity) => {
             },
           }
         )
-        router.push(`/users/${response.data.id}`)
+        router.push(appRoutes.home.users.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(

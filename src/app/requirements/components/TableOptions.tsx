@@ -9,6 +9,7 @@ import {
 import { Link } from '@chakra-ui/next-js'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { SlControlPlay } from 'react-icons/sl'
+import { appRoutes } from '@/appRoutes'
 
 interface ReqTableOptionsProps {
   id: number
@@ -24,13 +25,13 @@ export const ReqTableOptions = ({ id }: ReqTableOptionsProps) => {
         icon={<Icon as={BiDotsVerticalRounded} />}
       ></MenuButton>
       <MenuList>
-        <Link href={`/requirements/${id}`}>
+        <Link href={appRoutes.home.requirements.getOne.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Detalle</MenuItem>
         </Link>
-        <Link href={`/requirements/${id}/update`}>
+        <Link href={appRoutes.home.requirements.update.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Editar</MenuItem>
         </Link>
-        <Link href={`/requirements/${id}/delete`}>
+        <Link href={appRoutes.home.requirements.delete.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Eliminar</MenuItem>
         </Link>
       </MenuList>
