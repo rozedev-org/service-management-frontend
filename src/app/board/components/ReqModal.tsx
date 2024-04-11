@@ -33,6 +33,7 @@ export default function ReqModal(props: { requirement: Requirement }) {
   }
   return (
     <>
+      {/* Boton con un titulo que se renderiza en la columna */}
       <Button
         colorScheme='gray'
         variant={'link'}
@@ -44,10 +45,13 @@ export default function ReqModal(props: { requirement: Requirement }) {
         {title}
       </Button>
       <Stack>
+        {/* Modal */}
         <Modal isOpen={isOpen} onClose={onClose} size={'4xl'} isCentered>
           <ModalOverlay />
+          {/* Contenido del modal */}
           <ModalContent>
             <ModalBody>
+              {/* Container con el menu desplegable de opciones, titulo y fecha */}
               <CardContainer
                 title={`Detalle del Requerimiento ${id}`}
                 optionsButton={<ReqTableOptions id={id} />}
@@ -68,14 +72,15 @@ export default function ReqModal(props: { requirement: Requirement }) {
                   </Stack>
                 }
               >
+                {/* Todo el cuerpo del modal */}
                 <VStack display='flex' alignItems='start'>
                   <Stack w='100%' gap={'9px'}>
                     <HStack borderBottomWidth={2}>
                       <Text fontSize={'20px'} paddingBottom={'13px'}>
                         {title}
                       </Text>
-
                       <Menu>
+                        {/* Menu que controla los estados del requerimiento */}
                         <MenuButton as={Button} rightIcon={<BiChevronDown />}>
                           {reqActions.current.title || 'Estado'}
                         </MenuButton>
@@ -91,7 +96,7 @@ export default function ReqModal(props: { requirement: Requirement }) {
                         </MenuList>
                       </Menu>
                     </HStack>
-
+                    {/* Titulo del requerimiento */}
                     <HStack minH={'104px'} alignItems={'start'}>
                       <Text
                         fontSize={'16px'}
@@ -109,6 +114,7 @@ export default function ReqModal(props: { requirement: Requirement }) {
                       </Text>
                     </HStack>
                   </Stack>
+                  {/* Responsable del requerimiento */}
                   <Stack w='100%' gap={'9px'}>
                     <Text
                       paddingBottom={'13px'}
@@ -120,14 +126,14 @@ export default function ReqModal(props: { requirement: Requirement }) {
                       Responsable
                     </Text>
                     <HStack>
-                      {/* <Avatar size={'md'} p='1' name={user.userName} /> */}
+                      <Avatar size={'md'} p='1' name={user.userName} />
                       <Text
                         size='md'
                         fontSize={'16px'}
                         fontWeight={400}
                         lineHeight={'24px'}
                       >
-                        {/* {user.userName} */}
+                        {user.userName}
                       </Text>
                     </HStack>
                   </Stack>
@@ -135,6 +141,7 @@ export default function ReqModal(props: { requirement: Requirement }) {
               </CardContainer>
             </ModalBody>
             <ModalFooter>
+              {/* Boton para cerrar el modal */}
               <Button colorScheme='blue' mr={3} onClick={onClose}>
                 Cerrar
               </Button>
