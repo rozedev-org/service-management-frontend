@@ -14,9 +14,13 @@ export default function ReqPage({ params }: { params: { id: number } }) {
         optionsButton={<ReqTableOptions id={params.id} />}
       >
         <Stack display='flex' alignItems='end' opacity='65%'>
-          <Text>Fecha de Creacion: {JSON.stringify(req.data?.createdAt)}</Text>
           <Text>
-            Fecha de Actualizacion: {JSON.stringify(req.data?.updatedAt)}
+            Fecha de Creacion:{' '}
+            {new Date(req.data?.createdAt || '').toLocaleDateString()}
+          </Text>
+          <Text>
+            Fecha de Actualizacion:{' '}
+            {new Date(req.data?.updatedAt || '').toLocaleDateString()}
           </Text>
         </Stack>
         <VStack display='flex' alignItems='start'>

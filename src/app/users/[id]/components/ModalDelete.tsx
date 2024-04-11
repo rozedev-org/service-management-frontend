@@ -13,6 +13,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useUser } from '../../hook/useUser'
 import { config } from '@/config'
+import { appRoutes } from '@/appRoutes'
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
   const userQuery = useUser(params.id)
@@ -24,7 +25,7 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
         Authorization: `Bearer ${localStorage.getItem('token')}` || '',
       },
     })
-    router.push('/users')
+    router.push(appRoutes.home.users.url())
   }
 
   return (

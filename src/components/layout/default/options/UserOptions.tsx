@@ -30,7 +30,7 @@ const UserOptionsList: UserOptionsListInterface[] = [
     name: 'Tablero',
     icon: <BiTask />,
     isEnabled: true,
-    href: '/board',
+    href: appRoutes.home.board.url(0),
   },
   {
     name: 'Usuarios',
@@ -49,7 +49,7 @@ const UserOptionsList: UserOptionsListInterface[] = [
     name: 'Login',
     icon: <BiFileBlank />,
     isEnabled: true,
-    href: '/login',
+    href: appRoutes.home.login.url(0),
   },
   {
     name: 'History',

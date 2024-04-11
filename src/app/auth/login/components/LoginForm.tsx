@@ -23,6 +23,8 @@ import { config } from '@/config'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useUserId } from '@/hook/useUserId'
+import { appRoutes } from '@/appRoutes'
+
 export function LoginForm() {
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
@@ -43,7 +45,8 @@ export function LoginForm() {
     useUserId.getState().getId(response.data.user.id)
     localStorage.setItem('token', response.data.token)
     localStorage.setItem('userID', response.data.user.id)
-    router.push('/')
+    router.push(appRoutes.home.url(0))
+
     // console.log(data)
 
     // const res = await signIn('credentials', {

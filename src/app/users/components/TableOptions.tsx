@@ -1,3 +1,4 @@
+import { appRoutes } from '@/appRoutes'
 import { Link } from '@chakra-ui/next-js'
 import {
   Menu,
@@ -24,13 +25,13 @@ export const UserTableOptions = ({ id }: UserTableOptionsProps) => {
         icon={<Icon as={BiDotsVerticalRounded} />}
       ></MenuButton>
       <MenuList>
-        <Link href={`/users/${id}`}>
+        <Link href={appRoutes.home.users.getOne.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Detalle</MenuItem>
         </Link>
-        <Link href={`/users/${id}/update`}>
+        <Link href={appRoutes.home.users.update.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Editar</MenuItem>
         </Link>
-        <Link href={`/users/${id}/delete`}>
+        <Link href={appRoutes.home.users.delete.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Eliminar</MenuItem>
         </Link>
       </MenuList>
