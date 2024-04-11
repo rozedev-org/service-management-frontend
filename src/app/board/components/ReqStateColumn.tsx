@@ -32,35 +32,33 @@ export default function ReqStateColumn(props: {
   })
 
   return (
+    //Stack de columnas
     <HStack display='flex' justifyContent='center'>
+      {/* Columna */}
       <VStack
-        w={'22rem'}
-        p={4}
-        pt={2}
-        height='700px'
+        w={['16rem', '320px']}
+        h={['37rem', '727px']}
         bg={'#F4F7FE'}
         alignItems='start'
         borderRadius='20px'
       >
-        <VStack margin='10px' alignItems='start'>
-          <Stack>
-            <Text p={2}>{title}</Text>
-          </Stack>
-          <Stack gap={'12px'}>
-            <SortableContext
-              id={id.toString()}
-              items={requirements}
-              strategy={verticalListSortingStrategy}
-            >
-              {requirements.map((req) => (
-                <ReqCard
-                  ref={setNodeRef}
-                  key={`req-card-${req.id}`}
-                  requirement={req}
-                />
-              ))}
-            </SortableContext>
-          </Stack>
+        <VStack padding='10px' alignItems='start'>
+          {/* Titulo de la comuna */}
+          <Text p={2}>{title}</Text>
+          <SortableContext
+            id={id.toString()}
+            items={requirements}
+            strategy={verticalListSortingStrategy}
+          >
+            {requirements.map((req) => (
+              // Card que muestra el requerimiento
+              <ReqCard
+                ref={setNodeRef}
+                key={`req-card-${req.id}`}
+                requirement={req}
+              />
+            ))}
+          </SortableContext>
         </VStack>
       </VStack>
     </HStack>

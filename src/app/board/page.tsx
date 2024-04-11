@@ -151,10 +151,10 @@ export default function BoardPage() {
           <HStack
             display={'flex'}
             justifyContent={'left'}
-            w={'68vw'}
+            w={'70vw'}
             overflow={'scroll'}
             overflowY={'hidden'}
-            h={'79vh'}
+            h={['38rem', '47rem']}
           >
             {boardState.map((board) => (
               <ReqStateColumn
