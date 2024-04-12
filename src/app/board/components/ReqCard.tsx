@@ -1,4 +1,4 @@
-import { HStack, Avatar, Text } from '@chakra-ui/react'
+import { HStack, Avatar, Text, Box } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/next-js'
 import ReqModal from './ReqModal'
 import { useSortable } from '@dnd-kit/sortable'
@@ -30,7 +30,8 @@ export default function ReqCard(props: ReqCardProps) {
   }
   return (
     // div necesario para el dnd kit
-    <div
+    <Box
+      w={['10rem', '19rem']}
       style={style}
       ref={setNodeRef}
       {...attributes}
@@ -43,17 +44,19 @@ export default function ReqCard(props: ReqCardProps) {
         bg='#FFFFFF'
         borderRadius='20px'
         p={2}
-        minW={['14.5rem ', '288px']}
         minH={['3.5rem', '56px']}
         _hover={{ bg: '#c1c1c1' }}
       >
         <Avatar name={user.userName} w={'30px'} h={'30px'} />
         {/* Modal que muestra el detalle del requerimiento */}
-        <ReqModal requirement={props.requirement} />
+        <Box>
+          <ReqModal requirement={props.requirement} />
+        </Box>
+
         <Link href={appRoutes.home.requirements.getOne.url(id)} ml={'auto'}>
           <Text fontSize={10}>REQ-{id}</Text>
         </Link>
       </HStack>
-    </div>
+    </Box>
   )
 }
