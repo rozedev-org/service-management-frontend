@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from './theme'
@@ -6,14 +7,15 @@ import { useEffect } from 'react'
 import { useUserId } from '@/hook/useUserId'
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  const { getId } = useUserId()
+  const { setId } = useUserId()
 
   useEffect(() => {
     const userId = Number(localStorage.getItem('userID'))
-    if (userId) {
-      getId(userId)
+
+    if (userId && userId !== 0) {
+      setId(userId)
     }
-  }, [getId])
+  }, [])
 
   const queryClient = new QueryClient()
   return (

@@ -42,8 +42,20 @@ export const useUsers = () => {
 }
 
 export const useUser = (id: number) => {
-  const fetchUsers = async () => {
+  const [onError, setOnError] = useState(false)
+  const [user, setUser] = useState<UserEntity>({
+    id: 0,
+    userName: '',
+    lastName: '',
+    firstName: '',
+    password: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  })
+
+  const fetchUser = async () => {
     // try {
+
     const response = await axios.get<UserEntity>(
       `${config.bff.url}/users/${id}`,
       {
@@ -52,6 +64,7 @@ export const useUser = (id: number) => {
         },
       }
     )
+    setUser(response.data)
     return response.data
     // } catch (error: any) {
     //   const errorDictionarProps: ErrorDictionarProps = {
@@ -63,12 +76,7 @@ export const useUser = (id: number) => {
     // }
   }
 
-  const userQuery = useQuery({
-    queryKey: ['user'],
-    queryFn: () => fetchUsers(),
-  })
-
-  return userQuery
+  return { user, setUser, fetchUser }
 }
 export const useCreateUserForm = () => {
   const [onError, setOnError] = useState(false)

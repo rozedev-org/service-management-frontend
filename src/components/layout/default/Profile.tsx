@@ -1,26 +1,30 @@
+'use'
 import { useUser } from '@/app/users/hook/useUser'
+import { useUserId } from '@/hook/useUserId'
 import { HStack, Avatar, IconButton, Box, Text } from '@chakra-ui/react'
+import { useEffect } from 'react'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 
 export const Profile = () => {
-  const Userid = Number(localStorage.getItem('userID'))
-  const userQuery = useUser(Userid)
+  const { id } = useUserId()
+  const { user, fetchUser } = useUser(id)
+  useEffect(() => {
+    if (id && id !== 0) {
+      fetchUser()
+    }
+  }, [id])
+
   return (
     <>
-      {Userid === 0 ? (
-        <></>
-      ) : (
+      {id !== 0 && (
         <HStack justifyContent={'center'} alignItems={'center'}>
-          <Avatar
-            name={`${userQuery.data?.firstName} ${userQuery.data?.lastName}`}
-            size={'sm'}
-          />
+          <Avatar name={`${user.firstName} ${user.lastName}`} size={'sm'} />
           <Box>
             <Text fontSize={'sm'}>
-              {userQuery.data?.firstName} {userQuery.data?.lastName}
+              {user.firstName} {user.lastName}
             </Text>
             <Text fontSize={'sm'} color={'gray.500'}>
-              {userQuery.data?.userName}
+              {user.userName}
             </Text>
           </Box>
 

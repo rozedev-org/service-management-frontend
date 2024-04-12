@@ -36,13 +36,14 @@ export function LoginForm() {
 
   const router = useRouter()
   const [error, setError] = useState('')
-
+  const { setId } = useUserId()
   const onSubmit = handleSubmit(async (data) => {
     const response = await axios.post(`${config.bff.url}/auth/login`, {
       username: data.username,
       password: data.password,
     })
-    useUserId.getState().getId(response.data.user.id)
+
+    setId(response.data.user.id)
     localStorage.setItem('token', response.data.token)
     localStorage.setItem('userID', response.data.user.id)
     router.push(appRoutes.home.url(0))

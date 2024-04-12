@@ -5,7 +5,6 @@ import { fonts } from './fonts'
 import { HStack } from '@chakra-ui/react'
 import { Sidebar } from '@/components/layout/default/Sidebar'
 import { Content } from '@/components/layout/default/Content'
-import { getServerSession } from 'next-auth'
 
 export const metadata: Metadata = {
   title: 'Create Next App',

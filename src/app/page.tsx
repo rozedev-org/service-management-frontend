@@ -1,12 +1,12 @@
 'use client'
 import { useUserId } from '@/hook/useUserId'
 import { Button } from '@chakra-ui/react'
-import { getServerSession } from 'next-auth'
+// import { getServerSession } from 'next-auth'
 
 export default function Home() {
-  getServerSession().then((session) => {
-    console.log(session)
-  })
+  // getServerSession().then((session) => {
+  //   console.log(session)
+  // })
   const { id } = useUserId()
 
   return (
