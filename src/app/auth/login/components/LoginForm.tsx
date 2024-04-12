@@ -22,6 +22,7 @@ import { redirect, useRouter } from 'next/navigation'
 import { config } from '@/config'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
+import { useUserId } from '@/hook/useUserId'
 import { appRoutes } from '@/appRoutes'
 
 export function LoginForm() {
@@ -35,15 +36,18 @@ export function LoginForm() {
 
   const router = useRouter()
   const [error, setError] = useState('')
-
+  const { setId } = useUserId()
   const onSubmit = handleSubmit(async (data) => {
     const response = await axios.post(`${config.bff.url}/auth/login`, {
       username: data.username,
       password: data.password,
     })
 
+    setId(response.data.user.id)
     localStorage.setItem('token', response.data.token)
+    localStorage.setItem('userID', response.data.user.id)
     router.push(appRoutes.home.url(0))
+
     // console.log(data)
 
     // const res = await signIn('credentials', {
