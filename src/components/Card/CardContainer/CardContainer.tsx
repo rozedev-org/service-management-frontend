@@ -27,7 +27,7 @@ export const CardContainer = (props: CardContainerProps) => {
           {props.aditionalHeaderItems && props.aditionalHeaderItems}
         </HStack>
       </CardHeader>
-      <CardBody display={'flex'}>{props.children}</CardBody>
+      <CardBody>{props.children}</CardBody>
     </Card>
   )
 }
