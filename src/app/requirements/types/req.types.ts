@@ -5,6 +5,10 @@ export interface NewReq {
   userId: number | null
   stateId: number
 }
+export interface NewReqState {
+  title: string
+  secuence: number
+}
 export interface RequirementsEntity {
   id: number
   title: string
@@ -14,16 +18,14 @@ export interface RequirementsEntity {
   user: UserEntity | null
   stateId: number
 }
-
-export interface ReqActionsActions {
-  current: ReqStateEntity
-  remaining: ReqStateEntity[]
-}
-
 export interface ReqStateEntity {
   id: number
   title: string
   secuence: number
-  createdAt: string
-  updatedAt: string
+  createdAt: Date
+  updatedAt: Date
+}
+export interface ReqActionsActions {
+  current: ReqStateEntity
+  remaining: ReqStateEntity[]
 }
