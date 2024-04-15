@@ -39,7 +39,11 @@ export const Profile = () => {
   return (
     <>
       {id !== 0 && (
-        <HStack justifyContent={'center'} alignItems={'center'}>
+        <HStack
+          justifyContent={'flex-start'}
+          alignItems={'flex-start'}
+          w={'100%'}
+        >
           <Avatar name={`${user.firstName} ${user.lastName}`} size={'sm'} />
           <Box>
             <Text fontSize={'sm'}>{`${user.firstName} ${user.lastName}`}</Text>
@@ -47,11 +51,11 @@ export const Profile = () => {
               {user.userName}
             </Text>
           </Box>
-          <Box>
+          <Box marginLeft={'auto'}>
             <Menu>
               <MenuButton
+                size={'full'}
                 as={IconButton}
-                mr={'auto'}
                 variant={'ghost'}
                 fontSize='20px'
                 icon={<BiDotsVerticalRounded />}

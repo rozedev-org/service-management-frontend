@@ -7,7 +7,7 @@ import { BiHelpCircle, BiCog } from 'react-icons/bi'
 export const ManagementOptions = () => {
   const router = useRouter()
   return (
-    <VStack w={'full'} gap={1}>
+    <VStack w={'full'} gap={1} alignItems={'flex-start'}>
       <Button
         color={'gray.600'}
         justifyContent={'start'}
