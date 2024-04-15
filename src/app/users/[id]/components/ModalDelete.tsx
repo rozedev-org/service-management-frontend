@@ -10,12 +10,13 @@ import {
   ModalBody,
   ModalFooter,
 } from '@chakra-ui/react'
-import axios from 'axios'
+
 import { useRouter } from 'next/navigation'
 import { useUser } from '../../hook/useUser'
 import { config } from '@/config'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
   const { user, fetchUser } = useUser(params.id)
@@ -23,11 +24,7 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
   const { onOpen, isOpen, onClose } = useDisclosure()
 
   const handleDelete = async () => {
-    await axios.delete(`${config.bff.url}/users/${params.id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-      },
-    })
+    await axiosInstace.delete(`${config.bff.url}/users/${params.id}`, {})
     router.push(appRoutes.home.users.url())
   }
 

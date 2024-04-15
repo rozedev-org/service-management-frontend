@@ -1,7 +1,7 @@
-import axios from 'axios'
 import { ReqActionsActions } from '../types/req.types'
 import { config } from '@/config'
 import { useState } from 'react'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 /**
  * Custom hook to fetch requirement actions.
@@ -11,13 +11,8 @@ import { useState } from 'react'
 export const useReqActions = (reqId: number) => {
   const fetchReqActions = async () => {
     try {
-      const response = await axios.get<ReqActionsActions>(
-        `${config.bff.url}/requirements/actions/${reqId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-          },
-        }
+      const response = await axiosInstace.get<ReqActionsActions>(
+        `${config.bff.url}/requirements/actions/${reqId}`
       )
       setReqActions(response.data)
       return response.data
@@ -28,17 +23,9 @@ export const useReqActions = (reqId: number) => {
 
   const updateReqAction = async (newReqStateId: number) => {
     try {
-      await axios.put(
-        `${config.bff.url}/requirements/${reqId}`,
-        {
-          stateId: newReqStateId,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-          },
-        }
-      )
+      await axiosInstace.put(`${config.bff.url}/requirements/${reqId}`, {
+        stateId: newReqStateId,
+      })
 
       await fetchReqActions()
     } catch (error) {
