@@ -9,14 +9,7 @@ export default function Home() {
   // })
   const { id } = useUserId()
 
-  return (
-    <>
-      <Button onClick={() => console.log(localStorage.getItem('userID'))}>
-        localStorage
-      </Button>
-      <Button onClick={() => console.log(id)}>state</Button>
-    </>
-  )
+  return <div>homepage</div>
   // const requirementsQuery = useRequirements()
   // const [requirements, setRequirements] = useState(
   //   requirementsQuery.data?.data || []
