@@ -34,7 +34,13 @@ export const useReqActions = (reqId: number) => {
   }
 
   const [reqActions, setReqActions] = useState<ReqActionsActions>({
-    current: { id: 0, title: '', createdAt: '', updatedAt: '', secuence: 0 },
+    current: {
+      id: 0,
+      title: '',
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      secuence: 0,
+    },
     remaining: [],
   })
 
