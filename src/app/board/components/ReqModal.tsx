@@ -126,14 +126,14 @@ export default function ReqModal(props: { requirement: Requirement }) {
                       Responsable
                     </Text>
                     <HStack>
-                      <Avatar size={'md'} p='1' name={user.userName} />
+                      <Avatar size={'md'} p='1' name={user?.userName} />
                       <Text
                         size='md'
                         fontSize={'16px'}
                         fontWeight={400}
                         lineHeight={'24px'}
                       >
-                        {user.userName}
+                        {user?.userName}
                       </Text>
                     </HStack>
                   </Stack>
