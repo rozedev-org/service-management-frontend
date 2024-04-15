@@ -5,22 +5,17 @@ import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
 import { useForm } from '@tanstack/react-form'
 import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { appRoutes } from '@/appRoutes'
 import { config } from '@/config'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export const useUsers = () => {
   const fetchUsers = async () => {
     // try {
-    const response = await axios.get<PaginatedResponse<UserEntity>>(
-      `${config.bff.url}/users?page=${1}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-        },
-      }
+    const response = await axiosInstace.get<PaginatedResponse<UserEntity>>(
+      `${config.bff.url}/users?page=${1}`
     )
     return response.data
     // } catch (error: any) {
@@ -56,13 +51,8 @@ export const useUser = (id: number) => {
   const fetchUser = async () => {
     // try {
 
-    const response = await axios.get<UserEntity>(
-      `${config.bff.url}/users/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-        },
-      }
+    const response = await axiosInstace.get<UserEntity>(
+      `${config.bff.url}/users/${id}`
     )
     setUser(response.data)
     return response.data
@@ -92,14 +82,9 @@ export const useCreateUserForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.post<UserEntity>(
+        const response = await axiosInstace.post<UserEntity>(
           `${config.bff.url}/users`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+          value
         )
         router.push(appRoutes.home.users.getOne.url(response.data.id))
       } catch (error: any) {
@@ -129,14 +114,9 @@ export const useUpdateUserForm = (user?: UserEntity) => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.put<UserEntity>(
+        const response = await axiosInstace.put<UserEntity>(
           `${config.bff.url}/users/${user?.id}`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+          value
         )
         router.push(appRoutes.home.users.getOne.url(response.data.id))
       } catch (error: any) {

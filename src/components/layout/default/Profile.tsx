@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-'use'
 import { useUser } from '@/app/users/hook/useUser'
 import { useUserId } from '@/hook/useUserId'
 import {
@@ -16,7 +15,6 @@ import {
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
-
 export const Profile = () => {
   const router = useRouter()
   const { setId } = useUserId()

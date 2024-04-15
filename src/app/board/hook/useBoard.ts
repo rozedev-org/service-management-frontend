@@ -3,16 +3,15 @@ import { BoardEntity } from '../types/board.types'
 import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export const useBoard = () => {
   const fetchBoard = async () => {
     try {
-      const response = await axios.get<BoardEntity[]>(
-        `${config.bff.url}/board?page=${1}`,
+      const response = await axiosInstace.get<BoardEntity[]>(
+        `/board?page=${1}`,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-          },
+          withCredentials: true,
         }
       )
       setBoardState(response.data)
