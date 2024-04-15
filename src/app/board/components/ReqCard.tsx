@@ -47,7 +47,7 @@ export default function ReqCard(props: ReqCardProps) {
         minH={['3.5rem', '56px']}
         _hover={{ bg: '#c1c1c1' }}
       >
-        <Avatar name={user.userName} w={'30px'} h={'30px'} />
+        <Avatar name={user?.userName || ''} w={'30px'} h={'30px'} />
         {/* Modal que muestra el detalle del requerimiento */}
         <Box>
           <ReqModal requirement={props.requirement} />
