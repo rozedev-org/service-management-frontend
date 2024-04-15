@@ -7,6 +7,7 @@ import { requirementsColumns } from './types/columnDef'
 import { useRequirements } from './hook/useRequirements'
 import { AddReqButton } from './components/AddButton'
 import { ReqTableOptions } from './components/TableOptions'
+import { Box } from '@chakra-ui/react'
 
 export default function Requirements() {
   const requirementsQuery = useRequirements()
