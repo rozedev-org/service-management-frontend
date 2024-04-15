@@ -12,7 +12,7 @@ export const useReqActions = (reqId: number) => {
   const fetchReqActions = async () => {
     try {
       const response = await axiosInstace.get<ReqActionsActions>(
-        `${config.bff.url}/requirements/actions/${reqId}`
+        `/requirements/actions/${reqId}`
       )
       setReqActions(response.data)
       return response.data
@@ -23,7 +23,7 @@ export const useReqActions = (reqId: number) => {
 
   const updateReqAction = async (newReqStateId: number) => {
     try {
-      await axiosInstace.put(`${config.bff.url}/requirements/${reqId}`, {
+      await axiosInstace.put(`/requirements/${reqId}`, {
         stateId: newReqStateId,
       })
 

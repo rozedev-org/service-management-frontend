@@ -1,6 +1,5 @@
 import { config } from '@/config'
 import { BoardEntity } from '../types/board.types'
-import axios from 'axios'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'

@@ -12,16 +12,13 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
 import { useForm } from '@tanstack/react-form'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export const useRequirementsState = () => {
   const fetchReqState = async () => {
-    const response = await axios.get<PaginatedResponse<ReqStateEntity>>(
-      `${config.bff.url}/req-state?page=${1}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-        },
-      }
+    const response = await axiosInstace.get<PaginatedResponse<ReqStateEntity>>(
+      `/req-state?page=${1}`,
+      {}
     )
     return response.data
   }
@@ -40,8 +37,8 @@ export const useRequirementState = (id: number) => {
     updatedAt: new Date(),
   })
   const fetchReqState = async () => {
-    const response = await axios.get<ReqStateEntity>(
-      `${config.bff.url}/req-state/${id}`,
+    const response = await axiosInstace.get<ReqStateEntity>(
+      `/req-state/${id}`,
       {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}` || '',
@@ -65,8 +62,8 @@ export const useCreateReqStateForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.post<RequirementsEntity>(
-          `${config.bff.url}/req-state`,
+        const response = await axiosInstace.post<RequirementsEntity>(
+          `/req-state`,
           value,
           {
             headers: {
@@ -101,8 +98,8 @@ export const useReqUpdateForm = (state?: ReqStateEntity) => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.put<ReqStateEntity>(
-          `${config.bff.url}/req-state/${state?.id}`,
+        const response = await axiosInstace.put<ReqStateEntity>(
+          `/req-state/${state?.id}`,
           value,
           {
             headers: {

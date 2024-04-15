@@ -15,7 +15,7 @@ export const useUsers = () => {
   const fetchUsers = async () => {
     // try {
     const response = await axiosInstace.get<PaginatedResponse<UserEntity>>(
-      `${config.bff.url}/users?page=${1}`
+      `/users?page=${1}`
     )
     return response.data
     // } catch (error: any) {
@@ -51,9 +51,7 @@ export const useUser = (id: number) => {
   const fetchUser = async () => {
     // try {
 
-    const response = await axiosInstace.get<UserEntity>(
-      `${config.bff.url}/users/${id}`
-    )
+    const response = await axiosInstace.get<UserEntity>(`/users/${id}`)
     setUser(response.data)
     return response.data
     // } catch (error: any) {
@@ -82,10 +80,7 @@ export const useCreateUserForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axiosInstace.post<UserEntity>(
-          `${config.bff.url}/users`,
-          value
-        )
+        const response = await axiosInstace.post<UserEntity>(`/users`, value)
         router.push(appRoutes.home.users.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
@@ -115,7 +110,7 @@ export const useUpdateUserForm = (user?: UserEntity) => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.put<UserEntity>(
-          `${config.bff.url}/users/${user?.id}`,
+          `/users/${user?.id}`,
           value
         )
         router.push(appRoutes.home.users.getOne.url(response.data.id))

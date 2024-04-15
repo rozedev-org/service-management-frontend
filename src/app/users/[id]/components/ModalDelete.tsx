@@ -24,7 +24,7 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
   const { onOpen, isOpen, onClose } = useDisclosure()
 
   const handleDelete = async () => {
-    await axiosInstace.delete(`${config.bff.url}/users/${params.id}`, {})
+    await axiosInstace.delete(`/users/${params.id}`, {})
     router.push(appRoutes.home.users.url())
   }
 

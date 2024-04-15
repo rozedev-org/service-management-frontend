@@ -16,6 +16,7 @@ import { config } from '@/config'
 import axios from 'axios'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 function ReqStateModalDelete({ params }: { params: { id: number } }) {
   const { reqState, fetchReqState } = useRequirementState(params.id)
@@ -23,8 +24,7 @@ function ReqStateModalDelete({ params }: { params: { id: number } }) {
   const { isOpen, onClose, onOpen } = useDisclosure()
 
   const handleDelete = async () => {
-    console.log(reqState)
-    await axios.delete(`${config.bff.url}/req-state/${params.id}`, {
+    await axiosInstace.delete(`/req-state/${params.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}` || '',
       },

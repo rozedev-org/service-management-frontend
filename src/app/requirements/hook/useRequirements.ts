@@ -17,7 +17,7 @@ export const useRequirements = () => {
     try {
       const response = await axiosInstace.get<
         PaginatedResponse<RequirementsEntity>
-      >(`${config.bff.url}/requirements?page=${1}`, {})
+      >(`/requirements?page=${1}`, {})
       return response.data
     } catch (error) {
       console.log(error)
@@ -38,7 +38,7 @@ export const useRequirements = () => {
 export const useRequirement = (id: number) => {
   const fetchReq = async () => {
     const response = await axiosInstace.get<RequirementsEntity>(
-      `${config.bff.url}/requirements/${id}`
+      `/requirements/${id}`
     )
     return response.data
   }
@@ -67,7 +67,7 @@ export const useCreateReqForm = () => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.post<RequirementsEntity>(
-          `${config.bff.url}/requirements`,
+          `/requirements`,
           value
         )
         router.push(appRoutes.home.requirements.getOne.url(response.data.id))
@@ -103,7 +103,7 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.put<RequirementsEntity>(
-          `${config.bff.url}/requirements/${req?.id}`,
+          `/requirements/${req?.id}`,
           value
         )
         router.push(appRoutes.home.requirements.getOne.url(response.data.id))
