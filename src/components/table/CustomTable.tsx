@@ -41,7 +41,11 @@ export function CustomTable<T>(props: CustomTable<T>) {
   ))
 
   return (
-    <TableContainer className={styles.scroll} style={{ height: '40vh' }}>
+    <TableContainer
+      overflowY={'scroll'}
+      className={styles.scroll}
+      style={{ height: '40vh' }}
+    >
       <Table variant='simple' size={'sm'} className={`${styles.responsive}`}>
         <Thead>
           {table.getHeaderGroups().map((headerGroup) => (

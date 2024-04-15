@@ -17,7 +17,7 @@ export const useRequirements = () => {
     try {
       const response = await axiosInstace.get<
         PaginatedResponse<RequirementsEntity>
-      >(`/requirements?page=${1}`, {})
+      >(`/requirements?page=${1}&take=100`, {})
       return response.data
     } catch (error) {
       console.log(error)
