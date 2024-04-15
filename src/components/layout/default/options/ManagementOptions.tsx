@@ -1,9 +1,13 @@
-import { VStack, Button } from "@chakra-ui/react"
-import { BiHelpCircle, BiCog } from "react-icons/bi"
+import { appRoutes } from '@/appRoutes'
+import { Link } from '@chakra-ui/next-js'
+import { VStack, Button } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
+import { BiHelpCircle, BiCog } from 'react-icons/bi'
 
 export const ManagementOptions = () => {
+  const router = useRouter()
   return (
-    <VStack w={'full'} gap={1}>
+    <VStack w={'full'} gap={1} alignItems={'flex-start'}>
       <Button
         color={'gray.600'}
         justifyContent={'start'}
@@ -14,15 +18,17 @@ export const ManagementOptions = () => {
         Help Center
       </Button>
 
-      <Button
-        color={'gray.600'}
-        justifyContent={'start'}
-        w={'full'}
-        leftIcon={<BiCog />}
-        variant='ghost'
-      >
-        Setting
-      </Button>
+      <Link href={appRoutes.home.settings.url(0)}>
+        <Button
+          color={'gray.600'}
+          justifyContent={'start'}
+          w={'full'}
+          leftIcon={<BiCog />}
+          variant='ghost'
+        >
+          Configuraciones
+        </Button>
+      </Link>
     </VStack>
   )
 }

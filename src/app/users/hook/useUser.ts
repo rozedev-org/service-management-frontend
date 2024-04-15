@@ -5,22 +5,17 @@ import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
 import { useForm } from '@tanstack/react-form'
 import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { appRoutes } from '@/appRoutes'
 import { config } from '@/config'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export const useUsers = () => {
   const fetchUsers = async () => {
     // try {
-    const response = await axios.get<PaginatedResponse<UserEntity>>(
-      `${config.bff.url}/users?page=${1}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-        },
-      }
+    const response = await axiosInstace.get<PaginatedResponse<UserEntity>>(
+      `/users?page=${1}`
     )
     return response.data
     // } catch (error: any) {
@@ -42,16 +37,22 @@ export const useUsers = () => {
 }
 
 export const useUser = (id: number) => {
-  const fetchUsers = async () => {
+  const [onError, setOnError] = useState(false)
+  const [user, setUser] = useState<UserEntity>({
+    id: 0,
+    userName: '',
+    lastName: '',
+    firstName: '',
+    password: '',
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  })
+
+  const fetchUser = async () => {
     // try {
-    const response = await axios.get<UserEntity>(
-      `${config.bff.url}/users/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-        },
-      }
-    )
+
+    const response = await axiosInstace.get<UserEntity>(`/users/${id}`)
+    setUser(response.data)
     return response.data
     // } catch (error: any) {
     //   const errorDictionarProps: ErrorDictionarProps = {
@@ -63,12 +64,7 @@ export const useUser = (id: number) => {
     // }
   }
 
-  const userQuery = useQuery({
-    queryKey: ['user'],
-    queryFn: () => fetchUsers(),
-  })
-
-  return userQuery
+  return { user, setUser, fetchUser }
 }
 export const useCreateUserForm = () => {
   const [onError, setOnError] = useState(false)
@@ -84,15 +80,7 @@ export const useCreateUserForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.post<UserEntity>(
-          `${config.bff.url}/users`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
-        )
+        const response = await axiosInstace.post<UserEntity>(`/users`, value)
         router.push(appRoutes.home.users.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
@@ -121,16 +109,11 @@ export const useUpdateUserForm = (user?: UserEntity) => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.put<UserEntity>(
-          `${config.bff.url}/users/${user?.id}`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+        const response = await axiosInstace.put<UserEntity>(
+          `/users/${user?.id}`,
+          value
         )
-        router.push(`/users/${response.data.id}`)
+        router.push(appRoutes.home.users.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(

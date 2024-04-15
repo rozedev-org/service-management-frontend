@@ -1,18 +1,26 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { VStack, FormControl, FormLabel, Input, Button } from '@chakra-ui/react'
 import { useUser, useUpdateUserForm } from '../../hook/useUser'
 import ModalUpdate from '../components/ModalUpdate'
 import { useRouter } from 'next/navigation'
+import { appRoutes } from '@/appRoutes'
+import { useEffect } from 'react'
 
 export default function UpdateUserPage({ params }: { params: { id: number } }) {
-  const userQuery = useUser(params.id)
-  const { updateUserForm } = useUpdateUserForm(userQuery.data)
+  const { user, fetchUser } = useUser(params.id)
+  const { updateUserForm } = useUpdateUserForm(user)
   const router = useRouter()
   const handleUpdate = async () => {
     await updateUserForm.handleSubmit()
-    router.push(`/users/${params.id}`)
+    router.push(appRoutes.home.users.getOne.url(params.id))
   }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
+
   return (
     <CardContainer title='Actualizar Usuario'>
       <form

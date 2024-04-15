@@ -138,7 +138,7 @@ export default function BoardPage() {
   const requirement = boardState.length ? boardState[0].Requirement[0] : null
 
   return (
-    <CardContainer title=''>
+    <CardContainer title='Listado de Requerimientos'>
       {boardQuery.isSuccess && (
         <DndContext
           // collisionDetection={closestCenter}
@@ -149,12 +149,14 @@ export default function BoardPage() {
           // onDragStart={handleDragStart}
         >
           <HStack
+            data-test-id='req-state-columns-stack'
             display={'flex'}
             justifyContent={'left'}
-            w={'68vw'}
+            alignItems={'flex-start'}
+            w={['70vw', '81vw']}
             overflow={'scroll'}
             overflowY={'hidden'}
-            h={'79vh'}
+            h={['57vh', '75vh']}
           >
             {boardState.map((board) => (
               <ReqStateColumn

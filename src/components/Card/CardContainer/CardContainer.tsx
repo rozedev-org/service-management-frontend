@@ -10,7 +10,12 @@ interface CardContainerProps {
 }
 export const CardContainer = (props: CardContainerProps) => {
   return (
-    <Card borderRadius={'20px'} w={'100%'} h={'100%'} bg={'white'}>
+    <Card
+      borderRadius={'20px'}
+      w={'100%'}
+      h={['80vh', '80vh', '85vh']}
+      bg={'white'}
+    >
       <CardHeader>
         <HStack>
           {props.title && props.title}

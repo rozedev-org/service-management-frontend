@@ -9,22 +9,19 @@ import {
   ModalBody,
   ModalFooter,
 } from '@chakra-ui/react'
-import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { useRequirement } from '../../hook/useRequirements'
 import { config } from '@/config'
+import { appRoutes } from '@/appRoutes'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
   const requirementsQuery = useRequirement(params.id)
   const router = useRouter()
   const { onOpen, isOpen, onClose } = useDisclosure()
   const handleDelete = async () => {
-    await axios.delete(`${config.bff.url}/requirements/${params.id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-      },
-    })
-    router.push('/requirements')
+    await axiosInstace.delete(`/requirements/${params.id}`, {})
+    router.push(appRoutes.home.requirements.url())
   }
 
   return (

@@ -1,11 +1,15 @@
-import { getServerSession } from 'next-auth'
+'use client'
+import { useUserId } from '@/hook/useUserId'
+import { Button } from '@chakra-ui/react'
+// import { getServerSession } from 'next-auth'
 
 export default function Home() {
-  getServerSession().then((session) => {
-    console.log(session)
-  })
+  // getServerSession().then((session) => {
+  //   console.log(session)
+  // })
+  const { id } = useUserId()
 
-  return <div>home page</div>
+  return <div>homepage</div>
   // const requirementsQuery = useRequirements()
   // const [requirements, setRequirements] = useState(
   //   requirementsQuery.data?.data || []

@@ -5,9 +5,7 @@ import { Profile } from './Profile'
 import { ManagementOptions } from './options/ManagementOptions'
 import { UserOptions } from './options/UserOptions'
 import { SearchInput } from '@/components/input/SearchInput'
-import { use, useEffect, useState } from 'react'
-import { redirect } from 'next/navigation'
-import { getServerSession } from 'next-auth'
+import { useState } from 'react'
 export const Sidebar = () => {
   const [optionFilter, setOptionFilter] = useState('')
 
@@ -46,7 +44,7 @@ export const Sidebar = () => {
 
       {/* Bot Section */}
       {/* Management Options */}
-      <VStack w={'full'} marginTop={'auto'}>
+      <VStack w={'full'} marginTop={'auto'} alignItems={'flex-start'}>
         <Divider />
 
         <ManagementOptions />

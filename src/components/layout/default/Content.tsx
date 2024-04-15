@@ -6,7 +6,13 @@ export interface ContentProps {
 }
 export const Content = (props: ContentProps) => {
   return (
-    <VStack alignItems={'start'} p={'30px'} w={'100%'} h={'100vh'}>
+    <VStack
+      alignItems={'start'}
+      p={'30px'}
+      pt={[0, 0, '30px']}
+      w={'100%'}
+      h={'100vh'}
+    >
       <CustomBreadcrum />
       {props.children}
     </VStack>

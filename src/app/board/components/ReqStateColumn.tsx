@@ -32,37 +32,36 @@ export default function ReqStateColumn(props: {
   })
 
   return (
-    <HStack display='flex' justifyContent='center'>
-      <VStack
-        w={'22rem'}
-        p={4}
-        pt={2}
-        height='700px'
-        bg={'#F4F7FE'}
-        alignItems='start'
-        borderRadius='20px'
+    <VStack
+      w={['74vw', '320px']}
+      h={'100%'}
+      bg={'#F4F7FE'}
+      alignItems='start'
+      borderRadius='20px'
+      padding='10px'
+    >
+      {/* Titulo de la comuna */}
+      <Text p={2}>{title}</Text>
+      <SortableContext
+        id={id.toString()}
+        items={requirements}
+        strategy={verticalListSortingStrategy}
       >
-        <VStack margin='10px' alignItems='start'>
-          <Stack>
-            <Text p={2}>{title}</Text>
-          </Stack>
-          <Stack gap={'12px'}>
-            <SortableContext
-              id={id.toString()}
-              items={requirements}
-              strategy={verticalListSortingStrategy}
-            >
-              {requirements.map((req) => (
-                <ReqCard
-                  ref={setNodeRef}
-                  key={`req-card-${req.id}`}
-                  requirement={req}
-                />
-              ))}
-            </SortableContext>
-          </Stack>
+        <VStack
+          data-test-id='req-cards-stack'
+          overflowY={'scroll'}
+          overflowX={'hidden'}
+        >
+          {requirements.map((req) => (
+            // Card que muestra el requerimiento
+            <ReqCard
+              ref={setNodeRef}
+              key={`req-card-${req.id}`}
+              requirement={req}
+            />
+          ))}
         </VStack>
-      </VStack>
-    </HStack>
+      </SortableContext>
+    </VStack>
   )
 }

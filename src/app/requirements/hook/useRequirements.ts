@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import { NewReq, RequirementsEntity } from '../types/req.types'
 import { useQuery } from '@tanstack/react-query'
@@ -6,6 +5,8 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
 import { config } from '@/config'
+import { appRoutes } from '@/appRoutes'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 /**
  * Custom hook for fetching requirements data.
@@ -14,14 +15,9 @@ import { config } from '@/config'
 export const useRequirements = () => {
   const fetchReq = async () => {
     try {
-      const response = await axios.get<PaginatedResponse<RequirementsEntity>>(
-        `${config.bff.url}/requirements?page=${1}`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-          },
-        }
-      )
+      const response = await axiosInstace.get<
+        PaginatedResponse<RequirementsEntity>
+      >(`/requirements?page=${1}`, {})
       return response.data
     } catch (error) {
       console.log(error)
@@ -41,13 +37,8 @@ export const useRequirements = () => {
  */
 export const useRequirement = (id: number) => {
   const fetchReq = async () => {
-    const response = await axios.get<RequirementsEntity>(
-      `${config.bff.url}/requirements/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-        },
-      }
+    const response = await axiosInstace.get<RequirementsEntity>(
+      `/requirements/${id}`
     )
     return response.data
   }
@@ -75,16 +66,11 @@ export const useCreateReqForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.post<RequirementsEntity>(
-          `${config.bff.url}/requirements`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+        const response = await axiosInstace.post<RequirementsEntity>(
+          `/requirements`,
+          value
         )
-        router.push(`/requirements/${response.data.id}`)
+        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(
@@ -116,16 +102,11 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axios.put<RequirementsEntity>(
-          `${config.bff.url}/requirements/${req?.id}`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+        const response = await axiosInstace.put<RequirementsEntity>(
+          `/requirements/${req?.id}`,
+          value
         )
-        router.push(`/requirements/${response.data.id}`)
+        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(

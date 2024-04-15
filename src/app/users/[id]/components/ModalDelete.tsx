@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   useDisclosure,
   Button,
@@ -9,23 +10,27 @@ import {
   ModalBody,
   ModalFooter,
 } from '@chakra-ui/react'
-import axios from 'axios'
+
 import { useRouter } from 'next/navigation'
 import { useUser } from '../../hook/useUser'
 import { config } from '@/config'
+import { appRoutes } from '@/appRoutes'
+import { useEffect } from 'react'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
-  const userQuery = useUser(params.id)
+  const { user, fetchUser } = useUser(params.id)
   const router = useRouter()
   const { onOpen, isOpen, onClose } = useDisclosure()
+
   const handleDelete = async () => {
-    await axios.delete(`${config.bff.url}/users/${params.id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-      },
-    })
-    router.push('/users')
+    await axiosInstace.delete(`/users/${params.id}`, {})
+    router.push(appRoutes.home.users.url())
   }
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   return (
     <>
@@ -40,9 +45,7 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            Eliminacion del Usuario : {userQuery.data?.userName}
-          </ModalHeader>
+          <ModalHeader>Eliminacion del Usuario : {user.userName}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>Confirmacion de Eliminacion</ModalBody>
           <ModalFooter>

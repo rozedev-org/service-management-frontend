@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import {
   Text,
@@ -13,9 +14,15 @@ import {
 import { useUser } from '../hook/useUser'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import ModalDelete from './components/ModalDelete'
+import { appRoutes } from '@/appRoutes'
+import { useEffect } from 'react'
 
 export default function UserPage({ params }: { params: { id: number } }) {
-  const userQuery = useUser(params.id)
+  const { user, fetchUser } = useUser(params.id)
+
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   return (
     <>
@@ -27,17 +34,17 @@ export default function UserPage({ params }: { params: { id: number } }) {
             alignItems='center'
             gap={2}
           >
-            <Avatar name={userQuery.data?.userName} size={'md'} p='7' />
-            <Heading size='md'>Usuario: {userQuery.data?.userName}</Heading>
-            <Text>ID del Usuario : {userQuery.data?.id}</Text>
+            <Avatar name={user.userName} size={'md'} p='7' />
+            <Heading size='md'>Usuario: {user.userName}</Heading>
+            <Text>ID del Usuario : {user.id}</Text>
           </CardHeader>
           <CardBody>
-            <Text>Nombre: {userQuery.data?.firstName}</Text>
-            <Text>Apellido: {userQuery.data?.lastName}</Text>
+            <Text>Nombre: {user.firstName}</Text>
+            <Text>Apellido: {user.lastName}</Text>
           </CardBody>
           <CardFooter>
             <ModalDelete params={params} />
-            <Link href={`/users/${params.id}/update`}>
+            <Link href={appRoutes.home.users.update.url(params.id)}>
               <Button colorScheme='blue' margin='10px'>
                 Actualizar
               </Button>
