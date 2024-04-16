@@ -30,7 +30,6 @@ function ReqStateModalDelete({ params }: { params: { id: number } }) {
       },
     })
     router.push(appRoutes.home.settings.reqState.url(0))
-    console.log(reqState)
   }
 
   useEffect(() => {

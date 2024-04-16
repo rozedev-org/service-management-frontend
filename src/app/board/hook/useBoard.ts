@@ -28,5 +28,5 @@ export const useBoard = () => {
 
   const [boardState, setBoardState] = useState<BoardEntity[]>([])
 
-  return { boardQuery, boardState, setBoardState }
+  return { boardQuery, boardState, setBoardState, fetchBoard }
 }

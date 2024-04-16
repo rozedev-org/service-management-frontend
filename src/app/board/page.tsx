@@ -18,14 +18,16 @@ import {
   useSensors,
 } from '@dnd-kit/core'
 import ReqStateColumn from './components/ReqStateColumn'
-import { HStack, border } from '@chakra-ui/react'
+import { Box, Button, HStack, Text } from '@chakra-ui/react'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import ReqCard from './components/ReqCard'
-import { Requirement } from './types/board.types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useRefreshSignal } from './hook/useRefreshSignal'
+import { useUserId } from '@/hook/useUserId'
+import { useRouter } from 'next/navigation'
 
 export default function BoardPage() {
-  const { boardQuery, boardState, setBoardState } = useBoard()
+  const { boardQuery, boardState, setBoardState, fetchBoard } = useBoard()
   const [activeReq, setActiveReq] = useState<null | string>(null)
 
   const handleDragStart = ({ active }: DragStartEvent) => {
@@ -134,11 +136,32 @@ export default function BoardPage() {
       activationConstraint: { distance: 5 },
     })
   )
-
   const requirement = boardState.length ? boardState[0].Requirement[0] : null
 
+  const { boardStates, refreshBoardState, setBoardStates, refresh } =
+    useRefreshSignal()
+  async function fetchData() {
+    const newData = await fetchBoard()
+    if (newData) {
+      const data = boardQuery.data
+      if (data) {
+        setBoardStates(data)
+      }
+    }
+  }
+  useEffect(() => {
+    fetchData()
+    refreshBoardState(false)
+    console.log('first')
+  }, [])
+
+  function handleUpdate() {
+    console.log('click')
+    fetchData()
+  }
   return (
     <CardContainer title='Listado de Requerimientos'>
+      <Button onClick={handleUpdate}>refresh?</Button>
       {boardQuery.isSuccess && (
         <DndContext
           // collisionDetection={closestCenter}
@@ -158,7 +181,7 @@ export default function BoardPage() {
             overflowY={'hidden'}
             h={['57vh', '75vh']}
           >
-            {boardState.map((board) => (
+            {boardStates.map((board) => (
               <ReqStateColumn
                 key={`req-state-column-${board.id}`}
                 title={board.title}
