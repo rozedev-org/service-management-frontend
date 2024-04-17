@@ -14,6 +14,10 @@ export const usersColumns = [
     cell: (row) => row.getValue(),
     header: 'ID',
   }),
+  columnHelper.accessor('userName', {
+    cell: (row) => row.getValue(),
+    header: 'Nombre de Usuario',
+  }),
   columnHelper.accessor('firstName', {
     cell: (row) => row.getValue(),
     header: 'Nombre',
