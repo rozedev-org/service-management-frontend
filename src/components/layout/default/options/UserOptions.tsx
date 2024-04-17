@@ -13,6 +13,7 @@ import {
 } from 'react-icons/bi'
 import { Link } from '@chakra-ui/next-js'
 import { appRoutes } from '@/appRoutes'
+import { mobileOnCloseType } from '@/types/mobileOnCloseType'
 interface UserOptionsListInterface {
   name: string
   icon: ReactElement<any, string | JSXElementConstructor<any>>
@@ -67,12 +68,14 @@ const UserOptionsList: UserOptionsListInterface[] = [
 
 interface UserOptionsProps {
   optionFilter: string
+  onClose: mobileOnCloseType['onClose']
 }
 
 export const UserOptions = (props: UserOptionsProps) => {
   const filteredOptions = UserOptionsList.filter((option) =>
     option.name.toLocaleLowerCase().includes(props.optionFilter)
   )
+  const { onClose } = props
 
   return (
     <VStack w={'full'} gap={1}>
@@ -91,6 +94,7 @@ export const UserOptions = (props: UserOptionsProps) => {
                 variant='ghost'
                 w={'full'}
                 justifyContent={'start'}
+                onClick={onClose}
               >
                 {option.name}
               </Button>

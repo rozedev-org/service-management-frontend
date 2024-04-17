@@ -71,18 +71,18 @@ export const MobileSideBar = () => {
                 {/* Search Input */}
                 <SearchInput onChangeHandler={handleOnChangeOptionFilter} />
 
-                <UserOptions optionFilter={optionFilter} />
+                <UserOptions optionFilter={optionFilter} onClose={onClose} />
               </VStack>
               {/* Bot Section */}
               {/* Management Options */}
               <VStack w={'full'} marginTop={'auto'} alignItems={'flex-start'}>
                 <Divider />
 
-                <ManagementOptions />
+                <ManagementOptions onClose={onClose} />
 
                 <Divider />
 
-                <Profile />
+                <Profile onClose={onClose} />
               </VStack>
             </VStack>
           </DrawerBody>
