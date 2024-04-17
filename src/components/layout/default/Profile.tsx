@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useUser } from '@/app/users/hook/useUser'
 import { useUserId } from '@/hook/useUserId'
+import { mobileOnCloseType } from '@/types/mobileOnCloseType'
 import {
   HStack,
   Avatar,
@@ -15,7 +16,7 @@ import {
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
-export const Profile = () => {
+export const Profile = (props: mobileOnCloseType) => {
   const router = useRouter()
   const { setId } = useUserId()
   const { id } = useUserId()
