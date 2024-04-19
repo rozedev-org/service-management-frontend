@@ -16,14 +16,15 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
+import { RequirementsEntity } from '@/app/requirements/types/req.types'
 
 export default function ReqStateColumn(props: {
   id: number
   title: string
-  requirements: Requirement[]
+  requirements: RequirementsEntity[]
 }) {
   const { title, id } = props
-  const [requirements, setRequirements] = useState<Requirement[]>(
+  const [requirements, setRequirements] = useState<RequirementsEntity[]>(
     props.requirements
   )
 
