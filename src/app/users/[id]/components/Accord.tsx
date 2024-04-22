@@ -16,7 +16,7 @@ import { useDroppable } from '@dnd-kit/core'
 import { useBoard } from '@/app/board/hook/useBoard'
 import { RequirementsEntity } from '@/app/requirements/types/req.types'
 
-function Accord({ params }: { params: { id: number } }) {
+export function RequirementsAccord({ params }: { params: { id: number } }) {
   const id = params.id
   const { setNodeRef } = useDroppable({
     id,
@@ -24,6 +24,7 @@ function Accord({ params }: { params: { id: number } }) {
   const [reqs, setReqs] = useState<RequirementsEntity[]>([])
   const [numTotalReq, setNumTotalReq] = useState(0)
   const { boardState } = useBoard()
+
   const handleReqUser = () => {
     if (boardState) {
       const filteredReqs: RequirementsEntity[] = []
@@ -103,4 +104,3 @@ function Accord({ params }: { params: { id: number } }) {
     </>
   )
 }
-export default Accord
