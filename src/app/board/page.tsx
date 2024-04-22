@@ -21,7 +21,6 @@ import ReqStateColumn from './components/ReqStateColumn'
 import { HStack, border } from '@chakra-ui/react'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import ReqCard from './components/ReqCard'
-import { Requirement } from './types/board.types'
 import { useState } from 'react'
 
 export default function BoardPage() {
@@ -135,7 +134,7 @@ export default function BoardPage() {
     })
   )
 
-  const requirement = boardState.length ? boardState[0].Requirement[0] : null
+  // const requirement = boardState.length ? boardState[0].requirement[0] : null
 
   return (
     <CardContainer title='Listado de Requerimientos'>

@@ -16,7 +16,7 @@ import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import ModalDelete from './components/ModalDelete'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
-import Accord from './components/Accord'
+import { RequirementsAccord } from './components/Accord'
 
 export default function UserPage({ params }: { params: { id: number } }) {
   const { user, fetchUser } = useUser(params.id)
@@ -51,7 +51,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
               </Button>
             </Link>
           </CardFooter>
-          <Accord params={params} />
+          <RequirementsAccord params={params} />
         </Card>
       </CardContainer>
     </>
