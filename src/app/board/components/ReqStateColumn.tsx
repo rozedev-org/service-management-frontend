@@ -1,3 +1,4 @@
+'use client'
 import { HStack, VStack, Stack, Text } from '@chakra-ui/react'
 import ReqCard from './ReqCard'
 import {
@@ -23,9 +24,6 @@ export default function ReqStateColumn(props: {
   requirements: Requirement[]
 }) {
   const { title, id } = props
-  const [requirements, setRequirements] = useState<Requirement[]>(
-    props.requirements
-  )
 
   const { setNodeRef } = useDroppable({
     id,
@@ -44,7 +42,7 @@ export default function ReqStateColumn(props: {
       <Text p={2}>{title}</Text>
       <SortableContext
         id={id.toString()}
-        items={requirements}
+        items={props.requirements}
         strategy={verticalListSortingStrategy}
       >
         <VStack
@@ -52,7 +50,7 @@ export default function ReqStateColumn(props: {
           overflowY={'scroll'}
           overflowX={'hidden'}
         >
-          {requirements.map((req) => (
+          {props.requirements.map((req) => (
             // Card que muestra el requerimiento
             <ReqCard
               ref={setNodeRef}

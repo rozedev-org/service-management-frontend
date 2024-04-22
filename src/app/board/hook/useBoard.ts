@@ -20,13 +20,7 @@ export const useBoard = () => {
     }
   }
 
-  const boardQuery = useQuery({
-    queryKey: ['board'],
-    queryFn: () => fetchBoard(),
-    retry: false,
-  })
-
   const [boardState, setBoardState] = useState<BoardEntity[]>([])
 
-  return { boardQuery, boardState, setBoardState, fetchBoard }
+  return { boardState, setBoardState, fetchBoard }
 }

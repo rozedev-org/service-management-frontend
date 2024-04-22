@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { useBoard } from './hook/useBoard'
@@ -21,15 +22,15 @@ import ReqStateColumn from './components/ReqStateColumn'
 import { Box, Button, HStack, Text } from '@chakra-ui/react'
 import { sortableKeyboardCoordinates } from '@dnd-kit/sortable'
 import ReqCard from './components/ReqCard'
-import { useEffect, useState } from 'react'
-import { useRefreshSignal } from './hook/useRefreshSignal'
-import { useUserId } from '@/hook/useUserId'
+import { use, useEffect, useState } from 'react'
+import { useRefreshSignal } from './states/useRefreshSignal'
+import { useUserId } from '@/states/useUserId'
 import { useRouter } from 'next/navigation'
 
 export default function BoardPage() {
-  const { boardQuery, boardState, setBoardState, fetchBoard } = useBoard()
+  const { boardState, setBoardState, fetchBoard } = useBoard()
   const [activeReq, setActiveReq] = useState<null | string>(null)
-
+  const { onRefresh, setOnRefresh } = useRefreshSignal()
   const handleDragStart = ({ active }: DragStartEvent) => {
     setActiveReq(active.id as string)
   }
@@ -138,31 +139,20 @@ export default function BoardPage() {
   )
   const requirement = boardState.length ? boardState[0].Requirement[0] : null
 
-  const { boardStates, refreshBoardState, setBoardStates, refresh } =
-    useRefreshSignal()
-  async function fetchData() {
-    const newData = await fetchBoard()
-    if (newData) {
-      const data = boardQuery.data
-      if (data) {
-        setBoardStates(data)
-      }
-    }
-  }
   useEffect(() => {
-    fetchData()
-    refreshBoardState(false)
-    console.log('first')
+    fetchBoard()
   }, [])
 
-  function handleUpdate() {
-    console.log('click')
-    fetchData()
-  }
+  useEffect(() => {
+    if (onRefresh) {
+      fetchBoard()
+      setOnRefresh(false)
+    }
+  }, [onRefresh])
+
   return (
     <CardContainer title='Listado de Requerimientos'>
-      <Button onClick={handleUpdate}>refresh?</Button>
-      {boardQuery.isSuccess && (
+      {boardState.length ? (
         <DndContext
           // collisionDetection={closestCenter}
           // collisionDetection={closestCorners}
@@ -181,7 +171,7 @@ export default function BoardPage() {
             overflowY={'hidden'}
             h={['57vh', '75vh']}
           >
-            {boardStates.map((board) => (
+            {boardState.map((board) => (
               <ReqStateColumn
                 key={`req-state-column-${board.id}`}
                 title={board.title}
@@ -195,6 +185,8 @@ export default function BoardPage() {
             </DragOverlay> */}
           </HStack>
         </DndContext>
+      ) : (
+        <></>
       )}
     </CardContainer>
   )

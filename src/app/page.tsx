@@ -1,5 +1,5 @@
 'use client'
-import { useUserId } from '@/hook/useUserId'
+import { useUserId } from '@/states/useUserId'
 import { Button } from '@chakra-ui/react'
 // import { getServerSession } from 'next-auth'
 

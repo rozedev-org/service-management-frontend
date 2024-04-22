@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useUser } from '@/app/users/hook/useUser'
-import { useUserId } from '@/hook/useUserId'
+import { useUserId } from '@/states/useUserId'
 import {
   HStack,
   Avatar,
