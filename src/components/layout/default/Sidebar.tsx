@@ -39,7 +39,7 @@ export const Sidebar = () => {
 
         {/* User Options */}
 
-        <UserOptions optionFilter={optionFilter} />
+        <UserOptions optionFilter={optionFilter} onClose={() => {}} />
       </VStack>
 
       {/* Bot Section */}
