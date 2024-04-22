@@ -7,7 +7,6 @@ import {
   AccordionPanel,
   Box,
   Stack,
-  Button,
   Text,
 } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
@@ -46,8 +45,6 @@ function Accord({ params }: { params: { id: number } }) {
 
   return (
     <>
-      <Button onClick={handleReqUser}>get data</Button>
-
       <Stack
         display={'flex'}
         mr={'auto'}
