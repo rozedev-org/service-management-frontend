@@ -18,7 +18,6 @@ import {
   MenuList,
 } from '@chakra-ui/react'
 import { ReqTableOptions } from '../../requirements/components/TableOptions'
-import { Requirement } from '../types/board.types'
 import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
 import { BiChevronDown } from 'react-icons/bi'
 import { RequirementsEntity } from '@/app/requirements/types/req.types'
