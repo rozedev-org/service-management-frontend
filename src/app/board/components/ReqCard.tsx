@@ -7,9 +7,10 @@ import { CSS } from '@dnd-kit/utilities'
 import { Requirement } from '../types/board.types'
 import { LegacyRef, RefAttributes } from 'react'
 import { appRoutes } from '@/appRoutes'
+import { RequirementsEntity } from '@/app/requirements/types/req.types'
 
 interface ReqCardProps {
-  requirement: Requirement
+  requirement: RequirementsEntity
   ref: LegacyRef<HTMLDivElement>
 }
 export default function ReqCard(props: ReqCardProps) {

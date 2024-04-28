@@ -21,8 +21,9 @@ import { ReqTableOptions } from '../../requirements/components/TableOptions'
 import { Requirement } from '../types/board.types'
 import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
 import { BiChevronDown } from 'react-icons/bi'
+import { RequirementsEntity } from '@/app/requirements/types/req.types'
 
-export default function ReqModal(props: { requirement: Requirement }) {
+export default function ReqModal(props: { requirement: RequirementsEntity }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { title, id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
