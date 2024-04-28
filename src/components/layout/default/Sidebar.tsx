@@ -1,5 +1,12 @@
 'use client'
-import { Divider, HStack, Icon, Text, VStack } from '@chakra-ui/react'
+import {
+  Divider,
+  HStack,
+  Icon,
+  Text,
+  VStack,
+  useDisclosure,
+} from '@chakra-ui/react'
 import { BiBraille } from 'react-icons/bi'
 import { Profile } from './Profile'
 import { ManagementOptions } from './options/ManagementOptions'
@@ -8,7 +15,7 @@ import { SearchInput } from '@/components/input/SearchInput'
 import { useState } from 'react'
 export const Sidebar = () => {
   const [optionFilter, setOptionFilter] = useState('')
-
+  const { onClose } = useDisclosure()
   const handleOnChangeOptionFilter = (value: string) => {
     setOptionFilter(value)
   }
@@ -38,8 +45,7 @@ export const Sidebar = () => {
         <SearchInput onChangeHandler={handleOnChangeOptionFilter} />
 
         {/* User Options */}
-
-        <UserOptions optionFilter={optionFilter} onClose={() => {}} />
+        <UserOptions optionFilter={optionFilter} onClose={onClose} />
       </VStack>
 
       {/* Bot Section */}
