@@ -45,7 +45,6 @@ export const Sidebar = () => {
         <SearchInput onChangeHandler={handleOnChangeOptionFilter} />
 
         {/* User Options */}
-
         <UserOptions optionFilter={optionFilter} onClose={onClose} />
       </VStack>
 

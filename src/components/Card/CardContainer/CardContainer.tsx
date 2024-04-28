@@ -1,3 +1,4 @@
+'use client'
 import { Card, CardHeader, HStack, Heading, CardBody } from '@chakra-ui/react'
 
 interface CardContainerProps {
