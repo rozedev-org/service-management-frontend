@@ -10,10 +10,8 @@ import {
   ModalBody,
   ModalFooter,
 } from '@chakra-ui/react'
-
 import { useRouter } from 'next/navigation'
 import { useUser } from '../../hook/useUser'
-import { config } from '@/config'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'

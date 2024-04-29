@@ -10,6 +10,7 @@ import { useState } from 'react'
 import { appRoutes } from '@/appRoutes'
 import { config } from '@/config'
 import { axiosInstace } from '@/common/utils/axiosIntance'
+import { BoardEntity } from '@/app/board/types/board.types'
 
 export const useUsers = () => {
   const fetchUsers = async () => {
@@ -125,4 +126,24 @@ export const useUpdateUserForm = (user?: UserEntity) => {
   })
 
   return { updateUserForm, onError, errorMessage }
+}
+
+export const useUserReqDetail = (id: number) => {
+  const fetchBoard = async () => {
+    try {
+      const response = await axiosInstace.get<BoardEntity[]>(
+        `/users/${id}/requirements`,
+        {
+          withCredentials: true,
+        }
+      )
+      setuserDetail(response.data)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const [userDetail, setuserDetail] = useState<BoardEntity[]>([])
+
+  return { userDetail, setuserDetail, fetchBoard }
 }

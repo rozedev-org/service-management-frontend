@@ -1,43 +1,17 @@
 import { HStack, Avatar, Text, Box } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/next-js'
 import ReqModal from './ReqModal'
-import { useSortable } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
-
-import { Requirement } from '../types/board.types'
-import { LegacyRef, RefAttributes } from 'react'
 import { appRoutes } from '@/appRoutes'
+import { RequirementsEntity } from '@/app/requirements/types/req.types'
 
 interface ReqCardProps {
-  requirement: Requirement
-  ref: LegacyRef<HTMLDivElement>
+  requirement: RequirementsEntity
 }
 export default function ReqCard(props: ReqCardProps) {
   const { id, user } = props.requirement
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-  } = useSortable({ id: id })
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-    // opacity: isDragging ? 0 : 1,
-  }
   return (
-    // div necesario para el dnd kit
-    <Box
-      w={['10rem', '19rem']}
-      style={style}
-      ref={setNodeRef}
-      {...attributes}
-      {...listeners}
-      onClick={() => {}}
-    >
+    <Box w={['10rem', '19rem']}>
       {/* Stack de requerimientos */}
       <HStack
         key={`home-key-${id}`}
