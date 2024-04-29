@@ -7,7 +7,6 @@ import {
   ReqStateEntity,
   RequirementsEntity,
 } from '@/app/requirements/types/req.types'
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
@@ -22,11 +21,9 @@ export const useRequirementsState = () => {
     )
     return response.data
   }
-  const reqsStateQuery = useQuery({
-    queryKey: ['req-state'],
-    queryFn: () => fetchReqState(),
-  })
-  return reqsStateQuery
+
+  const [reqsStateQuery, setReqsStateQuery] = useState<ReqStateEntity[]>([])
+  return { reqsStateQuery, setReqsStateQuery, fetchReqState }
 }
 export const useRequirementState = (id: number) => {
   const [reqState, setReqState] = useState<ReqStateEntity>({

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { CustomTable } from '@/components/table/CustomTable'
 import { usersColumns } from './types/columnDef'
@@ -6,19 +7,21 @@ import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { AddUserButton } from './components/AddButton'
 import { useUsers } from './hook/useUser'
 import { UserEntity } from './types/user.types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Users() {
   const [userFilter, setUserFilter] = useState('')
   const handleOnChangeUserFilter = (value: string) => {
     setUserFilter(value)
   }
-  const userQuery = useUsers()
+  const { fetchUsers, setUser, user } = useUsers()
   const UserTable = CustomTable<UserEntity>({
     columns: usersColumns,
-    data: userQuery.data?.data,
+    data: user,
   })
-
+  useEffect(() => {
+    fetchUsers()
+  }, [])
   return (
     <CardContainer
       title='Lista de Usuarios'
