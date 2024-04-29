@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 
 import { useRouter } from 'next/navigation'
@@ -15,17 +16,21 @@ import {
 import { useUsers } from '@/app/users/hook/useUser'
 import ModalUpdateReq from '../components/ModalUpdateReq'
 import { appRoutes } from '@/appRoutes'
+import { useEffect } from 'react'
 
 export default function UpdateReqPage({ params }: { params: { id: number } }) {
-  const userQuery = useUsers()
-  const usuarios = userQuery.data?.data
-  const requirementsQuery = useRequirement(params.id)
-  const { updateReqForm } = useUpdateReqForm(requirementsQuery.data)
+  const { fetchUsers, user, setUser } = useUsers()
+  const { fetchReq, requirement, setRequirement } = useRequirement(params.id)
+  const { updateReqForm } = useUpdateReqForm(requirement)
   const router = useRouter()
   const handleUpdate = async () => {
     await updateReqForm.handleSubmit()
     router.push(appRoutes.home.requirements.getOne.url(params.id))
   }
+  useEffect(() => {
+    fetchUsers()
+    fetchReq()
+  }, [])
   return (
     <CardContainer title='Actualizar Requerimiento'>
       <form
@@ -47,9 +52,9 @@ export default function UpdateReqPage({ params }: { params: { id: number } }) {
                     field.handleChange(Number(e.currentTarget.value))
                   }
                 >
-                  {usuarios?.map((user) => (
-                    <option key={`select-form-id-${user.id}`} value={user.id}>
-                      {user.userName}
+                  {user?.map((data) => (
+                    <option key={`select-form-id-${data.id}`} value={data.id}>
+                      {data.userName}
                     </option>
                   ))}
                 </Select>

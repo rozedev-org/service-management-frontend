@@ -13,21 +13,19 @@ import { axiosInstace } from '@/common/utils/axiosIntance'
  * @returns The requirements query object.
  */
 export const useRequirements = () => {
-  const fetchReq = async () => {
+  const fetchReqs = async () => {
     try {
       const response = await axiosInstace.get<
-        PaginatedResponse<RequirementsEntity>
+        PaginatedResponse<RequirementsEntity[]>
       >(`/requirements?page=${1}&take=100`, {})
+      setRequirements(response.data)
       return response.data
     } catch (error) {
       console.log(error)
     }
   }
-  const requirementsQuery = useQuery({
-    queryKey: ['requirements'],
-    queryFn: () => fetchReq(),
-  })
-  return requirementsQuery
+  const [requirements, setRequirements] = useState<RequirementsEntity[]>([])
+  return { fetchReqs, requirements, setRequirements }
 }
 
 /**
@@ -40,13 +38,11 @@ export const useRequirement = (id: number) => {
     const response = await axiosInstace.get<RequirementsEntity>(
       `/requirements/${id}`
     )
+    setRequirement(response.data)
     return response.data
   }
-  const requirementQuery = useQuery({
-    queryKey: ['requirement'],
-    queryFn: () => fetchReq(),
-  })
-  return requirementQuery
+  const [requirement, setRequirement] = useState<RequirementsEntity>()
+  return { fetchReq, requirement, setRequirement }
 }
 
 /**

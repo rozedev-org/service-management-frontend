@@ -15,9 +15,10 @@ import { BoardEntity } from '@/app/board/types/board.types'
 export const useUsers = () => {
   const fetchUsers = async () => {
     // try {
-    const response = await axiosInstace.get<PaginatedResponse<UserEntity>>(
+    const response = await axiosInstace.get<PaginatedResponse<UserEntity[]>>(
       `/users?page=${1}`
     )
+    setUser(response.data)
     return response.data
     // } catch (error: any) {
     //   const errorDictionarProps: ErrorDictionarProps = {
@@ -29,12 +30,9 @@ export const useUsers = () => {
     // }
   }
 
-  const usersQuery = useQuery({
-    queryKey: ['users'],
-    queryFn: () => fetchUsers(),
-  })
+  const [user, setUser] = useState<UserEntity[]>([])
 
-  return usersQuery
+  return { fetchUsers, user, setUser }
 }
 
 export const useUser = (id: number) => {

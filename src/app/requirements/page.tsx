@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { SearchInput } from '@/components/input/SearchInput'
@@ -6,12 +7,17 @@ import { RequirementsEntity } from './types/req.types'
 import { requirementsColumns } from './types/columnDef'
 import { useRequirements } from './hook/useRequirements'
 import { AddReqButton } from './components/AddButton'
+import { useEffect } from 'react'
 
 export default function Requirements() {
-  const requirementsQuery = useRequirements()
+  const { requirements, fetchReqs } = useRequirements()
+  useEffect(() => {
+    fetchReqs()
+  }, [])
+
   const RequirementsTable = CustomTable<RequirementsEntity>({
     columns: requirementsColumns,
-    data: requirementsQuery.data?.data,
+    data: requirements,
   })
   return (
     <CardContainer

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import {
@@ -10,12 +11,14 @@ import {
 } from '@chakra-ui/react'
 import { useCreateReqForm } from '../hook/useRequirements'
 import { useUsers } from '@/app/users/hook/useUser'
+import { useEffect } from 'react'
 
 export default function AddReq() {
   const { ReqForm, onError, errorMessage } = useCreateReqForm()
-  const userQuery = useUsers()
-  const usuarios = userQuery.data?.data
-
+  const { user, fetchUsers } = useUsers()
+  useEffect(() => {
+    fetchUsers()
+  }, [])
   return (
     <CardContainer title='Crear Requerimiento'>
       <form
@@ -37,9 +40,9 @@ export default function AddReq() {
                     field.handleChange(Number(e.currentTarget.value))
                   }
                 >
-                  {usuarios?.map((user) => (
-                    <option key={`select-form-id-${user.id}`} value={user.id}>
-                      {user.userName}
+                  {user.map((data) => (
+                    <option key={`select-form-id-${data.id}`} value={data.id}>
+                      {data.userName}
                     </option>
                   ))}
                 </Select>

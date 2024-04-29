@@ -22,11 +22,9 @@ export const useRequirementsState = () => {
     )
     return response.data
   }
-  const reqsStateQuery = useQuery({
-    queryKey: ['req-state'],
-    queryFn: () => fetchReqState(),
-  })
-  return reqsStateQuery
+
+  const [reqsStateQuery, setReqsStateQuery] = useState<ReqStateEntity[]>([])
+  return { reqsStateQuery, setReqsStateQuery, fetchReqState }
 }
 export const useRequirementState = (id: number) => {
   const [reqState, setReqState] = useState<ReqStateEntity>({
