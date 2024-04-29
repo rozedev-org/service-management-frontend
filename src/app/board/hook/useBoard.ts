@@ -1,6 +1,4 @@
-import { config } from '@/config'
 import { BoardEntity } from '../types/board.types'
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 
@@ -20,13 +18,8 @@ export const useBoard = () => {
     }
   }
 
-  const boardQuery = useQuery({
-    queryKey: ['board'],
-    queryFn: () => fetchBoard(),
-    retry: false,
-  })
-
   const [boardState, setBoardState] = useState<BoardEntity[]>([])
 
-  return { boardQuery, boardState, setBoardState, fetchBoard }
+  return { fetchBoard, boardState, setBoardState }
+
 }
