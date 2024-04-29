@@ -135,7 +135,7 @@ export default function BoardPage() {
     })
   )
 
-  const requirement = boardState.length ? boardState[0].Requirement[0] : null
+  // const requirement = boardState.length ? boardState[0].Requirement[0] : null
 
   return (
     <CardContainer title='Listado de Requerimientos'>
