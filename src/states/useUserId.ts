@@ -8,6 +8,7 @@ type SessionState = {
   setIsLoggedIn: (isLoggedIn: boolean) => void
   setSessionExpiration: (ISOExpirationDate: string) => void
   sessionTimeout: NodeJS.Timeout | null
+  validateSession: () => void
 }
 
 /**
@@ -48,4 +49,5 @@ export const useUserSession = create<SessionState>((set) => ({
    * @param isLoggedIn - Indicates whether the user is logged in or not.
    */
   setIsLoggedIn: (isLoggedIn) => set({ isLoggedIn }),
+  validateSession: () => {},
 }))
