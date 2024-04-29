@@ -6,5 +6,5 @@ export interface BoardEntity {
   secuence: number
   createdAt: Date
   updatedAt: Date
-  Requirement: RequirementsEntity[]
+  requirement: RequirementsEntity[]
 }

@@ -26,20 +26,11 @@ type CustomTable<T> = {
 
 export function CustomTable<T>(props: CustomTable<T>) {
   const defaultData = useMemo(() => [], [])
-
   const table = useReactTable({
     columns: props.columns,
     data: props.data || defaultData,
     getCoreRowModel: getCoreRowModel(),
   })
-  const tabla = table.getRowModel().rows.map((row) => (
-    <>
-      {row.getVisibleCells().map((cell) => (
-        <>{flexRender(cell.column.columnDef.cell, cell.getContext())}</>
-      ))}
-    </>
-  ))
-
   return (
     <TableContainer
       overflowY={'scroll'}

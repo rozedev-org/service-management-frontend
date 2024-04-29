@@ -5,14 +5,14 @@ import { LoginEntity } from '../types/login.types'
 import { config } from '@/config'
 import axios from 'axios'
 import { appRoutes } from '@/appRoutes'
-import { useUserId } from '@/hook/useUserId'
+import { useUserSession } from '@/states/useUserId'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export const useLoginForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
-  const { setId } = useUserId()
+  const { setId, setSessionExpiration, setIsLoggedIn } = useUserSession()
 
   const loginForm = useForm({
     defaultValues: {
@@ -26,7 +26,8 @@ export const useLoginForm = () => {
           value
         )
         setId(response.data.user.id)
-
+        setIsLoggedIn(true)
+        setSessionExpiration(response.data.expiresIn)
         router.push(appRoutes.home.url(0))
       } catch (error: any) {
         setOnError(true)
