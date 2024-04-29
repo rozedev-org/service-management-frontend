@@ -28,7 +28,6 @@ export const useLoginForm = () => {
         setId(response.data.user.id)
         setIsLoggedIn(true)
         setSessionExpiration(response.data.expiresIn)
-        debugger
         router.push(appRoutes.home.url(0))
       } catch (error: any) {
         setOnError(true)

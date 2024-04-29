@@ -1,12 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { useBoard } from './hook/useBoard'
 import ReqStateColumn from './components/ReqStateColumn'
 import { HStack } from '@chakra-ui/react'
+import { useEffect } from 'react'
 
 export default function BoardPage() {
-  const { boardQuery, boardState } = useBoard()
+  const { boardQuery, boardState, fetchBoard } = useBoard()
 
+  useEffect(() => {
+    fetchBoard()
+  }, [])
   return (
     <CardContainer title='Listado de Requerimientos'>
       {boardQuery.isSuccess && (
@@ -24,7 +29,7 @@ export default function BoardPage() {
             <ReqStateColumn
               key={`req-state-column-${board.id}`}
               title={board.title}
-              requirements={board.Requirement}
+              requirements={board.requirement}
               id={board.id}
             />
           ))}

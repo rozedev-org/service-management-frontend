@@ -5,6 +5,7 @@ import { theme } from './theme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useUserSession } from '@/states/useUserId'
+import { UserSessionProvider } from '@/providers/session.provider'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const { setId } = useUserSession()
@@ -19,7 +20,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient()
   return (
     <ChakraProvider theme={theme}>
-      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+      <UserSessionProvider>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </UserSessionProvider>
     </ChakraProvider>
   )
 }
