@@ -71,7 +71,7 @@ export function CustomTable<T>(props: CustomTable<T>) {
           ))}
         </Thead>
         <Tbody>
-          {props.data ? (
+          {!props.data ? (
             <Tr>
               <Td colSpan={table.getAllColumns().length} textAlign={'center'}>
                 <Heading color={'black'}>
