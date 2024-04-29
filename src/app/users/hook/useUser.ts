@@ -3,7 +3,6 @@ import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import { AxiosErrorHandler } from '@/common/utils/axios-error-handler'
 import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
 import { useForm } from '@tanstack/react-form'
-import { useQuery } from '@tanstack/react-query'
 import { createColumnHelper } from '@tanstack/react-table'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
@@ -15,10 +14,10 @@ import { BoardEntity } from '@/app/board/types/board.types'
 export const useUsers = () => {
   const fetchUsers = async () => {
     // try {
-    const response = await axiosInstace.get<PaginatedResponse<UserEntity[]>>(
+    const response = await axiosInstace.get<PaginatedResponse<UserEntity>>(
       `/users?page=${1}`
     )
-    setUser(response.data)
+    setUser(response.data.data)
     return response.data
     // } catch (error: any) {
     //   const errorDictionarProps: ErrorDictionarProps = {

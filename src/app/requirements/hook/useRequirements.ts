@@ -1,6 +1,5 @@
 import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import { NewReq, RequirementsEntity } from '../types/req.types'
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
@@ -16,9 +15,9 @@ export const useRequirements = () => {
   const fetchReqs = async () => {
     try {
       const response = await axiosInstace.get<
-        PaginatedResponse<RequirementsEntity[]>
+        PaginatedResponse<RequirementsEntity>
       >(`/requirements?page=${1}&take=100`, {})
-      setRequirements(response.data)
+      setRequirements(response.data.data)
       return response.data
     } catch (error) {
       console.log(error)

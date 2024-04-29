@@ -7,7 +7,6 @@ import {
   ReqStateEntity,
   RequirementsEntity,
 } from '@/app/requirements/types/req.types'
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
