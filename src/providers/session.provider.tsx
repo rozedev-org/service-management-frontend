@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-
 import { appRoutes } from '@/appRoutes'
 import { useUserSession } from '@/states/useUserId'
 import { useRouter } from 'next/navigation'
@@ -11,14 +10,25 @@ export const UserSessionProvider = ({
 }: {
   children: React.ReactNode
 }) => {
-  const { setId, setIsLoggedIn, sessionTimeout, isLoggedIn } = useUserSession()
+  const { validateSession, isExpired } = useUserSession()
+
   const router = useRouter()
 
-  useEffect(() => {
-    if (!isLoggedIn) {
+  const handleValidateSession = async () => {
+    const result = await validateSession()
+    if (!result) {
       router.push(appRoutes.home.login.url(0))
     }
-  }, [isLoggedIn])
+  }
+  useEffect(() => {
+    handleValidateSession()
+  }, [])
+
+  useEffect(() => {
+    if (isExpired) {
+      router.push(appRoutes.home.login.url(0))
+    }
+  }, [isExpired])
 
   return children
 }
