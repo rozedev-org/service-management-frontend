@@ -47,11 +47,11 @@ export function RequirementsAccord({
                     <Box as='span' flex='1' textAlign='left'>
                       {detail.title}
                     </Box>
-                    <Text>{detail.Requirement.length}</Text>
+                    <Text>{detail.requirement.length}</Text>
                     <AccordionIcon />
                   </AccordionButton>
                   <>
-                    {detail.Requirement.map((req) => (
+                    {detail.requirement.map((req) => (
                       <>
                         <ReqAccordPanel req={req} user={params.user} />
                       </>

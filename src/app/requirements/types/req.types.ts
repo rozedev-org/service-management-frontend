@@ -29,3 +29,22 @@ export interface ReqActionsActions {
   current: ReqStateEntity
   remaining: ReqStateEntity[]
 }
+export interface NewReqType {
+  name: string
+  requirementTypeField: NewReqTypeField[]
+}
+export interface NewReqTypeField {
+  title: string
+  type: string
+}
+export interface ReqTypeFieldEntity {
+  id: number
+  title: string
+  type: string
+  requirementTypeId: number
+}
+export interface ReqTypeEntity {
+  id: number
+  name: string
+  requirementTypeId: ReqTypeFieldEntity[]
+}

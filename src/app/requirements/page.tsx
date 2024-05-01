@@ -8,7 +8,7 @@ import { requirementsColumns } from './types/columnDef'
 import { useRequirements } from './hook/useRequirements'
 import { AddReqButton } from './components/AddButton'
 import { useEffect } from 'react'
-import { Button } from '@chakra-ui/react'
+import ReqTypeButton from './req-types/components/ReqTypeButton'
 
 export default function Requirements() {
   const { requirements, fetchReqs } = useRequirements()
@@ -22,7 +22,7 @@ export default function Requirements() {
       optionsButton={
         <>
           <AddReqButton />
-          <Button>Culito</Button>
+          <ReqTypeButton />
         </>
       }
       searchInput={
