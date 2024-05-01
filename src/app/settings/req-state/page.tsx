@@ -8,11 +8,10 @@ import { AddReqStateButton } from './components/AddReqStateButton'
 import { SearchInput } from '@/components/input/SearchInput'
 
 export default function ReqStatePage() {
-  const { data } = useRequirementsState()
-  const reqStateData = data?.data
+  const { reqsStateQuery } = useRequirementsState()
   const reqStateTable = CustomTable<ReqStateEntity>({
     columns: reqStateCustomColumn,
-    data: reqStateData,
+    data: reqsStateQuery,
   })
   return (
     <CardContainer

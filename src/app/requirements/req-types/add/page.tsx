@@ -1,44 +1,30 @@
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { Button, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react'
-import { useCreateReqStateForm } from '../hook/useRequirementState'
+import { useCreateReqTypeForm } from '../hook/useRequirementsTypes'
 
-export default function ReqStateAddPage() {
-  const { ReqStateForm } = useCreateReqStateForm()
+export default function ReqTypesAddPage() {
+  const { ReqTypeForm } = useCreateReqTypeForm()
   return (
-    <CardContainer title='Crear Requerimiento'>
+    <CardContainer title='Crear tipo de Requerimiento'>
       <form
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
-          void ReqStateForm.handleSubmit()
+          void ReqTypeForm.handleSubmit()
         }}
       >
         <VStack>
           <FormControl isRequired>
             <FormLabel>Titulo</FormLabel>
-            {ReqStateForm.Field({
-              name: 'title',
+            {ReqTypeForm.Field({
+              name: 'name',
               children: (field) => (
                 <Input
                   name={field.name}
                   value={field.state.value}
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(e.target.value)}
-                />
-              ),
-            })}
-          </FormControl>
-          <FormControl isRequired>
-            <FormLabel>Secuencia</FormLabel>
-            {ReqStateForm.Field({
-              name: 'secuence',
-              children: (field) => (
-                <Input
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(Number(e.target.value))}
                 />
               ),
             })}
