@@ -89,7 +89,6 @@ export const useUserSession = create<SessionState>((set) => ({
       const miliDiff = dt.diff(dtNow).as('milliseconds')
 
       const sessionTimeout = setTimeout(() => {
-        debugger
         set({ isLoggedIn: false, isExpired: true, sessionTimeout: null })
       }, miliDiff)
 
