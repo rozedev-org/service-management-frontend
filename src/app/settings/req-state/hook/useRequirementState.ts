@@ -16,16 +16,20 @@ import { axiosInstace } from '@/common/utils/axiosIntance'
 export const useRequirementsState = () => {
   const fetchReqState = async () => {
     const response = await axiosInstace.get<PaginatedResponse<ReqStateEntity>>(
-      `/req-state?page=${1}`,
-      {}
+      `/req-state?page=${1}`
     )
+    setReqsState(response.data.data)
+    setIsLoading(false)
     return response.data
   }
 
-  const [reqsStateQuery, setReqsStateQuery] = useState<ReqStateEntity[]>([])
-  return { reqsStateQuery, setReqsStateQuery, fetchReqState }
+  const [reqsState, setReqsState] = useState<ReqStateEntity[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  return { reqsState, setReqsState, fetchReqState, isLoading }
 }
 export const useRequirementState = (id: number) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [reqState, setReqState] = useState<ReqStateEntity>({
     id: 0,
     title: '',
@@ -43,9 +47,10 @@ export const useRequirementState = (id: number) => {
       }
     )
     setReqState(response.data)
+    setIsLoading(false)
     return response.data
   }
-  return { reqState, setReqState, fetchReqState }
+  return { reqState, setReqState, fetchReqState, isLoading }
 }
 export const useCreateReqStateForm = () => {
   const [onError, setOnError] = useState(false)

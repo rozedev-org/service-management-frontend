@@ -15,11 +15,14 @@ export const useRequirementsTypes = () => {
     const response = await axiosInstace.get<PaginatedResponse<ReqTypeEntity>>(
       `/requirements/type?page=${1}`
     )
-    setReqTypeQuery(response.data.data)
+    setReqType(response.data.data)
+    setIsLoading(false)
     return response.data
   }
-  const [reqTypeQuery, setReqTypeQuery] = useState<ReqTypeEntity[]>([])
-  return { reqTypeQuery, setReqTypeQuery, fetchReqType }
+  const [reqType, setReqType] = useState<ReqTypeEntity[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  return { reqType, setReqType, fetchReqType, isLoading }
 }
 
 export const useRequirementType = (id: number) => {
@@ -28,10 +31,13 @@ export const useRequirementType = (id: number) => {
       `/requirements/type/${id}`
     )
     setReqType(response.data)
+    setIsLoading(false)
     return response.data
   }
   const [reqType, setReqType] = useState<ReqTypeEntity>()
-  return { fetchReqType, reqType, setReqType }
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  return { fetchReqType, reqType, setReqType, isLoading }
 }
 
 export const useCreateReqTypeForm = () => {

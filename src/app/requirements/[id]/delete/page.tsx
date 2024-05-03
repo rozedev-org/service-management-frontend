@@ -15,12 +15,14 @@ import ModalDeleteReq from '../components/ModalDeleteReq'
 import { useEffect } from 'react'
 
 export default function DeleteUserPage({ params }: { params: { id: number } }) {
-  const { requirement, fetchReq } = useRequirement(params.id)
+  const { requirement, fetchReq, isLoading } = useRequirement(params.id)
+
   useEffect(() => {
     fetchReq()
   }, [])
+
   return (
-    <CardContainer title='Eliminar Requerimiento'>
+    <CardContainer title='Eliminar Requerimiento' isLoading={isLoading}>
       <VStack display={'flex'} alignItems={'center'}>
         <Text fontWeight='bold'>
           Confirmar la eliminacion del requerimiento

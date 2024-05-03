@@ -14,11 +14,13 @@ import { useUsers } from '@/app/users/hook/useUser'
 import { useEffect } from 'react'
 
 export default function AddReq() {
-  const { ReqForm, onError, errorMessage } = useCreateReqForm()
-  const { user, fetchUsers } = useUsers()
+  const { ReqForm } = useCreateReqForm()
+  const { user, fetchUsers, isLoading: isLoadingUsers } = useUsers()
+
   useEffect(() => {
     fetchUsers()
   }, [])
+
   return (
     <CardContainer title='Crear Requerimiento'>
       <form
@@ -35,6 +37,7 @@ export default function AddReq() {
               name: 'userId',
               children: (field) => (
                 <Select
+                  isDisabled={isLoadingUsers}
                   placeholder='Selecciona al responsable'
                   onChange={(e) =>
                     field.handleChange(Number(e.currentTarget.value))

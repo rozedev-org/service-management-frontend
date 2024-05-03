@@ -1,5 +1,13 @@
 'use client'
-import { Card, CardHeader, HStack, Heading, CardBody } from '@chakra-ui/react'
+import {
+  Card,
+  CardHeader,
+  HStack,
+  Heading,
+  CardBody,
+  Stack,
+  Spinner,
+} from '@chakra-ui/react'
 
 interface CardContainerProps {
   children?: React.ReactNode
@@ -8,6 +16,7 @@ interface CardContainerProps {
   optionsButton?: JSX.Element
   aditionalHeaderItems?: JSX.Element
   hasHeader?: boolean
+  isLoading?: boolean
 }
 export const CardContainer = (props: CardContainerProps) => {
   return (
@@ -28,7 +37,19 @@ export const CardContainer = (props: CardContainerProps) => {
           {props.aditionalHeaderItems && props.aditionalHeaderItems}
         </HStack>
       </CardHeader>
-      <CardBody>{props.children}</CardBody>
+      <CardBody>
+        {props.isLoading && (
+          <Stack
+            justifyContent={'center'}
+            alignItems={'center'}
+            w={'100%'}
+            h={'100%'}
+          >
+            <Spinner size={'xl'} />
+          </Stack>
+        )}
+        {props.children}
+      </CardBody>
     </Card>
   )
 }

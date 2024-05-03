@@ -2,7 +2,7 @@
 import { appRoutes } from '@/appRoutes'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { Link } from '@chakra-ui/next-js'
-import { Button, Icon, Text } from '@chakra-ui/react'
+import { Button, Text } from '@chakra-ui/react'
 import { ChevronRightIcon } from '@chakra-ui/icons'
 
 export default function SettingsPage() {
