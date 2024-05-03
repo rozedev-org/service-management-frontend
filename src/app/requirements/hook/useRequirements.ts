@@ -56,7 +56,7 @@ export const useCreateReqForm = () => {
   const ReqForm = useForm<NewReq>({
     defaultValues: {
       title: '',
-      userId: 0,
+      userId: null,
       stateId: 1,
     },
     onSubmit: async ({ value }) => {

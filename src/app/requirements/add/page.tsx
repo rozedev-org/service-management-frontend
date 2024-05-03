@@ -29,7 +29,7 @@ export default function AddReq() {
         }}
       >
         <VStack>
-          <FormControl isRequired>
+          <FormControl>
             <FormLabel>Responsable</FormLabel>
             {ReqForm.Field({
               name: 'userId',
