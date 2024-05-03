@@ -19,7 +19,7 @@ import { useEffect } from 'react'
 import { RequirementsAccord } from './components/Accord'
 
 export default function UserPage({ params }: { params: { id: number } }) {
-  const { user, fetchUser } = useUser(params.id)
+  const { user, fetchUser, isLoading } = useUser(params.id)
   const id = params.id
 
   useEffect(() => {
@@ -28,7 +28,10 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
   return (
     <>
-      <CardContainer title={`Detalle del usuario ${params.id}`}>
+      <CardContainer
+        title={`Detalle del usuario ${params.id}`}
+        isLoading={isLoading}
+      >
         <Card display='flex' flexDirection='column' alignItems='center' gap={2}>
           <CardHeader
             display='flex'

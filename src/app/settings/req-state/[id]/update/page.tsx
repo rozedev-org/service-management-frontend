@@ -15,7 +15,7 @@ export default function ReqStateUpdatePage({
 }: {
   params: { id: number }
 }) {
-  const { reqState, fetchReqState } = useRequirementState(params.id)
+  const { reqState, fetchReqState, isLoading } = useRequirementState(params.id)
   const { updateReqStateForm } = useReqUpdateForm(reqState)
   const router = useRouter()
   const handleUpdate = async () => {
@@ -28,7 +28,7 @@ export default function ReqStateUpdatePage({
   }, [])
 
   return (
-    <CardContainer title='Actualizar Usuario'>
+    <CardContainer title='Actualizar Usuario' isLoading={isLoading}>
       <form
         onSubmit={(e) => {
           e.preventDefault()

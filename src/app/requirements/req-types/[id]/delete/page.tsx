@@ -17,13 +17,13 @@ export default function ReqTypesDeletePage({
 }: {
   params: { id: number }
 }) {
-  const { reqType, fetchReqType } = useRequirementType(params.id)
+  const { reqType, fetchReqType, isLoading } = useRequirementType(params.id)
   useEffect(() => {
     fetchReqType()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <CardContainer title='Eliminar Tipo de Requerimiento'>
+    <CardContainer title='Eliminar Tipo de Requerimiento' isLoading={isLoading}>
       <VStack display={'flex'} alignItems={'center'}>
         <Text fontWeight='bold'>
           Confirmar la eliminacion del Tipo de requerimiento

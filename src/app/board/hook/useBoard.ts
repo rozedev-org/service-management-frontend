@@ -12,6 +12,7 @@ export const useBoard = () => {
         }
       )
       setBoardState(response.data)
+      setIsLoading(false)
       return response.data
     } catch (error) {
       console.log(error)
@@ -19,7 +20,7 @@ export const useBoard = () => {
   }
 
   const [boardState, setBoardState] = useState<BoardEntity[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  return { fetchBoard, boardState, setBoardState }
-
+  return { fetchBoard, boardState, setBoardState, isLoading }
 }

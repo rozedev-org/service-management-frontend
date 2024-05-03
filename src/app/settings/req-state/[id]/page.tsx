@@ -14,7 +14,6 @@ import {
 } from '@chakra-ui/react'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import ReqStateModalDelete from './components/ReqStateModalDelete'
 
 export default function ReqStateDetailsPage({
@@ -22,14 +21,17 @@ export default function ReqStateDetailsPage({
 }: {
   params: { id: number }
 }) {
-  const { reqState, fetchReqState } = useRequirementState(params.id)
+  const { reqState, fetchReqState, isLoading } = useRequirementState(params.id)
   const state = reqState
+
   useEffect(() => {
     fetchReqState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
   return (
     <CardContainer
+      isLoading={isLoading}
       title={`Detalle del Estado de Requerimiento ${params.id}`}
       optionsButton={<ReqStateTableOptions id={params.id} />}
     >

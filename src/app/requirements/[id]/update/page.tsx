@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { useRequirement, useUpdateReqForm } from '../../hook/useRequirements'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import {
-  Button,
   FormControl,
   FormLabel,
   Input,
@@ -19,8 +18,12 @@ import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
 
 export default function UpdateReqPage({ params }: { params: { id: number } }) {
-  const { fetchUsers, user, setUser } = useUsers()
-  const { fetchReq, requirement, setRequirement } = useRequirement(params.id)
+  const { fetchUsers, user, isLoading: isLoadingUser } = useUsers()
+  const {
+    fetchReq,
+    requirement,
+    isLoading: isLoadingRequirement,
+  } = useRequirement(params.id)
   const { updateReqForm } = useUpdateReqForm(requirement)
   const router = useRouter()
   const handleUpdate = async () => {
@@ -31,8 +34,12 @@ export default function UpdateReqPage({ params }: { params: { id: number } }) {
     fetchUsers()
     fetchReq()
   }, [])
+
   return (
-    <CardContainer title='Actualizar Requerimiento'>
+    <CardContainer
+      title='Actualizar Requerimiento'
+      isLoading={isLoadingRequirement}
+    >
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -47,6 +54,7 @@ export default function UpdateReqPage({ params }: { params: { id: number } }) {
               name: 'userId',
               children: (field) => (
                 <Select
+                  isDisabled={isLoadingUser}
                   placeholder='Selecciona al responsable'
                   onChange={(e) =>
                     field.handleChange(Number(e.currentTarget.value))

@@ -18,13 +18,16 @@ export const useRequirements = () => {
         PaginatedResponse<RequirementsEntity>
       >(`/requirements?page=${1}&take=100`, {})
       setRequirements(response.data.data)
+      setIsLoading(false)
       return response.data
     } catch (error) {
       console.log(error)
     }
   }
   const [requirements, setRequirements] = useState<RequirementsEntity[]>([])
-  return { fetchReqs, requirements, setRequirements }
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  return { fetchReqs, requirements, setRequirements, isLoading }
 }
 
 /**
@@ -38,10 +41,13 @@ export const useRequirement = (id: number) => {
       `/requirements/${id}`
     )
     setRequirement(response.data)
+    setIsLoading(false)
     return response.data
   }
   const [requirement, setRequirement] = useState<RequirementsEntity>()
-  return { fetchReq, requirement, setRequirement }
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  return { fetchReq, requirement, setRequirement, isLoading }
 }
 
 /**

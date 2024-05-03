@@ -7,16 +7,13 @@ import { HStack } from '@chakra-ui/react'
 import { useEffect } from 'react'
 
 export default function BoardPage() {
-  const { boardState, fetchBoard } = useBoard()
+  const { boardState, fetchBoard, isLoading } = useBoard()
   useEffect(() => {
     fetchBoard()
   }, [])
 
-  useEffect(() => {
-    fetchBoard()
-  }, [])
   return (
-    <CardContainer title='Listado de Requerimientos'>
+    <CardContainer title='Listado de Requerimientos' isLoading={isLoading}>
       <HStack
         data-test-id='req-state-columns-stack'
         display={'flex'}

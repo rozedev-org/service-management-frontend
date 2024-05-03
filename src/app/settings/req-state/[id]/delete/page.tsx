@@ -1,6 +1,5 @@
 'use client'
 
-import ModalDeleteReq from '@/app/requirements/[id]/components/ModalDeleteReq'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import {
   VStack,
@@ -20,14 +19,14 @@ export default function ReqStateDeletePage({
 }: {
   params: { id: number }
 }) {
-  const { reqState, fetchReqState } = useRequirementState(params.id)
+  const { reqState, fetchReqState, isLoading } = useRequirementState(params.id)
   const state = reqState
   useEffect(() => {
     fetchReqState()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <CardContainer title='Eliminar Requerimiento'>
+    <CardContainer title='Eliminar Requerimiento' isLoading={isLoading}>
       <VStack display={'flex'} alignItems={'center'}>
         <Text fontWeight='bold'>
           Confirmar la eliminacion del estado del requerimiento

@@ -18,6 +18,7 @@ export const useUsers = () => {
       `/users?page=${1}`
     )
     setUser(response.data.data)
+    setIsLoading(false)
     return response.data
     // } catch (error: any) {
     //   const errorDictionarProps: ErrorDictionarProps = {
@@ -30,12 +31,14 @@ export const useUsers = () => {
   }
 
   const [user, setUser] = useState<UserEntity[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  return { fetchUsers, user, setUser }
+  return { fetchUsers, user, setUser, isLoading }
 }
 
 export const useUser = (id: number) => {
-  const [onError, setOnError] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
   const [user, setUser] = useState<UserEntity>({
     id: 0,
     userName: '',
@@ -51,6 +54,7 @@ export const useUser = (id: number) => {
 
     const response = await axiosInstace.get<UserEntity>(`/users/${id}`)
     setUser(response.data)
+    setIsLoading(false)
     return response.data
     // } catch (error: any) {
     //   const errorDictionarProps: ErrorDictionarProps = {
@@ -62,7 +66,7 @@ export const useUser = (id: number) => {
     // }
   }
 
-  return { user, setUser, fetchUser }
+  return { user, setUser, fetchUser, isLoading }
 }
 export const useCreateUserForm = () => {
   const [onError, setOnError] = useState(false)

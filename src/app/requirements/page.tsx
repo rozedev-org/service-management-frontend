@@ -11,13 +11,15 @@ import { useEffect } from 'react'
 import ReqTypeButton from './req-types/components/ReqTypeButton'
 
 export default function Requirements() {
-  const { requirements, fetchReqs } = useRequirements()
+  const { requirements, fetchReqs, isLoading } = useRequirements()
+
   useEffect(() => {
     fetchReqs()
   }, [])
 
   return (
     <CardContainer
+      isLoading={isLoading}
       title='Lista de Requerimientos'
       optionsButton={
         <>
