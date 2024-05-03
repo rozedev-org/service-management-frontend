@@ -46,5 +46,5 @@ export interface ReqTypeFieldEntity {
 export interface ReqTypeEntity {
   id: number
   name: string
-  requirementTypeId: ReqTypeFieldEntity[]
+  requirementTypeField: ReqTypeFieldEntity[]
 }
