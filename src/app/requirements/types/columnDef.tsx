@@ -19,7 +19,7 @@ export const requirementsColumns = [
     header: 'Requerimiento',
   }),
   columnHelper.accessor('user.userName', {
-    cell: (row) => row.getValue(),
+    cell: (row) => row.getValue() || 'Vacio',
     header: 'Responsable',
   }),
 ]
