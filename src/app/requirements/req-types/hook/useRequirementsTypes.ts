@@ -48,12 +48,12 @@ export const useCreateReqTypeForm = () => {
   const ReqTypeForm = useForm<NewReqType>({
     defaultValues: {
       name: '',
-      requirementTypeField: [],
+      requirementTypeField: [{ title: '', type: '' }],
     },
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.post<ReqTypeFieldEntity>(
-          `/requirements/type`,
+          `/requirements/type?page=1&take=40`,
           value,
           {
             headers: {
