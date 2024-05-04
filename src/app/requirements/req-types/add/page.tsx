@@ -7,11 +7,8 @@ import {
   FormControl,
   FormLabel,
   Input,
-  VStack,
   Text,
   Select,
-  InputGroup,
-  InputLeftAddon,
   Stack,
   ButtonGroup,
   IconButton,
@@ -21,14 +18,12 @@ import {
   useCreateReqTypeForm,
   useRequirementsTypes,
 } from '../hook/useRequirementsTypes'
-import { useForm } from '@tanstack/react-form'
 import { useEffect } from 'react'
-import { stat } from 'fs'
-import { AddIcon, CloseIcon, DeleteIcon } from '@chakra-ui/icons'
+import { AddIcon, CloseIcon } from '@chakra-ui/icons'
 
 export default function ReqTypesAddPage() {
   const { ReqTypeForm } = useCreateReqTypeForm()
-  const { reqTypeQuery, fetchReqType } = useRequirementsTypes()
+  const { fetchReqType } = useRequirementsTypes()
   useEffect(() => {
     fetchReqType()
   }, [])
@@ -160,45 +155,4 @@ export default function ReqTypesAddPage() {
       </form>
     </CardContainer>
   )
-}
-{
-  /* <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          void ReqTypeForm.handleSubmit()
-        }}
-      >
-        {reqTypeQuery.map((req, reqIndex) =>
-          req.requirementTypeField.map((data, dataIndex) => (
-            <>
-              <VStack>
-                <FormControl isRequired>
-                  <FormLabel>Titulo</FormLabel>
-                  {ReqTypeForm.Field({
-                    name: 'requirementTypeField',
-                    children: (field) => (
-                      <Input name={field.name} onBlur={field.handleBlur} />
-                    ),
-                  })}
-                </FormControl>
-                <FormControl isRequired>
-                  <FormLabel>Tipo</FormLabel>
-                  {ReqTypeForm.Field({
-                    name: 'requirementTypeField',
-                    children: (field) => (
-                      <Select>
-                        <option value='date'>Date</option>
-                        <option value='email'>Email</option>
-                        <option value='number'>Number</option>
-                        <option value='text'>Text</option>
-                      </Select>
-                    ),
-                  })}
-                </FormControl>
-              </VStack>
-            </>
-          ))
-        )}
-      </form> */
 }
