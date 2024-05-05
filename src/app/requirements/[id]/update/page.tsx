@@ -16,6 +16,7 @@ import { useUsers } from '@/app/users/hook/useUser'
 import ModalUpdateReq from '../components/ModalUpdateReq'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
+import { PaginationParams } from '@/common/interfaces/response.interface'
 
 export default function UpdateReqPage({ params }: { params: { id: number } }) {
   const { fetchUsers, user, isLoading: isLoadingUser } = useUsers()
@@ -31,7 +32,13 @@ export default function UpdateReqPage({ params }: { params: { id: number } }) {
     router.push(appRoutes.home.requirements.getOne.url(params.id))
   }
   useEffect(() => {
-    fetchUsers()
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+      getAll: true,
+    }
+    fetchUsers(queryPamas)
+
     fetchReq()
   }, [])
 
