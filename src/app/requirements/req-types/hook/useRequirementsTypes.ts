@@ -45,7 +45,7 @@ export const useCreateReqTypeForm = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
 
-  const ReqTypeForm = useForm<NewReqType>({
+  const reqTypeForm = useForm<NewReqType>({
     defaultValues: {
       name: '',
       requirementTypeField: [{ title: '', type: '' }],
@@ -53,7 +53,7 @@ export const useCreateReqTypeForm = () => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.post<ReqTypeFieldEntity>(
-          `/requirements/type?page=1&take=40`,
+          `/requirements/type`,
           value,
           {
             headers: {
@@ -73,7 +73,7 @@ export const useCreateReqTypeForm = () => {
       }
     },
   })
-  return { onError, errorMessage, ReqTypeForm }
+  return { onError, errorMessage, reqTypeForm }
 }
 
 export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
