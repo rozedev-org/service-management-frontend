@@ -5,7 +5,6 @@ export interface NewReq {
   userId: number | null
   stateId: number
   reqTypeId: number
-
 }
 export interface NewReqState {
   title: string
@@ -20,7 +19,6 @@ export interface RequirementsEntity {
   user: UserEntity | null
   stateId: number
   reqTypeId: number
-
 }
 export interface ReqStateEntity {
   id: number
@@ -51,4 +49,15 @@ export interface ReqTypeEntity {
   id: number
   name: string
   requirementTypeField: ReqTypeFieldEntity[]
+}
+
+export interface UpdateReqTypeField {
+  id?: number
+  title: string
+  type: string
+  requirementTypeId: number
+}
+export interface UpdateReqType {
+  name: string
+  requirementTypeField: UpdateReqTypeField[]
 }

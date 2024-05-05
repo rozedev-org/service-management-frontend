@@ -5,6 +5,7 @@ import {
   NewReqType,
   ReqTypeEntity,
   ReqTypeFieldEntity,
+  UpdateReqType,
 } from '../../types/req.types'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
@@ -81,14 +82,10 @@ export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
-  const updateReqTypeForm = useForm<NewReqType>({
+  const updateReqTypeForm = useForm<UpdateReqType>({
     defaultValues: {
       name: state?.name || '',
-      requirementTypeField:
-        state?.requirementTypeField.map((field) => ({
-          title: field.title,
-          type: field.type,
-        })) || [],
+      requirementTypeField: state?.requirementTypeField || [],
     },
     onSubmit: async ({ value }) => {
       try {
