@@ -11,7 +11,7 @@ import { useForm } from '@tanstack/react-form'
 import { appRoutes } from '@/appRoutes'
 
 export const useRequirementsTypes = () => {
-  const fetchReqType = async () => {
+  const fetchReqTypes = async () => {
     const response = await axiosInstace.get<PaginatedResponse<ReqTypeEntity>>(
       `/requirements/type?page=${1}`
     )
@@ -19,14 +19,15 @@ export const useRequirementsTypes = () => {
     setIsLoading(false)
     return response.data
   }
-  const [reqType, setReqType] = useState<ReqTypeEntity[]>([])
+  const [reqTypes, setReqType] = useState<ReqTypeEntity[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  return { reqType, setReqType, fetchReqType, isLoading }
+  return { reqTypes, setReqType, fetchReqTypes, isLoading }
 }
 
-export const useRequirementType = (id: number) => {
-  const fetchReqType = async () => {
+export const useRequirementType = () => {
+  const fetchReqType = async (id: number) => {
+    setIsLoading(true)
     const response = await axiosInstace.get<ReqTypeEntity>(
       `/requirements/type/${id}`
     )
@@ -35,7 +36,7 @@ export const useRequirementType = (id: number) => {
     return response.data
   }
   const [reqType, setReqType] = useState<ReqTypeEntity>()
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   return { fetchReqType, reqType, setReqType, isLoading }
 }
