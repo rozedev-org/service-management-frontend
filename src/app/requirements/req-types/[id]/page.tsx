@@ -8,9 +8,9 @@ export default function ReqTypesDetailPage({
 }: {
   params: { id: number }
 }) {
-  const { fetchReqType, reqType, setReqType } = useRequirementType(params.id)
+  const { fetchReqType, reqType, setReqType } = useRequirementType()
   useEffect(() => {
-    fetchReqType()
+    fetchReqType(params.id)
   }, [])
 
   return <div>ReqTypesDetailPage</div>

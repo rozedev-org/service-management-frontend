@@ -23,10 +23,10 @@ import { useEffect } from 'react'
 import { AddIcon, CloseIcon } from '@chakra-ui/icons'
 
 export default function ReqTypesAddPage() {
-  const { reqTypeForm } = useCreateReqTypeForm()
-  const { fetchReqType } = useRequirementsTypes()
+  const { ReqTypeForm } = useCreateReqTypeForm()
+  const { fetchReqTypes } = useRequirementsTypes()
   useEffect(() => {
-    fetchReqType()
+    fetchReqTypes()
   }, [])
 
   return (

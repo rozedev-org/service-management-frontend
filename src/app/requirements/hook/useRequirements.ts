@@ -63,10 +63,9 @@ export const useCreateReqForm = () => {
     defaultValues: {
       title: '',
       userId: null,
-      stateId: 1,
-      NewReqType: [
-        { name: '', requirementTypeField: [{ title: '', type: '' }] },
-      ],
+      stateId: 0,
+      reqTypeId: 0,
+
     },
     onSubmit: async ({ value }) => {
       try {
@@ -103,14 +102,8 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
       title: req?.title || '',
       userId: req?.userId || null,
       stateId: req?.stateId || 1,
-      NewReqType:
-        req?.ReqTypeEntity.map((entity) => ({
-          name: entity.name,
-          requirementTypeField: entity.requirementTypeField.map((type) => ({
-            type: type.title,
-            title: type.title,
-          })),
-        })) || [],
+      reqTypeId: req?.reqTypeId || 1,
+
     },
     onSubmit: async ({ value }) => {
       try {

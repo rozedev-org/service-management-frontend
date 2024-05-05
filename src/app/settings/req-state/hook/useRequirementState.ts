@@ -16,7 +16,7 @@ import { axiosInstace } from '@/common/utils/axiosIntance'
 export const useRequirementsState = () => {
   const fetchReqState = async () => {
     const response = await axiosInstace.get<PaginatedResponse<ReqStateEntity>>(
-      `/req-state?page=${1}`
+      `/requirements/state?page=${1}`
     )
     setReqsState(response.data.data)
     console.log(response)
@@ -40,12 +40,7 @@ export const useRequirementState = (id: number) => {
   })
   const fetchReqState = async () => {
     const response = await axiosInstace.get<ReqStateEntity>(
-      `/req-state/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-        },
-      }
+      `/requirements/state/${id}`
     )
     setReqState(response.data)
     setIsLoading(false)
@@ -66,13 +61,8 @@ export const useCreateReqStateForm = () => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.post<RequirementsEntity>(
-          `/req-state`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+          `/requirements/state`,
+          value
         )
         router.push(
           appRoutes.home.settings.reqState.getOne.url(response.data.id)
@@ -102,13 +92,8 @@ export const useReqUpdateForm = (state?: ReqStateEntity) => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.put<ReqStateEntity>(
-          `/req-state/${state?.id}`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+          `/requirements/state/${state?.id}`,
+          value
         )
         router.push(
           appRoutes.home.settings.reqState.getOne.url(response.data.id)
