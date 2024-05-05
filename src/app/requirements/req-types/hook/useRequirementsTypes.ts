@@ -1,4 +1,7 @@
-import { PaginatedResponse } from '@/common/interfaces/response.interface'
+import {
+  PaginatedResponse,
+  PaginationParams,
+} from '@/common/interfaces/response.interface'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { useState } from 'react'
 import {
@@ -9,20 +12,35 @@ import {
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
 import { appRoutes } from '@/appRoutes'
+import { usePaginated } from '@/common/hooks/usePaginated'
 
 export const useRequirementsTypes = () => {
-  const fetchReqTypes = async () => {
+  const fetchReqTypes = async (queryPamas: PaginationParams) => {
     const response = await axiosInstace.get<PaginatedResponse<ReqTypeEntity>>(
-      `/requirements/type?page=${1}`
+      `/requirements/type`,
+      { params: queryPamas }
     )
     setReqType(response.data.data)
+    setMeta(response.data.meta)
+
     setIsLoading(false)
     return response.data
   }
+  const { setMeta, meta, handlePageChange, handlePerRowsChange } =
+    usePaginated<ReqTypeEntity>(fetchReqTypes)
+
   const [reqTypes, setReqType] = useState<ReqTypeEntity[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  return { reqTypes, setReqType, fetchReqTypes, isLoading }
+  return {
+    reqTypes,
+    setReqType,
+    fetchReqTypes,
+    isLoading,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+  }
 }
 
 export const useRequirementType = () => {
@@ -55,12 +73,7 @@ export const useCreateReqTypeForm = () => {
       try {
         const response = await axiosInstace.post<ReqTypeFieldEntity>(
           `/requirements/type`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+          value
         )
         router.push(
           appRoutes.home.requirements.reqTypes.getOne.url(response.data.id)
@@ -94,12 +107,7 @@ export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
       try {
         const response = await axiosInstace.put<ReqTypeEntity>(
           `/requirements/type/${state?.id}`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+          value
         )
         router.push(appRoutes.home.requirements.getOne.url(response.data.id))
       } catch (error: any) {

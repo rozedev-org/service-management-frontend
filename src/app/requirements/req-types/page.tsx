@@ -2,21 +2,31 @@
 'use client'
 import { ReqTypeEntity } from '@/app/requirements/types/req.types'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
-import { CustomTable } from '@/components/table/CustomTable'
+import { CustomTable } from '@/components/table/CustomTable/CustomTable'
 import { SearchInput } from '@/components/input/SearchInput'
 import { reqTypeCustomColumn } from './types/ReqTypesCustomTable'
 import { useRequirementsTypes } from './hook/useRequirementsTypes'
 import { useEffect } from 'react'
 import { AddReqTypeButton } from './components/AddReqTypeButton'
+import { PaginationParams } from '@/common/interfaces/response.interface'
+import { PaginatedTable } from '@/components/table/PaginatedTable/PaginatedTable'
 
 export default function ReqTypePage() {
-  const { reqTypes, fetchReqTypes, isLoading } = useRequirementsTypes()
-  const reqTypeTable = CustomTable<ReqTypeEntity>({
-    columns: reqTypeCustomColumn,
-    data: reqTypes,
-  })
+  const {
+    reqTypes,
+    fetchReqTypes,
+    isLoading,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+  } = useRequirementsTypes()
+
   useEffect(() => {
-    fetchReqTypes()
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+    }
+    fetchReqTypes(queryPamas)
   }, [])
 
   return (
@@ -34,7 +44,14 @@ export default function ReqTypePage() {
         />
       }
     >
-      {reqTypeTable}
+      <PaginatedTable<ReqTypeEntity>
+        meta={meta}
+        data={reqTypes}
+        handlePageChange={handlePageChange}
+        handlePerRowsChange={handlePerRowsChange}
+        columns={reqTypeCustomColumn}
+        isLoadingData={isLoading}
+      />
     </CardContainer>
   )
 }

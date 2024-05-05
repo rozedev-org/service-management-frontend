@@ -1,33 +1,50 @@
-import { PaginatedResponse } from '@/common/interfaces/response.interface'
+import {
+  PaginatedResponse,
+  PaginationParams,
+} from '@/common/interfaces/response.interface'
 import { NewReq, RequirementsEntity } from '../types/req.types'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
-import { config } from '@/config'
 import { appRoutes } from '@/appRoutes'
 import { axiosInstace } from '@/common/utils/axiosIntance'
+import { usePaginated } from '@/common/hooks/usePaginated'
 
 /**
  * Custom hook for fetching requirements data.
  * @returns The requirements query object.
  */
 export const useRequirements = () => {
-  const fetchReqs = async () => {
+  const fetchReqs = async (queryPamas: PaginationParams) => {
     try {
       const response = await axiosInstace.get<
         PaginatedResponse<RequirementsEntity>
-      >(`/requirements?page=${1}&take=100`, {})
+      >(`/requirements`, { params: queryPamas })
       setRequirements(response.data.data)
+      setMeta(response.data.meta)
+
       setIsLoading(false)
       return response.data
     } catch (error) {
       console.log(error)
     }
   }
+
+  const { setMeta, meta, handlePageChange, handlePerRowsChange } =
+    usePaginated<RequirementsEntity>(fetchReqs)
+
   const [requirements, setRequirements] = useState<RequirementsEntity[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  return { fetchReqs, requirements, setRequirements, isLoading }
+  return {
+    fetchReqs,
+    requirements,
+    setRequirements,
+    isLoading,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+  }
 }
 
 /**
@@ -65,7 +82,6 @@ export const useCreateReqForm = () => {
       userId: null,
       stateId: 0,
       reqTypeId: 0,
-
     },
     onSubmit: async ({ value }) => {
       try {
@@ -103,7 +119,6 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
       userId: req?.userId || null,
       stateId: req?.stateId || 1,
       reqTypeId: req?.reqTypeId || 1,
-
     },
     onSubmit: async ({ value }) => {
       try {
