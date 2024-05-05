@@ -10,13 +10,13 @@ import { useEffect } from 'react'
 import { AddReqTypeButton } from './components/AddReqTypeButton'
 
 export default function ReqTypePage() {
-  const { reqType, fetchReqType, isLoading } = useRequirementsTypes()
+  const { reqTypes, fetchReqTypes, isLoading } = useRequirementsTypes()
   const reqTypeTable = CustomTable<ReqTypeEntity>({
     columns: reqTypeCustomColumn,
-    data: reqType,
+    data: reqTypes,
   })
   useEffect(() => {
-    fetchReqType()
+    fetchReqTypes()
   }, [])
 
   return (

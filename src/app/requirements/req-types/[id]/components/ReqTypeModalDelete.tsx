@@ -17,7 +17,7 @@ import { axiosInstace } from '@/common/utils/axiosIntance'
 import { useRequirementType } from '../../hook/useRequirementsTypes'
 
 export const ReqTypeModalDelete = ({ params }: { params: { id: number } }) => {
-  const { reqType, fetchReqType } = useRequirementType(params.id)
+  const { reqType, fetchReqType } = useRequirementType()
   const router = useRouter()
   const { isOpen, onClose, onOpen } = useDisclosure()
 
@@ -31,7 +31,7 @@ export const ReqTypeModalDelete = ({ params }: { params: { id: number } }) => {
   }
 
   useEffect(() => {
-    fetchReqType()
+    fetchReqType(params.id)
   }, [])
   return (
     <>

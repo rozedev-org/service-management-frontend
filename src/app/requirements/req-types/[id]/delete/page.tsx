@@ -17,9 +17,9 @@ export default function ReqTypesDeletePage({
 }: {
   params: { id: number }
 }) {
-  const { reqType, fetchReqType, isLoading } = useRequirementType(params.id)
+  const { reqType, fetchReqType, isLoading } = useRequirementType()
   useEffect(() => {
-    fetchReqType()
+    fetchReqType(params.id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
