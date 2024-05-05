@@ -26,7 +26,7 @@ export default function ReqTypeUpdatePage({
 }: {
   params: { id: number }
 }) {
-  const { isLoading, fetchReqType, reqType } = useRequirementType(params.id)
+  const { isLoading, fetchReqType, reqType } = useRequirementType()
   const { updateReqTypeForm } = useReqTypeUpdateForm(reqType)
   const router = useRouter()
   const handleUpdate = async () => {
@@ -34,7 +34,7 @@ export default function ReqTypeUpdatePage({
     router.push(appRoutes.home.requirements.reqTypes.getOne.url(params.id))
   }
   useEffect(() => {
-    fetchReqType()
+    fetchReqType(params.id)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 

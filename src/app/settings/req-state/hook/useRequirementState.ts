@@ -1,6 +1,9 @@
 import axios from 'axios'
 import { config } from '@/config'
-import { PaginatedResponse } from '@/common/interfaces/response.interface'
+import {
+  PaginatedResponse,
+  PaginationParams,
+} from '@/common/interfaces/response.interface'
 import {
   NewReq,
   NewReqState,
@@ -12,22 +15,36 @@ import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
 import { useForm } from '@tanstack/react-form'
 import { axiosInstace } from '@/common/utils/axiosIntance'
+import { usePaginated } from '@/common/hooks/usePaginated'
 
 export const useRequirementsState = () => {
-  const fetchReqState = async () => {
+  const fetchReqState = async (queryPamas: PaginationParams) => {
     const response = await axiosInstace.get<PaginatedResponse<ReqStateEntity>>(
-      `/requirements/state?page=${1}`
+      `/requirements/state`,
+      { params: queryPamas }
     )
     setReqsState(response.data.data)
-    console.log(response)
+    setMeta(response.data.meta)
+
     setIsLoading(false)
+
     return response.data
   }
 
+  const { setMeta, meta, handlePageChange, handlePerRowsChange } =
+    usePaginated<ReqStateEntity>(fetchReqState)
   const [reqsState, setReqsState] = useState<ReqStateEntity[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  return { reqsState, setReqsState, fetchReqState, isLoading }
+  return {
+    reqsState,
+    setReqsState,
+    fetchReqState,
+    isLoading,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+  }
 }
 export const useRequirementState = (id: number) => {
   const [isLoading, setIsLoading] = useState<boolean>(true)

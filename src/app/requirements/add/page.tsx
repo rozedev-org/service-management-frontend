@@ -18,6 +18,7 @@ import {
   useRequirementType,
   useRequirementsTypes,
 } from '../req-types/hook/useRequirementsTypes'
+import { PaginationParams } from '@/common/interfaces/response.interface'
 
 export default function AddReq() {
   const { ReqForm } = useCreateReqForm()
@@ -35,8 +36,13 @@ export default function AddReq() {
   } = useRequirementType()
 
   useEffect(() => {
-    fetchUsers()
-    fetchReqTypes()
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+      getAll: true,
+    }
+    fetchUsers(queryPamas)
+    fetchReqTypes(queryPamas)
   }, [])
 
   return (

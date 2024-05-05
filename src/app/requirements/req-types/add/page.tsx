@@ -21,12 +21,18 @@ import {
 } from '../hook/useRequirementsTypes'
 import { useEffect } from 'react'
 import { AddIcon, CloseIcon } from '@chakra-ui/icons'
+import { PaginationParams } from '@/common/interfaces/response.interface'
 
 export default function ReqTypesAddPage() {
-  const { ReqTypeForm } = useCreateReqTypeForm()
+  const { reqTypeForm } = useCreateReqTypeForm()
   const { fetchReqTypes } = useRequirementsTypes()
   useEffect(() => {
-    fetchReqTypes()
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+      getAll: true,
+    }
+    fetchReqTypes(queryPamas)
   }, [])
 
   return (
