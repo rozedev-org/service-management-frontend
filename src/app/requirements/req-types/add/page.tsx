@@ -63,7 +63,6 @@ export default function ReqTypesAddPage() {
                           Campo {i + 1}
                         </Text>
                       </Stack>
-
                       <ReqTypeForm.Field
                         key={i}
                         name={`requirementTypeField[${i}].type`}
