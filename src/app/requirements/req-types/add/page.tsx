@@ -13,6 +13,7 @@ import {
   ButtonGroup,
   IconButton,
   Tooltip,
+  Heading,
 } from '@chakra-ui/react'
 import {
   useCreateReqTypeForm,
@@ -34,38 +35,37 @@ export default function ReqTypesAddPage() {
         onSubmit={(e) => {
           e.preventDefault()
           e.stopPropagation()
-          ReqTypeForm.handleSubmit()
+          reqTypeForm.handleSubmit()
         }}
       >
-        <ReqTypeForm.Field name='requirementTypeField' mode='array'>
+        {/* Name input */}
+        <reqTypeForm.Field name='name'>
+          {(field) => (
+            <FormControl isRequired>
+              <FormLabel>Nombre</FormLabel>
+              <Input
+                onBlur={field.handleBlur}
+                value={field.state.value}
+                onChange={(e) => field.handleChange(e.target.value)}
+              />
+            </FormControl>
+          )}
+        </reqTypeForm.Field>
+
+        {/* Requirement Type Fields */}
+        <reqTypeForm.Field name='requirementTypeField' mode='array'>
           {(field) => {
             return (
               <div>
-                <FormControl isRequired>
-                  <FormLabel>Nombre</FormLabel>
-                  {ReqTypeForm.Field({
-                    name: 'name',
-                    children: (field) => (
-                      <Input
-                        name={field.name}
-                        onBlur={field.handleBlur}
-                        value={field.state.value}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                      />
-                    ),
-                  })}
-                </FormControl>
                 {field.state.value.map((_, i) => {
                   return (
-                    <>
-                      <Stack>
-                        <Text display='flex' justifyContent='left' pt='20px'>
-                          Campo {i + 1}
-                        </Text>
-                      </Stack>
-
-                      <ReqTypeForm.Field
-                        key={i}
+                    // New req field
+                    <div key={i}>
+                      <Heading as='h3' size='sm' pt='20px'>
+                        Campo {i + 1}
+                      </Heading>
+                      {/* Type input */}
+                      <reqTypeForm.Field
                         name={`requirementTypeField[${i}].type`}
                       >
                         {(subField) => {
@@ -103,9 +103,9 @@ export default function ReqTypesAddPage() {
                             </FormControl>
                           )
                         }}
-                      </ReqTypeForm.Field>
-                      <ReqTypeForm.Field
-                        key={i}
+                      </reqTypeForm.Field>
+                      {/* Title input */}
+                      <reqTypeForm.Field
                         name={`requirementTypeField[${i}].title`}
                       >
                         {(subField) => {
@@ -113,7 +113,7 @@ export default function ReqTypesAddPage() {
                             <FormControl isRequired>
                               <FormLabel>Titulo</FormLabel>
                               <Input
-                                type={field.state.value[i].type}
+                                // type='text'
                                 onBlur={subField.handleBlur}
                                 value={subField.state.value}
                                 onChange={(e) =>
@@ -123,11 +123,12 @@ export default function ReqTypesAddPage() {
                             </FormControl>
                           )
                         }}
-                      </ReqTypeForm.Field>
-                    </>
+                      </reqTypeForm.Field>
+                    </div>
                   )
                 })}
-                <ReqTypeForm.Subscribe
+
+                <reqTypeForm.Subscribe
                   selector={(state) => [state.canSubmit, state.isSubmitting]}
                   children={([canSubmit, isSubmitting]) => (
                     <Stack mt='10px'>
@@ -151,7 +152,7 @@ export default function ReqTypesAddPage() {
               </div>
             )
           }}
-        </ReqTypeForm.Field>
+        </reqTypeForm.Field>
       </form>
     </CardContainer>
   )

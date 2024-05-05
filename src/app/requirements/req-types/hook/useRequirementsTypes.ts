@@ -46,7 +46,7 @@ export const useCreateReqTypeForm = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
 
-  const ReqTypeForm = useForm<NewReqType>({
+  const reqTypeForm = useForm<NewReqType>({
     defaultValues: {
       name: '',
       requirementTypeField: [{ title: '', type: '' }],
@@ -54,7 +54,7 @@ export const useCreateReqTypeForm = () => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.post<ReqTypeFieldEntity>(
-          `/requirements/type?page=1&take=40`,
+          `/requirements/type`,
           value,
           {
             headers: {
@@ -74,5 +74,42 @@ export const useCreateReqTypeForm = () => {
       }
     },
   })
-  return { onError, errorMessage, ReqTypeForm }
+  return { onError, errorMessage, reqTypeForm }
+}
+
+export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
+  const [onError, setOnError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const router = useRouter()
+  const updateReqTypeForm = useForm<NewReqType>({
+    defaultValues: {
+      name: state?.name || '',
+      requirementTypeField:
+        state?.requirementTypeField.map((field) => ({
+          title: field.title,
+          type: field.type,
+        })) || [],
+    },
+    onSubmit: async ({ value }) => {
+      try {
+        const response = await axiosInstace.put<ReqTypeEntity>(
+          `/requirements/type/${state?.id}`,
+          value,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
+            },
+          }
+        )
+        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
+      } catch (error: any) {
+        setOnError(true)
+        setErrorMessage(
+          error.response?.data.message ||
+            'Ocurrió un error al intentar crear el usuario, por favor intente nuevamente'
+        )
+      }
+    },
+  })
+  return { updateReqTypeForm, onError, errorMessage }
 }
