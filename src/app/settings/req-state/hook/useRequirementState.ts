@@ -19,6 +19,7 @@ export const useRequirementsState = () => {
       `/req-state?page=${1}`
     )
     setReqsState(response.data.data)
+    console.log(response)
     setIsLoading(false)
     return response.data
   }

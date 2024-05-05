@@ -92,7 +92,7 @@ export default function ReqTypesAddPage() {
                                 <option value='' disabled hidden>
                                   Selecciona un tipo
                                 </option>
-                                <option value='date'>Fecha</option>
+                                <option value='fecha'>Fecha</option>
                                 <option value='email'>Email</option>
                                 <option value='number'>
                                   Numero de telefono
@@ -112,7 +112,6 @@ export default function ReqTypesAddPage() {
                             <FormControl isRequired>
                               <FormLabel>Titulo</FormLabel>
                               <Input
-                                type={field.state.value[i].type}
                                 onBlur={subField.handleBlur}
                                 value={subField.state.value}
                                 onChange={(e) =>
