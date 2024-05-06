@@ -1,23 +1,27 @@
 import { NewUser, UserEntity } from '@/app/users/types/user.types'
-import { PaginatedResponse } from '@/common/interfaces/response.interface'
-import { AxiosErrorHandler } from '@/common/utils/axios-error-handler'
-import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
+import {
+  PaginatedResponse,
+  PaginationParams,
+} from '@/common/interfaces/response.interface'
 import { useForm } from '@tanstack/react-form'
-import { createColumnHelper } from '@tanstack/react-table'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { appRoutes } from '@/appRoutes'
-import { config } from '@/config'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { BoardEntity } from '@/app/board/types/board.types'
+import { usePaginated } from '@/common/hooks/usePaginated'
 
 export const useUsers = () => {
-  const fetchUsers = async () => {
+  const fetchUsers = async (queryPamas: PaginationParams) => {
     // try {
+    setIsLoading(true)
+
     const response = await axiosInstace.get<PaginatedResponse<UserEntity>>(
-      `/users?page=${1}`
+      `/users`,
+      { params: queryPamas }
     )
     setUser(response.data.data)
+    setMeta(response.data.meta)
     setIsLoading(false)
     return response.data
     // } catch (error: any) {
@@ -30,10 +34,21 @@ export const useUsers = () => {
     // }
   }
 
+  const { setMeta, meta, handlePageChange, handlePerRowsChange } =
+    usePaginated<UserEntity>(fetchUsers)
+
   const [user, setUser] = useState<UserEntity[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  return { fetchUsers, user, setUser, isLoading }
+  return {
+    fetchUsers,
+    user,
+    isLoading,
+    setUser,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+  }
 }
 
 export const useUser = (id: number) => {
