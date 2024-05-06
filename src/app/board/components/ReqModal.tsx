@@ -20,17 +20,24 @@ import {
 import { ReqTableOptions } from '../../requirements/components/TableOptions'
 import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
 import { BiChevronDown } from 'react-icons/bi'
+import { useRefreshSignal } from '../states/useRefreshSignal'
 import { RequirementsEntity } from '@/app/requirements/types/req.types'
 
 export default function ReqModal(props: { requirement: RequirementsEntity }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { title, id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
+  const { setOnRefresh } = useRefreshSignal()
 
   const handleOpen = async () => {
     await fetchReqActions()
     onOpen()
   }
+  const handleUpdate = async (id: number) => {
+    await updateReqAction(id)
+    setOnRefresh(true)
+  }
+
   return (
     <>
       {/* Boton con un titulo que se renderiza en la columna */}
@@ -88,7 +95,7 @@ export default function ReqModal(props: { requirement: RequirementsEntity }) {
                           {reqActions.remaining.map((state) => (
                             <MenuItem
                               key={`menu-item-req-${id}-state-${state.id}`}
-                              onClick={() => updateReqAction(state.id)}
+                              onClick={async () => await handleUpdate(state.id)}
                             >
                               {state.title}
                             </MenuItem>

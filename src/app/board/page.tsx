@@ -4,13 +4,24 @@ import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { useBoard } from './hook/useBoard'
 import ReqStateColumn from './components/ReqStateColumn'
 import { HStack } from '@chakra-ui/react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
+import { useRefreshSignal } from './states/useRefreshSignal'
 
 export default function BoardPage() {
-  const { boardState, fetchBoard, isLoading } = useBoard()
+  const { boardState, setBoardState, fetchBoard, isLoading } = useBoard()
+  const [activeReq, setActiveReq] = useState<null | string>(null)
+  const { onRefresh, setOnRefresh } = useRefreshSignal()
+
   useEffect(() => {
     fetchBoard()
   }, [])
+
+  useEffect(() => {
+    if (onRefresh) {
+      fetchBoard()
+      setOnRefresh(false)
+    }
+  }, [onRefresh])
 
   return (
     <CardContainer title='Listado de Requerimientos' isLoading={isLoading}>

@@ -2,6 +2,7 @@ import { ReqActionsActions } from '../types/req.types'
 import { config } from '@/config'
 import { useState } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'
+import { useRefreshSignal } from '@/app/board/states/useRefreshSignal'
 
 /**
  * Custom hook to fetch requirement actions.
@@ -43,6 +44,5 @@ export const useReqActions = (reqId: number) => {
     },
     remaining: [],
   })
-
   return { reqActions, fetchReqActions, updateReqAction }
 }

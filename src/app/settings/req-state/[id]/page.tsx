@@ -43,7 +43,7 @@ export default function ReqStateDetailsPage({
           gap={2}
         >
           <Heading size='md'>Titulo: {state?.title}</Heading>
-          <Text>ID del Usuario : {state?.id}</Text>
+          <Text>ID : {state?.id}</Text>
         </CardHeader>
         <CardBody>
           <Text>Secuencia: {state?.secuence}</Text>
