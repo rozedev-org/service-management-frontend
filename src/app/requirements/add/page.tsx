@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react'
 import { useCreateReqForm } from '../hook/useRequirements'
 import { useUsers } from '@/app/users/hook/useUser'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import {
   useRequirementType,
   useRequirementsTypes,

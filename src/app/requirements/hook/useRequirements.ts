@@ -3,7 +3,6 @@ import { NewReq, RequirementsEntity } from '../types/req.types'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
-import { config } from '@/config'
 import { appRoutes } from '@/appRoutes'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 
@@ -65,7 +64,6 @@ export const useCreateReqForm = () => {
       userId: null,
       stateId: 0,
       reqTypeId: 0,
-
     },
     onSubmit: async ({ value }) => {
       try {
@@ -103,7 +101,6 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
       userId: req?.userId || null,
       stateId: req?.stateId || 1,
       reqTypeId: req?.reqTypeId || 1,
-
     },
     onSubmit: async ({ value }) => {
       try {

@@ -1,8 +1,5 @@
-import axios from 'axios'
-import { config } from '@/config'
 import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import {
-  NewReq,
   NewReqState,
   ReqStateEntity,
   RequirementsEntity,
