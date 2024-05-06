@@ -35,6 +35,10 @@ export default function ReqModal(props: { requirement: RequirementsEntity }) {
   }
   const handleUpdate = async (id: number) => {
     await updateReqAction(id)
+  }
+
+  const handleCloseModal = () => {
+    onClose()
     setOnRefresh(true)
   }
 
@@ -53,7 +57,12 @@ export default function ReqModal(props: { requirement: RequirementsEntity }) {
       </Button>
       <Stack>
         {/* Modal */}
-        <Modal isOpen={isOpen} onClose={onClose} size={'4xl'} isCentered>
+        <Modal
+          isOpen={isOpen}
+          onClose={handleCloseModal}
+          size={'4xl'}
+          isCentered
+        >
           <ModalOverlay />
           {/* Contenido del modal */}
           <ModalContent>
@@ -149,7 +158,7 @@ export default function ReqModal(props: { requirement: RequirementsEntity }) {
             </ModalBody>
             <ModalFooter>
               {/* Boton para cerrar el modal */}
-              <Button colorScheme='blue' mr={3} onClick={onClose}>
+              <Button colorScheme='blue' mr={3} onClick={handleCloseModal}>
                 Cerrar
               </Button>
             </ModalFooter>
