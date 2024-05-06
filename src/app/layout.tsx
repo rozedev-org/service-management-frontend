@@ -2,10 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Providers } from './providers'
 import { fonts } from './fonts'
-import { HStack, Stack } from '@chakra-ui/react'
-import { Sidebar } from '@/components/layout/default/Sidebar'
-import { Content } from '@/components/layout/default/Content'
-import { MobileSideBar } from '@/components/layout/default/MobileSideBar'
+import { DefaultLayout } from '@/components/layout/default'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -21,16 +18,7 @@ export default function RootLayout({
     <html lang='en' className={fonts.dm_Sans.className}>
       <body>
         <Providers>
-          <Stack
-            flexDirection={['column', 'column', 'row']}
-            minH={'100vh'}
-            alignItems={'start'}
-            bg={'#f4f7fe'}
-          >
-            <MobileSideBar />
-            <Sidebar />
-            <Content>{children}</Content>
-          </Stack>
+          <DefaultLayout>{children}</DefaultLayout>
         </Providers>
       </body>
     </html>

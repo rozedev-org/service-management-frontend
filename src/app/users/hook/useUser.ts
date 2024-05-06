@@ -1,22 +1,28 @@
 import { NewUser, UserEntity } from '@/app/users/types/user.types'
-import { PaginatedResponse } from '@/common/interfaces/response.interface'
-import { AxiosErrorHandler } from '@/common/utils/axios-error-handler'
-import { ErrorDictionarProps } from '@/common/utils/error-dictionary'
+import {
+  PaginatedResponse,
+  PaginationParams,
+} from '@/common/interfaces/response.interface'
 import { useForm } from '@tanstack/react-form'
-import { useQuery } from '@tanstack/react-query'
-import { createColumnHelper } from '@tanstack/react-table'
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { appRoutes } from '@/appRoutes'
-import { config } from '@/config'
 import { axiosInstace } from '@/common/utils/axiosIntance'
+import { BoardEntity } from '@/app/board/types/board.types'
+import { usePaginated } from '@/common/hooks/usePaginated'
 
 export const useUsers = () => {
-  const fetchUsers = async () => {
+  const fetchUsers = async (queryPamas: PaginationParams) => {
     // try {
+    setIsLoading(true)
+
     const response = await axiosInstace.get<PaginatedResponse<UserEntity>>(
-      `/users?page=${1}`
+      `/users`,
+      { params: queryPamas }
     )
+    setUser(response.data.data)
+    setMeta(response.data.meta)
+    setIsLoading(false)
     return response.data
     // } catch (error: any) {
     //   const errorDictionarProps: ErrorDictionarProps = {
@@ -28,16 +34,26 @@ export const useUsers = () => {
     // }
   }
 
-  const usersQuery = useQuery({
-    queryKey: ['users'],
-    queryFn: () => fetchUsers(),
-  })
+  const { setMeta, meta, handlePageChange, handlePerRowsChange } =
+    usePaginated<UserEntity>(fetchUsers)
 
-  return usersQuery
+  const [user, setUser] = useState<UserEntity[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  return {
+    fetchUsers,
+    user,
+    isLoading,
+    setUser,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+  }
 }
 
 export const useUser = (id: number) => {
-  const [onError, setOnError] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
   const [user, setUser] = useState<UserEntity>({
     id: 0,
     userName: '',
@@ -53,6 +69,7 @@ export const useUser = (id: number) => {
 
     const response = await axiosInstace.get<UserEntity>(`/users/${id}`)
     setUser(response.data)
+    setIsLoading(false)
     return response.data
     // } catch (error: any) {
     //   const errorDictionarProps: ErrorDictionarProps = {
@@ -64,7 +81,7 @@ export const useUser = (id: number) => {
     // }
   }
 
-  return { user, setUser, fetchUser }
+  return { user, setUser, fetchUser, isLoading }
 }
 export const useCreateUserForm = () => {
   const [onError, setOnError] = useState(false)
@@ -125,4 +142,24 @@ export const useUpdateUserForm = (user?: UserEntity) => {
   })
 
   return { updateUserForm, onError, errorMessage }
+}
+
+export const useUserReqDetail = (id: number) => {
+  const fetchBoard = async () => {
+    try {
+      const response = await axiosInstace.get<BoardEntity[]>(
+        `/users/${id}/requirements`,
+        {
+          withCredentials: true,
+        }
+      )
+      setuserDetail(response.data)
+      return response.data
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  const [userDetail, setuserDetail] = useState<BoardEntity[]>([])
+
+  return { userDetail, setuserDetail, fetchBoard }
 }

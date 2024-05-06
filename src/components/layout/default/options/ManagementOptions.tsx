@@ -1,10 +1,11 @@
 import { appRoutes } from '@/appRoutes'
+import { mobileOnCloseType } from '@/types/mobileOnCloseType'
 import { Link } from '@chakra-ui/next-js'
 import { VStack, Button } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { BiHelpCircle, BiCog } from 'react-icons/bi'
 
-export const ManagementOptions = () => {
+export const ManagementOptions = (props: mobileOnCloseType) => {
   const router = useRouter()
   return (
     <VStack w={'full'} gap={1} alignItems={'flex-start'}>
@@ -25,6 +26,7 @@ export const ManagementOptions = () => {
           w={'full'}
           leftIcon={<BiCog />}
           variant='ghost'
+          onClick={props.onClose}
         >
           Configuraciones
         </Button>

@@ -17,7 +17,7 @@ import {
 import React from 'react'
 import { BiBraille } from 'react-icons/bi'
 import { FaEyeSlash, FaEye } from 'react-icons/fa'
-import { useLoginForm } from '../hooks/useLoginForm'
+import { useLoginForm } from '../hooks/useLogin'
 
 export function LoginForm() {
   const [show, setShow] = React.useState(false)

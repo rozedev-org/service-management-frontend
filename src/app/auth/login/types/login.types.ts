@@ -1,6 +1,6 @@
 export interface LoginEntity {
   user: User
-  token: string
+  expiresIn: string
 }
 
 export interface User {

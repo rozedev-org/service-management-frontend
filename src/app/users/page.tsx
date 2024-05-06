@@ -1,23 +1,40 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { CustomTable } from '@/components/table/CustomTable'
 import { usersColumns } from './types/columnDef'
 import { SearchInput } from '@/components/input/SearchInput'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { AddUserButton } from './components/AddButton'
 import { useUsers } from './hook/useUser'
 import { UserEntity } from './types/user.types'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { PaginatedTable } from '@/components/table/PaginatedTable/PaginatedTable'
+import { PaginationParams } from '@/common/interfaces/response.interface'
 
 export default function Users() {
   const [userFilter, setUserFilter] = useState('')
   const handleOnChangeUserFilter = (value: string) => {
     setUserFilter(value)
   }
-  const userQuery = useUsers()
-  const UserTable = CustomTable<UserEntity>({
-    columns: usersColumns,
-    data: userQuery.data?.data,
-  })
+  const {
+    fetchUsers,
+    user,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+    isLoading,
+  } = useUsers()
+  // const UserTable = CustomTable<UserEntity>({
+  //   columns: usersColumns,
+  //   data: user,
+  // })
+
+  useEffect(() => {
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+    }
+    fetchUsers(queryPamas)
+  }, [])
 
   return (
     <CardContainer
@@ -31,7 +48,16 @@ export default function Users() {
         />
       }
     >
-      {UserTable}
+      {/* {UserTable} */}
+
+      <PaginatedTable<UserEntity>
+        meta={meta}
+        data={user}
+        handlePageChange={handlePageChange}
+        handlePerRowsChange={handlePerRowsChange}
+        columns={usersColumns}
+        isLoadingData={isLoading}
+      />
     </CardContainer>
   )
 }

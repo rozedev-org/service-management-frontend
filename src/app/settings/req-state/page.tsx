@@ -1,21 +1,36 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { ReqStateEntity } from '@/app/requirements/types/req.types'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
-import { CustomTable } from '@/components/table/CustomTable'
 import { useRequirementsState } from './hook/useRequirementState'
 import { reqStateCustomColumn } from './types/ReqStateCustomTable'
 import { AddReqStateButton } from './components/AddReqStateButton'
 import { SearchInput } from '@/components/input/SearchInput'
+import { useEffect } from 'react'
+import { PaginatedTable } from '@/components/table/PaginatedTable/PaginatedTable'
+import { PaginationParams } from '@/common/interfaces/response.interface'
 
 export default function ReqStatePage() {
-  const { data } = useRequirementsState()
-  const reqStateData = data?.data
-  const reqStateTable = CustomTable<ReqStateEntity>({
-    columns: reqStateCustomColumn,
-    data: reqStateData,
-  })
+  const {
+    reqsState,
+    isLoading,
+    fetchReqState,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+  } = useRequirementsState()
+
+  useEffect(() => {
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+    }
+    fetchReqState(queryPamas)
+  }, [])
+
   return (
     <CardContainer
+      isLoading={isLoading}
       title='Estados de Requerimientos'
       optionsButton={<AddReqStateButton />}
       searchInput={
@@ -28,7 +43,14 @@ export default function ReqStatePage() {
         />
       }
     >
-      {reqStateTable}
+      <PaginatedTable<ReqStateEntity>
+        meta={meta}
+        data={reqsState}
+        handlePageChange={handlePageChange}
+        handlePerRowsChange={handlePerRowsChange}
+        columns={reqStateCustomColumn}
+        isLoadingData={isLoading}
+      />
     </CardContainer>
   )
 }

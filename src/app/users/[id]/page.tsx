@@ -16,9 +16,11 @@ import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import ModalDelete from './components/ModalDelete'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
+import { RequirementsAccord } from './components/Accord'
 
 export default function UserPage({ params }: { params: { id: number } }) {
-  const { user, fetchUser } = useUser(params.id)
+  const { user, fetchUser, isLoading } = useUser(params.id)
+  const id = params.id
 
   useEffect(() => {
     fetchUser()
@@ -26,7 +28,10 @@ export default function UserPage({ params }: { params: { id: number } }) {
 
   return (
     <>
-      <CardContainer title={`Detalle del usuario ${params.id}`}>
+      <CardContainer
+        title={`Detalle del usuario ${params.id}`}
+        isLoading={isLoading}
+      >
         <Card display='flex' flexDirection='column' alignItems='center' gap={2}>
           <CardHeader
             display='flex'
@@ -50,6 +55,7 @@ export default function UserPage({ params }: { params: { id: number } }) {
               </Button>
             </Link>
           </CardFooter>
+          <RequirementsAccord params={{ user, id }} />
         </Card>
       </CardContainer>
     </>
