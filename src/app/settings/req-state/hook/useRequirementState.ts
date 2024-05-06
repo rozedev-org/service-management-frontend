@@ -1,34 +1,53 @@
+
 import axios from 'axios'
 import { config } from '@/config'
-import { PaginatedResponse } from '@/common/interfaces/response.interface'
 import {
-  NewReq,
+  PaginatedResponse,
+  PaginationParams,
+} from '@/common/interfaces/response.interface'
+import {
   NewReqState,
   ReqStateEntity,
   RequirementsEntity,
 } from '@/app/requirements/types/req.types'
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
 import { useForm } from '@tanstack/react-form'
 import { axiosInstace } from '@/common/utils/axiosIntance'
+import { usePaginated } from '@/common/hooks/usePaginated'
 
 export const useRequirementsState = () => {
-  const fetchReqState = async () => {
+  const fetchReqState = async (queryPamas: PaginationParams) => {
     const response = await axiosInstace.get<PaginatedResponse<ReqStateEntity>>(
-      `/req-state?page=${1}`,
-      {}
+      `/requirements/state`,
+      { params: queryPamas }
     )
+    setReqsState(response.data.data)
+    setMeta(response.data.meta)
+
+    setIsLoading(false)
+
     return response.data
   }
-  const reqsStateQuery = useQuery({
-    queryKey: ['req-state'],
-    queryFn: () => fetchReqState(),
-  })
-  return reqsStateQuery
+
+  const { setMeta, meta, handlePageChange, handlePerRowsChange } =
+    usePaginated<ReqStateEntity>(fetchReqState)
+  const [reqsState, setReqsState] = useState<ReqStateEntity[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+
+  return {
+    reqsState,
+    setReqsState,
+    fetchReqState,
+    isLoading,
+    meta,
+    handlePageChange,
+    handlePerRowsChange,
+  }
 }
 export const useRequirementState = (id: number) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [reqState, setReqState] = useState<ReqStateEntity>({
     id: 0,
     title: '',
@@ -38,17 +57,13 @@ export const useRequirementState = (id: number) => {
   })
   const fetchReqState = async () => {
     const response = await axiosInstace.get<ReqStateEntity>(
-      `/req-state/${id}`,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-        },
-      }
+      `/requirements/state/${id}`
     )
     setReqState(response.data)
+    setIsLoading(false)
     return response.data
   }
-  return { reqState, setReqState, fetchReqState }
+  return { reqState, setReqState, fetchReqState, isLoading }
 }
 export const useCreateReqStateForm = () => {
   const [onError, setOnError] = useState(false)
@@ -63,13 +78,8 @@ export const useCreateReqStateForm = () => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.post<RequirementsEntity>(
-          `/req-state`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+          `/requirements/state`,
+          value
         )
         router.push(
           appRoutes.home.settings.reqState.getOne.url(response.data.id)
@@ -99,13 +109,8 @@ export const useReqUpdateForm = (state?: ReqStateEntity) => {
     onSubmit: async ({ value }) => {
       try {
         const response = await axiosInstace.put<ReqStateEntity>(
-          `/req-state/${state?.id}`,
-          value,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('token')}` || '',
-            },
-          }
+          `/requirements/state/${state?.id}`,
+          value
         )
         router.push(
           appRoutes.home.settings.reqState.getOne.url(response.data.id)

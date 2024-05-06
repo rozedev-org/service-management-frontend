@@ -9,7 +9,7 @@ import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
 
 export default function UpdateUserPage({ params }: { params: { id: number } }) {
-  const { user, fetchUser } = useUser(params.id)
+  const { user, fetchUser, isLoading } = useUser(params.id)
   const { updateUserForm } = useUpdateUserForm(user)
   const router = useRouter()
   const handleUpdate = async () => {
@@ -22,7 +22,7 @@ export default function UpdateUserPage({ params }: { params: { id: number } }) {
   }, [])
 
   return (
-    <CardContainer title='Actualizar Usuario'>
+    <CardContainer title='Actualizar Usuario' isLoading={isLoading}>
       <form
         onSubmit={(e) => {
           e.preventDefault()

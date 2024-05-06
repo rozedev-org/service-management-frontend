@@ -16,14 +16,14 @@ import ModalDelete from '../components/ModalDelete'
 import { useEffect } from 'react'
 
 export default function DeleteUserPage({ params }: { params: { id: number } }) {
-  const { user, fetchUser } = useUser(params.id)
+  const { user, fetchUser, isLoading } = useUser(params.id)
 
   useEffect(() => {
     fetchUser()
   }, [])
 
   return (
-    <CardContainer title='Eliminar Usuario'>
+    <CardContainer title='Eliminar Usuario' isLoading={isLoading}>
       <VStack display={'flex'} alignItems={'center'}>
         <Text fontWeight='bold'>
           Confirmar la eliminacion del usuario :{user.userName}

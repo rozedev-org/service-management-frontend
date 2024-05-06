@@ -16,30 +16,23 @@ import {
   useReactTable,
 } from '@tanstack/react-table'
 import { useMemo } from 'react'
-import styles from './ResponsiveTable.module.css'
+import styles from './CustomTable.module.css'
 import { TriangleDownIcon, TriangleUpIcon } from '@chakra-ui/icons'
 
-type CustomTable<T> = {
+export type CustomTableProps<T> = {
+  data: T[]
   columns: ColumnDef<T, any>[]
-  data: T[] | undefined
+  isLoadingData: boolean
 }
 
-export function CustomTable<T>(props: CustomTable<T>) {
+export function CustomTable<T>(props: CustomTableProps<T>) {
   const defaultData = useMemo(() => [], [])
-
   const table = useReactTable({
     columns: props.columns,
     data: props.data || defaultData,
     getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
   })
-  const tabla = table.getRowModel().rows.map((row) => (
-    <>
-      {row.getVisibleCells().map((cell) => (
-        <>{flexRender(cell.column.columnDef.cell, cell.getContext())}</>
-      ))}
-    </>
-  ))
-
   return (
     <TableContainer
       overflowY={'scroll'}
@@ -80,7 +73,7 @@ export function CustomTable<T>(props: CustomTable<T>) {
           ))}
         </Thead>
         <Tbody>
-          {props.data?.length < 1 ? (
+          {!props.data ? (
             <Tr>
               <Td colSpan={table.getAllColumns().length} textAlign={'center'}>
                 <Heading color={'black'}>

@@ -1,33 +1,14 @@
 'use client'
 import { HStack, VStack, Stack, Text } from '@chakra-ui/react'
 import ReqCard from './ReqCard'
-import {
-  SortableContext,
-  arrayMove,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable'
-import { Requirement } from '../types/board.types'
-import { useState } from 'react'
-import {
-  DndContext,
-  DragEndEvent,
-  MouseSensor,
-  closestCenter,
-  useDroppable,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core'
+import { RequirementsEntity } from '@/app/requirements/types/req.types'
 
 export default function ReqStateColumn(props: {
   id: number
   title: string
-  requirements: Requirement[]
+  requirements: RequirementsEntity[]
 }) {
-  const { title, id } = props
-
-  const { setNodeRef } = useDroppable({
-    id,
-  })
+  const { title } = props
 
   return (
     <VStack
@@ -40,26 +21,17 @@ export default function ReqStateColumn(props: {
     >
       {/* Titulo de la comuna */}
       <Text p={2}>{title}</Text>
-      <SortableContext
-        id={id.toString()}
-        items={props.requirements}
-        strategy={verticalListSortingStrategy}
+
+      <VStack
+        data-test-id='req-cards-stack'
+        overflowY={'scroll'}
+        overflowX={'hidden'}
       >
-        <VStack
-          data-test-id='req-cards-stack'
-          overflowY={'scroll'}
-          overflowX={'hidden'}
-        >
-          {props.requirements.map((req) => (
-            // Card que muestra el requerimiento
-            <ReqCard
-              ref={setNodeRef}
-              key={`req-card-${req.id}`}
-              requirement={req}
-            />
-          ))}
-        </VStack>
-      </SortableContext>
+        {props.requirements.map((req) => (
+          // Card que muestra el requerimiento
+          <ReqCard key={`req-card-${req.id}`} requirement={req} />
+        ))}
+      </VStack>
     </VStack>
   )
 }

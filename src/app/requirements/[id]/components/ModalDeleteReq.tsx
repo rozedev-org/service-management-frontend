@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {
   useDisclosure,
   Button,
@@ -11,19 +12,21 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { useRequirement } from '../../hook/useRequirements'
-import { config } from '@/config'
 import { appRoutes } from '@/appRoutes'
 import { axiosInstace } from '@/common/utils/axiosIntance'
+import { useEffect } from 'react'
 
 export default function ModalButtons({ params }: { params: { id: number } }) {
-  const requirementsQuery = useRequirement(params.id)
+  const { requirement, fetchReq } = useRequirement(params.id)
   const router = useRouter()
   const { onOpen, isOpen, onClose } = useDisclosure()
   const handleDelete = async () => {
     await axiosInstace.delete(`/requirements/${params.id}`, {})
     router.push(appRoutes.home.requirements.url())
   }
-
+  useEffect(() => {
+    fetchReq()
+  }, [])
   return (
     <>
       <Button colorScheme='red' margin='10px' onClick={onOpen}>
@@ -38,7 +41,7 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Eliminacion del requerimiento : {requirementsQuery.data?.title}
+            Eliminacion del requerimiento : {requirement?.title}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>Confirmacion de Eliminacion</ModalBody>

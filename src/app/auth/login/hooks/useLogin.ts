@@ -5,14 +5,14 @@ import { LoginEntity } from '../types/login.types'
 import { config } from '@/config'
 import axios from 'axios'
 import { appRoutes } from '@/appRoutes'
-import { useUserId } from '@/states/useUserId'
+import { useUserSession } from '@/states/useUserId'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 
 export const useLoginForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
-  const { setId } = useUserId()
+  const { login } = useUserSession()
 
   const loginForm = useForm({
     defaultValues: {
@@ -20,19 +20,13 @@ export const useLoginForm = () => {
       password: '',
     },
     onSubmit: async ({ value }) => {
-      try {
-        const response = await axiosInstace.post<LoginEntity>(
-          `/auth/login`,
-          value
-        )
-        setId(response.data.user.id)
-
+      const onLogin = await login(value.username, value.password)
+      if (onLogin) {
         router.push(appRoutes.home.url(0))
-      } catch (error: any) {
+      } else {
         setOnError(true)
         setErrorMessage(
-          error.response?.data.message ||
-            'Ocurrió un error al intentar iniciar sesión, por favor intente nuevamente'
+          'Ocurrió un error al intentar iniciar sesión, por favor intente nuevamente'
         )
       }
     },

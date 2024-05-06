@@ -1,22 +1,10 @@
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
-import {
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Select,
-  VStack,
-} from '@chakra-ui/react'
-import {
-  useCreateReqStateForm,
-  useRequirementsState,
-} from '../hook/useRequirementState'
+import { Button, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react'
+import { useCreateReqStateForm } from '../hook/useRequirementState'
 
 export default function ReqStateAddPage() {
   const { ReqStateForm } = useCreateReqStateForm()
-  const reqStateQuery = useRequirementsState()
-  const states = reqStateQuery.data?.data
   return (
     <CardContainer title='Crear Requerimiento'>
       <form

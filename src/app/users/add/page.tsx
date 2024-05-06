@@ -4,7 +4,7 @@ import { Button, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react'
 import { useCreateUserForm } from '../hook/useUser'
 
 export default function AddUser() {
-  const { userForm, onError, errorMessage } = useCreateUserForm()
+  const { userForm } = useCreateUserForm()
 
   return (
     <CardContainer title='Crear Usuario'>

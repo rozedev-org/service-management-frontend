@@ -1,6 +1,4 @@
-import { config } from '@/config'
 import { BoardEntity } from '../types/board.types'
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 
@@ -14,6 +12,7 @@ export const useBoard = () => {
         }
       )
       setBoardState(response.data)
+      setIsLoading(false)
       return response.data
     } catch (error) {
       console.log(error)
@@ -21,6 +20,7 @@ export const useBoard = () => {
   }
 
   const [boardState, setBoardState] = useState<BoardEntity[]>([])
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
-  return { boardState, setBoardState, fetchBoard }
+  return { fetchBoard, boardState, setBoardState, isLoading }
 }

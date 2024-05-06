@@ -9,6 +9,21 @@ export const appRoutes = {
     },
     requirements: {
       url: () => `/requirements`,
+      reqTypes: {
+        url: (_: number) => `/requirements/req-types`,
+        getOne: {
+          url: (id: number) => `/requirements/req-types/${id}`,
+        },
+        add: {
+          url: (_: number) => `/requirements/req-types/add`,
+        },
+        update: {
+          url: (id: number) => `/requirements/req-types/${id}/update`,
+        },
+        delete: {
+          url: (id: number) => `/requirements/req-types/${id}/delete`,
+        },
+      },
       getOne: {
         url: (id: number) => `/requirements/${id}`,
       },
