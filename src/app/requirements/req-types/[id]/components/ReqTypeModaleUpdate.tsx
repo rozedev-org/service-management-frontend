@@ -18,9 +18,7 @@ export const ReqTypeModaleUpdate = (props: ModalButtonsProps) => {
   const { isOpen, onClose, onOpen } = useDisclosure()
   return (
     <>
-      <Button colorScheme='blue' margin='10px' onClick={onOpen}>
-        Actualizar
-      </Button>
+      <Button onClick={onOpen}>Actualizar</Button>
       <Modal
         isCentered
         onClose={onClose}

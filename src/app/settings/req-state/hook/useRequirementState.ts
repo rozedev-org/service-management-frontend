@@ -1,3 +1,4 @@
+
 import axios from 'axios'
 import { config } from '@/config'
 import {
@@ -5,7 +6,6 @@ import {
   PaginationParams,
 } from '@/common/interfaces/response.interface'
 import {
-  NewReq,
   NewReqState,
   ReqStateEntity,
   RequirementsEntity,

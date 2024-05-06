@@ -12,8 +12,6 @@ import {
 } from '@chakra-ui/react'
 import { useRequirementState } from '../../hook/useRequirementState'
 import { useRouter } from 'next/navigation'
-import { config } from '@/config'
-import axios from 'axios'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'

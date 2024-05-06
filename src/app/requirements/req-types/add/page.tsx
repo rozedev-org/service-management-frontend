@@ -70,7 +70,7 @@ export default function ReqTypesAddPage() {
                       <Heading as='h3' size='sm' pt='20px'>
                         Campo {i + 1}
                       </Heading>
-                      {/* Type input */}
+                      {/* Type field */}
                       <reqTypeForm.Field
                         name={`requirementTypeField[${i}].type`}
                       >
@@ -80,6 +80,7 @@ export default function ReqTypesAddPage() {
                               <FormLabel pt='20px'>
                                 Tipo de Campo
                                 <Tooltip label='Eliminar este campo'>
+                                  {/* Button to Delete selected field */}
                                   <Button
                                     leftIcon={<CloseIcon />}
                                     ml={'10px'}
@@ -90,6 +91,7 @@ export default function ReqTypesAddPage() {
                                   />
                                 </Tooltip>
                               </FormLabel>
+                              {/* Type input */}
                               <Select
                                 onChange={(e) =>
                                   subField.handleChange(e.target.value)
@@ -110,7 +112,7 @@ export default function ReqTypesAddPage() {
                           )
                         }}
                       </reqTypeForm.Field>
-                      {/* Title input */}
+                      {/* Title field */}
                       <reqTypeForm.Field
                         name={`requirementTypeField[${i}].title`}
                       >
@@ -118,8 +120,8 @@ export default function ReqTypesAddPage() {
                           return (
                             <FormControl isRequired>
                               <FormLabel>Titulo</FormLabel>
+                              {/* Title input */}
                               <Input
-                                // type='text'
                                 onBlur={subField.handleBlur}
                                 value={subField.state.value}
                                 onChange={(e) =>
@@ -139,15 +141,17 @@ export default function ReqTypesAddPage() {
                   children={([canSubmit, isSubmitting]) => (
                     <Stack mt='10px'>
                       <ButtonGroup size='sm' isAttached variant='outline'>
+                        {/* Submit button */}
                         <Button type='submit' disabled={!canSubmit}>
                           {isSubmitting ? '...' : 'Enviar'}
                         </Button>
                         <Tooltip label='Añadir un nuevo campo'>
+                          {/* Button to add a new field */}
                           <IconButton
                             onClick={() =>
                               field.pushValue({ title: '', type: '' })
                             }
-                            aria-label='Add to friends'
+                            aria-label='Add a new field'
                             icon={<AddIcon />}
                           />
                         </Tooltip>
