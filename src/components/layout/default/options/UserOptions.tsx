@@ -14,11 +14,13 @@ import {
 import { Link } from '@chakra-ui/next-js'
 import { appRoutes } from '@/appRoutes'
 import { mobileOnCloseType } from '@/types/mobileOnCloseType'
+import { useUserSession } from '@/states/useUserId'
 interface UserOptionsListInterface {
   name: string
   icon: ReactElement<any, string | JSXElementConstructor<any>>
   isEnabled: boolean
   href: string
+  showOnLogged: boolean
 }
 const UserOptionsList: UserOptionsListInterface[] = [
   {
@@ -26,24 +28,28 @@ const UserOptionsList: UserOptionsListInterface[] = [
     icon: <BiHome />,
     isEnabled: true,
     href: appRoutes.home.url(0),
+    showOnLogged: true,
   },
   {
     name: 'Tablero',
     icon: <BiTask />,
     isEnabled: true,
     href: appRoutes.home.board.url(0),
+    showOnLogged: true,
   },
   {
     name: 'Usuarios',
     icon: <BiUser />,
     isEnabled: true,
     href: appRoutes.home.users.url(),
+    showOnLogged: true,
   },
   {
     name: 'Requerimientos',
     icon: <BiSolidPieChartAlt2 />,
     isEnabled: true,
     href: appRoutes.home.requirements.url(),
+    showOnLogged: true,
   },
 
   {
@@ -51,18 +57,21 @@ const UserOptionsList: UserOptionsListInterface[] = [
     icon: <BiFileBlank />,
     isEnabled: true,
     href: appRoutes.home.login.url(0),
+    showOnLogged: false,
   },
   {
     name: 'History',
     icon: <BiHistory />,
     isEnabled: false,
     href: '/users',
+    showOnLogged: true,
   },
   {
     name: 'Favorites',
     icon: <BiBookmark />,
     isEnabled: false,
     href: '/users',
+    showOnLogged: true,
   },
 ]
 
@@ -72,6 +81,7 @@ interface UserOptionsProps {
 }
 
 export const UserOptions = (props: UserOptionsProps) => {
+  const { isLoggedIn } = useUserSession()
   const filteredOptions = UserOptionsList.filter((option) =>
     option.name.toLocaleLowerCase().includes(props.optionFilter)
   )
@@ -81,7 +91,8 @@ export const UserOptions = (props: UserOptionsProps) => {
     <VStack w={'full'} gap={1}>
       {filteredOptions.map(
         (option, index) =>
-          option.isEnabled && (
+          option.isEnabled &&
+          option.showOnLogged === isLoggedIn && (
             <Link
               color={'gray.600'}
               key={`user option - ${index}`}

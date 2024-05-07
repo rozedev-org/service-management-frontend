@@ -18,8 +18,7 @@ import { useEffect } from 'react'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 export const Profile = (props: mobileOnCloseType) => {
   const router = useRouter()
-  const { setId } = useUserSession()
-  const { id } = useUserSession()
+  const { setId, id, setIsLoggedIn } = useUserSession()
   const { user, fetchUser } = useUser(id)
   useEffect(() => {
     if (id && id !== 0) {
@@ -30,6 +29,7 @@ export const Profile = (props: mobileOnCloseType) => {
   const handleLogout = () => {
     console.log('logout')
     router.push('/auth/login')
+    setIsLoggedIn(false)
     const loggedId = id
     if (loggedId) {
       localStorage.setItem('userID', '')
