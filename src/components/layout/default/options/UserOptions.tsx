@@ -86,6 +86,14 @@ export const UserOptions = (props: UserOptionsProps) => {
     option.name.toLocaleLowerCase().includes(props.optionFilter)
   )
   const { onClose } = props
+  const handleButtonOption = () => {
+    if (isLoggedIn === false) {
+      appRoutes.home.url(0)
+    }
+    if (onClose) {
+      onClose()
+    }
+  }
 
   return (
     <VStack w={'full'} gap={1}>
@@ -105,7 +113,7 @@ export const UserOptions = (props: UserOptionsProps) => {
                 variant='ghost'
                 w={'full'}
                 justifyContent={'start'}
-                onClick={onClose}
+                onClick={handleButtonOption}
               >
                 {option.name}
               </Button>
