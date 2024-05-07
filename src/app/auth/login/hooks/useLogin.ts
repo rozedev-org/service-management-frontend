@@ -12,7 +12,7 @@ export const useLoginForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
-  const { login } = useUserSession()
+  const { login, setIsLoggedIn } = useUserSession()
 
   const loginForm = useForm({
     defaultValues: {
@@ -23,6 +23,7 @@ export const useLoginForm = () => {
       const onLogin = await login(value.username, value.password)
       if (onLogin) {
         router.push(appRoutes.home.url(0))
+        setIsLoggedIn(true)
       } else {
         setOnError(true)
         setErrorMessage(
