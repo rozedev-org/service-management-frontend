@@ -4,7 +4,6 @@ export interface NewReq {
   title: string
   userId: number | null
   stateId: number
-  reqTypeId: number
 }
 export interface NewReqState {
   title: string

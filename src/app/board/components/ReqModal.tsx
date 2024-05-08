@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import {
   useDisclosure,
@@ -16,19 +17,28 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  FormControl,
+  FormLabel,
+  Select,
 } from '@chakra-ui/react'
 import { ReqTableOptions } from '../../requirements/components/TableOptions'
 import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
 import { BiChevronDown } from 'react-icons/bi'
 import { useRefreshSignal } from '../states/useRefreshSignal'
 import { RequirementsEntity } from '@/app/requirements/types/req.types'
+import { useUpdateReqForm } from '@/app/requirements/hook/useRequirements'
+import { useUsers } from '@/app/users/hook/useUser'
+import { useEffect, useState } from 'react'
+import { PaginationParams } from '@/common/interfaces/response.interface'
 
 export default function ReqModal(props: { requirement: RequirementsEntity }) {
+  const [isDisabled, setIsDisabled] = useState(true)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { title, id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
   const { setOnRefresh } = useRefreshSignal()
-
+  const { updateReqForm } = useUpdateReqForm(props.requirement)
+  const { user: usersData, fetchUsers } = useUsers()
   const handleOpen = async () => {
     await fetchReqActions()
     onOpen()
@@ -37,10 +47,19 @@ export default function ReqModal(props: { requirement: RequirementsEntity }) {
     await updateReqAction(id)
   }
 
-  const handleCloseModal = () => {
+  const handleCloseModal = async () => {
+    await updateReqForm.handleSubmit()
     onClose()
     setOnRefresh(true)
+    setIsDisabled(true)
   }
+  useEffect(() => {
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+    }
+    fetchUsers(queryPamas)
+  }, [])
 
   return (
     <>
@@ -143,14 +162,39 @@ export default function ReqModal(props: { requirement: RequirementsEntity }) {
                     </Text>
                     <HStack>
                       <Avatar size={'md'} p='1' name={user?.userName} />
-                      <Text
-                        size='md'
-                        fontSize={'16px'}
-                        fontWeight={400}
-                        lineHeight={'24px'}
-                      >
-                        {user?.userName}
-                      </Text>
+                      <FormControl isRequired>
+                        {updateReqForm.Field({
+                          name: 'userId',
+                          children: (field) => (
+                            <HStack>
+                              <Select
+                                ml={'auto'}
+                                isDisabled={isDisabled}
+                                defaultValue={Number(field.state.value)}
+                                onChange={(e) =>
+                                  field.handleChange(
+                                    Number(e.currentTarget.value)
+                                  )
+                                }
+                              >
+                                {usersData.map((data, i) => (
+                                  <option key={`option-${i}`} value={data.id}>
+                                    {data.userName}
+                                  </option>
+                                ))}
+                              </Select>
+                              <Button
+                                mr={'auto'}
+                                variant='outline'
+                                w={'15rem'}
+                                onClick={() => setIsDisabled(!isDisabled)}
+                              >
+                                Cambiar Responsable
+                              </Button>
+                            </HStack>
+                          ),
+                        })}
+                      </FormControl>
                     </HStack>
                   </Stack>
                 </VStack>

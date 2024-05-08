@@ -91,7 +91,7 @@ export default function AddReq() {
             })}
           </FormControl>
 
-          <FormControl isRequired>
+          {/* <FormControl isRequired>
             <FormLabel>Tipo de Requerimiento</FormLabel>
             {ReqForm.Field({
               name: 'reqTypeId',
@@ -130,7 +130,7 @@ export default function AddReq() {
               <FormLabel>{field.title}</FormLabel>
               <Input type={field.type} />
             </FormControl>
-          ))}
+          ))} */}
           <Button type='submit'>Guardar</Button>
         </VStack>
       </form>
