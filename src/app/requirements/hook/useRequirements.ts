@@ -80,8 +80,8 @@ export const useCreateReqForm = () => {
     defaultValues: {
       title: '',
       userId: null,
-      stateId: 0,
-      reqTypeId: 0,
+      stateId: 1,
+      // reqTypeId: 0,
     },
     onSubmit: async ({ value }) => {
       try {
@@ -118,7 +118,6 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
       title: req?.title || '',
       userId: req?.userId || null,
       stateId: req?.stateId || 1,
-      reqTypeId: req?.reqTypeId || 1,
     },
     onSubmit: async ({ value }) => {
       try {
@@ -126,7 +125,7 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
           `/requirements/${req?.id}`,
           value
         )
-        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
+        // router.push(appRoutes.home.requirements.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(

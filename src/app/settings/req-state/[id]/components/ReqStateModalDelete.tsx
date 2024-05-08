@@ -22,7 +22,7 @@ function ReqStateModalDelete({ params }: { params: { id: number } }) {
   const { isOpen, onClose, onOpen } = useDisclosure()
 
   const handleDelete = async () => {
-    await axiosInstace.delete(`/req-state/${params.id}`, {
+    await axiosInstace.delete(`/requirements/state/${params.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}` || '',
       },
