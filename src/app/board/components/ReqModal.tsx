@@ -30,28 +30,33 @@ import { useUpdateReqForm } from '@/app/requirements/hook/useRequirements'
 import { useUsers } from '@/app/users/hook/useUser'
 import { useEffect, useState } from 'react'
 import { PaginationParams } from '@/common/interfaces/response.interface'
+import { UserEntity } from '@/app/users/types/user.types'
+import { UpDownIcon } from '@chakra-ui/icons'
 
 export default function ReqModal(props: { requirement: RequirementsEntity }) {
-  const [isDisabled, setIsDisabled] = useState(true)
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { title, id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
   const { setOnRefresh } = useRefreshSignal()
   const { updateReqForm } = useUpdateReqForm(props.requirement)
   const { user: usersData, fetchUsers } = useUsers()
+  const [selectedUser, setSelectedUser] = useState<UserEntity | null>(user)
   const handleOpen = async () => {
     await fetchReqActions()
     onOpen()
   }
-  const handleUpdate = async (id: number) => {
+  const handleUpdateAction = async (id: number) => {
     await updateReqAction(id)
   }
-
-  const handleCloseModal = async () => {
+  const handleUpdateUser = async () => {
     await updateReqForm.handleSubmit()
+  }
+  const handleMenuItemClick = (user: UserEntity) => {
+    setSelectedUser(user)
+  }
+  const handleCloseModal = async () => {
     onClose()
     setOnRefresh(true)
-    setIsDisabled(true)
   }
   useEffect(() => {
     const queryPamas: PaginationParams = {
@@ -123,7 +128,9 @@ export default function ReqModal(props: { requirement: RequirementsEntity }) {
                           {reqActions.remaining.map((state) => (
                             <MenuItem
                               key={`menu-item-req-${id}-state-${state.id}`}
-                              onClick={async () => await handleUpdate(state.id)}
+                              onClick={async () =>
+                                await handleUpdateAction(state.id)
+                              }
                             >
                               {state.title}
                             </MenuItem>
@@ -161,36 +168,42 @@ export default function ReqModal(props: { requirement: RequirementsEntity }) {
                       Responsable
                     </Text>
                     <HStack>
-                      <Avatar size={'md'} p='1' name={user?.userName} />
                       <FormControl isRequired>
                         {updateReqForm.Field({
                           name: 'userId',
                           children: (field) => (
                             <HStack>
-                              <Select
-                                ml={'auto'}
-                                isDisabled={isDisabled}
-                                defaultValue={Number(field.state.value)}
-                                onChange={(e) =>
-                                  field.handleChange(
-                                    Number(e.currentTarget.value)
-                                  )
-                                }
-                              >
-                                {usersData.map((data, i) => (
-                                  <option key={`option-${i}`} value={data.id}>
-                                    {data.userName}
-                                  </option>
-                                ))}
-                              </Select>
-                              <Button
-                                mr={'auto'}
-                                variant='outline'
-                                w={'15rem'}
-                                onClick={() => setIsDisabled(!isDisabled)}
-                              >
-                                Cambiar Responsable
-                              </Button>
+                              <Avatar
+                                size={'md'}
+                                p='1'
+                                name={selectedUser?.userName}
+                              />
+                              <Menu>
+                                {/* Menu que controla el responsable */}
+                                <MenuButton
+                                  as={Button}
+                                  rightIcon={<UpDownIcon />}
+                                >
+                                  {selectedUser?.userName}
+                                </MenuButton>
+                                <MenuList>
+                                  {usersData.map((data) => (
+                                    <MenuItem
+                                      value={data.id}
+                                      key={`menu-item-req-${id}-state-${data.id}`}
+                                      onClick={(e) => {
+                                        field.handleChange(
+                                          Number(e.currentTarget.value)
+                                        )
+                                        handleUpdateUser()
+                                        handleMenuItemClick(data)
+                                      }}
+                                    >
+                                      {data.userName}
+                                    </MenuItem>
+                                  ))}
+                                </MenuList>
+                              </Menu>
                             </HStack>
                           ),
                         })}
