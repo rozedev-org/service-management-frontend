@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useUser } from '@/app/users/hook/useUser'
 import { appRoutes } from '@/appRoutes'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 import { useUserSession } from '@/states/useUserId'
 import { mobileOnCloseType } from '@/types/mobileOnCloseType'
 import {
@@ -28,6 +29,7 @@ export const Profile = (props: mobileOnCloseType) => {
   }, [id])
 
   const handleLogout = () => {
+    axiosInstace.post(`/auth/logout`)
     router.push(appRoutes.home.login.url(0))
     setIsLoggedIn(false)
     const loggedId = id
@@ -35,7 +37,6 @@ export const Profile = (props: mobileOnCloseType) => {
       localStorage.setItem('userID', '')
       setId(0)
     }
-    // router.refresh()
     window.location.reload()
   }
 
