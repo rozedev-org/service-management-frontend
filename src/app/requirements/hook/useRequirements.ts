@@ -9,6 +9,7 @@ import { useForm } from '@tanstack/react-form'
 import { appRoutes } from '@/appRoutes'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { usePaginated } from '@/common/hooks/usePaginated'
+import { useReqId } from '@/states/useReqId'
 
 /**
  * Custom hook for fetching requirements data.
@@ -75,7 +76,7 @@ export const useCreateReqForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
-
+  const { setId } = useReqId()
   const ReqForm = useForm<NewReq>({
     defaultValues: {
       title: '',
@@ -89,7 +90,7 @@ export const useCreateReqForm = () => {
           `/requirements`,
           value
         )
-        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
+        setId(response.data.id)
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(
@@ -125,7 +126,6 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
           `/requirements/${req?.id}`,
           value
         )
-        // router.push(appRoutes.home.requirements.getOne.url(response.data.id))
       } catch (error: any) {
         setOnError(true)
         setErrorMessage(
