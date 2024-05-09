@@ -19,8 +19,13 @@ import {
   useRequirementsTypes,
 } from '../req-types/hook/useRequirementsTypes'
 import { PaginationParams } from '@/common/interfaces/response.interface'
+import { useRouter } from 'next/navigation'
+import { appRoutes } from '@/appRoutes'
+import { useReqId } from '@/states/useReqId'
 
 export default function AddReq() {
+  const router = useRouter()
+  const { id, setId } = useReqId()
   const { ReqForm } = useCreateReqForm()
   const { user, fetchUsers, isLoading: isLoadingUsers } = useUsers()
   const {
@@ -44,6 +49,13 @@ export default function AddReq() {
     fetchUsers(queryPamas)
     fetchReqTypes(queryPamas)
   }, [])
+
+  useEffect(() => {
+    if (id !== 0) {
+      router.push(appRoutes.home.requirements.getOne.url(id))
+      setId(0)
+    }
+  }, [id])
 
   return (
     <CardContainer title='Crear Requerimiento'>

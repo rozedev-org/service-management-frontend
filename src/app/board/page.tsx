@@ -6,7 +6,7 @@ import ReqStateColumn from './components/ReqStateColumn'
 import { HStack } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useRefreshSignal } from './states/useRefreshSignal'
-import { AddReqButton } from '../requirements/components/AddButton'
+import { AddReqDrawer } from './components/AddReqDrawer'
 
 export default function BoardPage() {
   const { boardState, fetchBoard, isLoading } = useBoard()
@@ -27,7 +27,7 @@ export default function BoardPage() {
     <CardContainer
       title='Listado de Requerimientos'
       isLoading={isLoading}
-      optionsButton={<AddReqButton />}
+      optionsButton={<AddReqDrawer />}
     >
       <HStack
         data-test-id='req-state-columns-stack'

@@ -26,7 +26,7 @@ export default function ReqStateDeletePage({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   return (
-    <CardContainer title='Eliminar Requerimiento' isLoading={isLoading}>
+    <CardContainer title='Eliminar Estado' isLoading={isLoading}>
       <VStack display={'flex'} alignItems={'center'}>
         <Text fontWeight='bold'>
           Confirmar la eliminacion del estado del requerimiento

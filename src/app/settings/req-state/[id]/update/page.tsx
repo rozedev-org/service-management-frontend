@@ -28,7 +28,7 @@ export default function ReqStateUpdatePage({
   }, [])
 
   return (
-    <CardContainer title='Actualizar Usuario' isLoading={isLoading}>
+    <CardContainer title='Actualizar Estado' isLoading={isLoading}>
       <form
         onSubmit={(e) => {
           e.preventDefault()
