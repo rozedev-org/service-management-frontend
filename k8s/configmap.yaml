@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: service-management-frontend-cm
-  namespace: alerti
+  namespace: service-management
 data:
   # NEXT_PUBLIC_API_BFF: 'http://192.168.3.4:8000/api/alerti-configuration-adapter/v1'
   # NEXT_PUBLIC_ALERTI_WEBSOCKET_SERVICE_API: 'http://192.168.3.44:8001'
