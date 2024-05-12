@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-management-frontend
+  namespace: service-management
+  labels:
+    app: service-management-frontend
+spec:
+  selector:
+    matchLabels:
+      name: service-management-frontend-pod
+      app: service-management-frontend
+  replicas: 1
+  revisionHistoryLimit: 0
+  template:
+    metadata:
+      name: service-management-frontend-pod
+      labels:
+        name: service-management-frontend-pod
+        app: service-management-frontend
+    spec:
+      containers:
+        - name: service-management-frontend
+          image: jcdev.online:32000/service-management-frontend
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          # resources:
+          # requests:
+          #   memory: '200Mi'
+          #   cpu: '100m'
+          # limits:
+          #   memory: '500Mi'
+          #   cpu: '200m'
+          envFrom:
+            #- secretRef:
+            #name: service-management-frontend-env
+            - configMapRef:
+                name: service-management-frontend-cm
