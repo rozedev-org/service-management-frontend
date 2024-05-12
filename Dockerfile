@@ -22,7 +22,7 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-ENV NEXT_PUBLIC_API_BFF  /bff/api/service-manager-service/v1
+ENV NEXT_PUBLIC_API_BFF  /api/service-manager-service/v1
 
 RUN \
   if [ -f package-lock.json ]; then npm run build; \
