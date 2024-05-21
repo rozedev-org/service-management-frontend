@@ -37,7 +37,7 @@ export const CardContainer = (props: CardContainerProps) => {
           {props.aditionalHeaderItems && props.aditionalHeaderItems}
         </HStack>
       </CardHeader>
-      <CardBody>
+      <CardBody h={['80vh', '80vh', '85vh']}>
         {props.isLoading && (
           <Stack
             justifyContent={'center'}

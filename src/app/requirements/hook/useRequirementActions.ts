@@ -1,4 +1,4 @@
-import { ReqActionsActions } from '../types/req.types'
+import { ReqActionsActions } from '../types/requirements.types'
 import { config } from '@/config'
 import { useState } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'

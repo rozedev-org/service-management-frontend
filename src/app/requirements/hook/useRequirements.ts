@@ -2,11 +2,14 @@ import {
   PaginatedResponse,
   PaginationParams,
 } from '@/common/interfaces/response.interface'
-import { NewReq, RequirementsEntity } from '../types/req.types'
+import {
+  NewReq,
+  RequirementEntity,
+  RequirementsEntity,
+} from '../types/requirements.types'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
-import { appRoutes } from '@/appRoutes'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { usePaginated } from '@/common/hooks/usePaginated'
 import { useReqId } from '@/states/useReqId'
@@ -55,14 +58,14 @@ export const useRequirements = () => {
  */
 export const useRequirement = (id: number) => {
   const fetchReq = async () => {
-    const response = await axiosInstace.get<RequirementsEntity>(
+    const response = await axiosInstace.get<RequirementEntity>(
       `/requirements/${id}`
     )
     setRequirement(response.data)
     setIsLoading(false)
     return response.data
   }
-  const [requirement, setRequirement] = useState<RequirementsEntity>()
+  const [requirement, setRequirement] = useState<RequirementEntity>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   return { fetchReq, requirement, setRequirement, isLoading }
@@ -75,14 +78,15 @@ export const useRequirement = (id: number) => {
 export const useCreateReqForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const router = useRouter()
+
   const { setId } = useReqId()
   const ReqForm = useForm<NewReq>({
     defaultValues: {
       title: '',
       userId: null,
       stateId: 1,
-      // reqTypeId: 0,
+      requirementTypeId: 0,
+      requirementFieldValue: [],
     },
     onSubmit: async ({ value }) => {
       try {
@@ -109,7 +113,7 @@ export const useCreateReqForm = () => {
  * @param req - The requirement entity to be updated.
  * @returns An object containing the updateReqForm, onError, and errorMessage.
  */
-export const useUpdateReqForm = (req?: RequirementsEntity) => {
+export const useUpdateReqForm = (req?: RequirementEntity) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
@@ -119,6 +123,12 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
       title: req?.title || '',
       userId: req?.userId || null,
       stateId: req?.stateId || 1,
+      requirementTypeId: req?.requirementTypeId || 0,
+      requirementFieldValue:
+        req?.requirementFieldValue.map((field) => ({
+          requirementTypeFieldId: field.requirementTypeField.id,
+          value: field.value,
+        })) || [],
     },
     onSubmit: async ({ value }) => {
       try {

@@ -4,16 +4,17 @@ import {
 } from '@/common/interfaces/response.interface'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { useState } from 'react'
-import {
-  NewReqType,
-  ReqTypeEntity,
-  ReqTypeFieldEntity,
-  UpdateReqType,
-} from '../../types/req.types'
+
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
 import { appRoutes } from '@/appRoutes'
 import { usePaginated } from '@/common/hooks/usePaginated'
+import { ReqTypeFieldEntity } from '../../types/requirement-type-field'
+import {
+  ReqTypeEntity,
+  NewReqType,
+  UpdateReqType,
+} from '../../types/requirement-type.types'
 
 export const useRequirementsTypes = () => {
   const fetchReqTypes = async (queryPamas: PaginationParams) => {

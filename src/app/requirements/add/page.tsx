@@ -3,6 +3,8 @@
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import {
   Button,
+  Checkbox,
+  Divider,
   FormControl,
   FormLabel,
   Heading,
@@ -57,6 +59,18 @@ export default function AddReq() {
     }
   }, [id])
 
+  useEffect(() => {
+    if (reqType) {
+      const fieldsValues = reqType.requirementTypeField.map((field) => {
+        return {
+          requirementTypeFieldId: field.id,
+          value: '',
+        }
+      })
+      ReqForm.setFieldValue('requirementFieldValue', fieldsValues)
+    }
+  }, [reqType])
+
   return (
     <CardContainer title='Crear Requerimiento'>
       <form
@@ -66,7 +80,7 @@ export default function AddReq() {
           void ReqForm.handleSubmit()
         }}
       >
-        <VStack>
+        <VStack h={'70vh'} overflow={'scroll'} overflowX={'hidden'} p={2}>
           <FormControl>
             <FormLabel>Responsable</FormLabel>
             {ReqForm.Field({
@@ -103,10 +117,10 @@ export default function AddReq() {
             })}
           </FormControl>
 
-          {/* <FormControl isRequired>
+          <FormControl isRequired>
             <FormLabel>Tipo de Requerimiento</FormLabel>
             {ReqForm.Field({
-              name: 'reqTypeId',
+              name: 'requirementTypeId',
               children: (field) => (
                 <Select
                   defaultValue=''
@@ -137,7 +151,85 @@ export default function AddReq() {
             </Heading>
           )}
 
-          {reqType?.requirementTypeField.map((field, i) => (
+          <ReqForm.Field name='requirementFieldValue' mode='array'>
+            {(field) => {
+              return (
+                <VStack>
+                  {field.state.value.map((_, i) => (
+                    <VStack
+                      key={i}
+                      gap={2}
+                      alignItems={'start'}
+                      shadow={'xs'}
+                      p={2}
+                      borderRadius={'md'}
+                      mb={4}
+                    >
+                      <Heading as='h3' size='sm'>
+                        Campo {i + 1}
+                      </Heading>
+                      <Divider />
+                      <ReqForm.Field name={`requirementFieldValue[${i}].value`}>
+                        {(subField) => {
+                          const reqTypeField =
+                            reqType?.requirementTypeField.find(
+                              (value) =>
+                                value.id ===
+                                field.state.value[i].requirementTypeFieldId
+                            )
+
+                          const inputType = reqTypeField?.type || 'text'
+
+                          return (
+                            <FormControl isRequired>
+                              <FormLabel>{reqTypeField?.title}</FormLabel>
+
+                              {/* For checkbox input type */}
+                              {inputType === 'checkbox' && (
+                                <Checkbox
+                                  onBlur={subField.handleBlur}
+                                  value={subField.state.value}
+                                  onChange={(e) => {
+                                    subField.handleChange(e.target.checked)
+                                  }}
+                                ></Checkbox>
+                              )}
+
+                              {/* For text input type */}
+                              {inputType === 'text' && (
+                                <Input
+                                  type={'text'}
+                                  onBlur={subField.handleBlur}
+                                  value={subField.state.value}
+                                  onChange={(e) => {
+                                    subField.handleChange(e.target.value)
+                                  }}
+                                />
+                              )}
+
+                              {/* For text input date */}
+                              {inputType === 'date' && (
+                                <Input
+                                  type={'datetime-local'}
+                                  onBlur={subField.handleBlur}
+                                  value={subField.state.value}
+                                  onChange={(e) => {
+                                    subField.handleChange(e.target.value)
+                                  }}
+                                />
+                              )}
+                            </FormControl>
+                          )
+                        }}
+                      </ReqForm.Field>
+                    </VStack>
+                  ))}
+                </VStack>
+              )
+            }}
+          </ReqForm.Field>
+
+          {/* {reqType?.requirementTypeField.map((field, i) => (
             <FormControl key={`req-typ-${i}`}>
               <FormLabel>{field.title}</FormLabel>
               <Input type={field.type} />
