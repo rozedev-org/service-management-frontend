@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { Text, Avatar, VStack, Stack, HStack } from '@chakra-ui/react'
+import { Text, Avatar, VStack, Stack, HStack, Heading } from '@chakra-ui/react'
 import { useRequirement } from '../hook/useRequirements'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { ReqTableOptions } from '../components/TableOptions'
@@ -40,6 +40,16 @@ export default function ReqPage({ params }: { params: { id: number } }) {
             <Avatar name={requirement?.user?.userName} size={'md'} p='1' />
             <Text size='md'>{requirement?.user?.userName}</Text>
           </HStack>
+        </Stack>
+        <Stack w='100%' paddingTop={20}>
+          <Text borderBottomWidth={2}>Detalle</Text>
+
+          {requirement?.requirementFieldValue.map((field) => (
+            <VStack>
+              <Heading> {field.requirementTypeField.title}</Heading>
+              <Text>{field.value}</Text>
+            </VStack>
+          ))}
         </Stack>
       </VStack>
     </CardContainer>

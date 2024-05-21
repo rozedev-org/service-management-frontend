@@ -1,5 +1,5 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import { RequirementsEntity } from './req.types'
+import { RequirementsEntity } from './requirements.types'
 import { ReqTableOptions } from '../components/TableOptions'
 
 const columnHelper = createColumnHelper<RequirementsEntity>()
