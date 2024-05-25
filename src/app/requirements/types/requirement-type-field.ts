@@ -3,6 +3,7 @@ export interface ReqTypeFieldEntity {
   title: string
   type: string
   requirementTypeId: number
+  order: number
 }
 
 export interface UpdateReqTypeField {
@@ -10,11 +11,13 @@ export interface UpdateReqTypeField {
   title: string
   type: string
   requirementTypeId: number
+  order: number
 }
 
 export interface NewReqTypeField {
   title: string
   type: string
+  order: number
 }
 
 export interface RequirementFieldValueEntity {

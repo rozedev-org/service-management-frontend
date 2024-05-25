@@ -12,6 +12,8 @@ import {
   ButtonGroup,
   IconButton,
   Heading,
+  Text,
+  HStack,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
@@ -76,8 +78,42 @@ export default function ReqTypeUpdatePage({
                     // New req field
                     <div key={i}>
                       <Heading as='h3' size='sm' pt='20px'>
-                        Campo {i + 1}
+                        <HStack>
+                          <Text> Campo {i + 1}</Text>
+                          <Tooltip label='Eliminar este campo'>
+                            {/* Button to Delete selected field */}
+                            <Button
+                              leftIcon={<CloseIcon />}
+                              ml={'10px'}
+                              variant='link'
+                              colorScheme='red'
+                              size={'xs'}
+                              onClick={() => field.removeValue(i)}
+                            />
+                          </Tooltip>
+                        </HStack>
                       </Heading>
+                      {/* Title field */}
+                      <updateReqTypeForm.Field
+                        name={`requirementTypeField[${i}].title`}
+                      >
+                        {(subField) => {
+                          return (
+                            <FormControl isRequired>
+                              <FormLabel>Titulo</FormLabel>
+                              {/* Title input */}
+                              <Input
+                                onBlur={subField.handleBlur}
+                                value={subField.state.value}
+                                onChange={(e) =>
+                                  subField.handleChange(e.target.value)
+                                }
+                              />
+                            </FormControl>
+                          )
+                        }}
+                      </updateReqTypeForm.Field>
+
                       {/* Type field */}
                       <updateReqTypeForm.Field
                         name={`requirementTypeField[${i}].type`}
@@ -85,20 +121,7 @@ export default function ReqTypeUpdatePage({
                         {(subField) => {
                           return (
                             <FormControl isRequired>
-                              <FormLabel pt='20px'>
-                                Tipo de Campo
-                                <Tooltip label='Eliminar este campo'>
-                                  {/* Button to Delete selected field */}
-                                  <Button
-                                    leftIcon={<CloseIcon />}
-                                    ml={'10px'}
-                                    variant='link'
-                                    colorScheme='red'
-                                    size={'xs'}
-                                    onClick={() => field.removeValue(i)}
-                                  />
-                                </Tooltip>
-                              </FormLabel>
+                              <FormLabel pt='20px'>Tipo de Campo</FormLabel>
                               {/* Type input */}
                               <Select
                                 onChange={(e) =>
@@ -120,20 +143,22 @@ export default function ReqTypeUpdatePage({
                           )
                         }}
                       </updateReqTypeForm.Field>
-                      {/* Title field */}
+
+                      {/* order field */}
                       <updateReqTypeForm.Field
-                        name={`requirementTypeField[${i}].title`}
+                        name={`requirementTypeField[${i}].order`}
                       >
                         {(subField) => {
                           return (
                             <FormControl isRequired>
-                              <FormLabel>Titulo</FormLabel>
+                              <FormLabel>Orden</FormLabel>
                               {/* Title input */}
                               <Input
+                                type='number'
                                 onBlur={subField.handleBlur}
                                 value={subField.state.value}
                                 onChange={(e) =>
-                                  subField.handleChange(e.target.value)
+                                  subField.handleChange(Number(e.target.value))
                                 }
                               />
                             </FormControl>
@@ -160,6 +185,7 @@ export default function ReqTypeUpdatePage({
                                 type: '',
                                 requirementTypeId:
                                   field.state.value[0].requirementTypeId,
+                                order: field.state.value.length + 1,
                               })
                             }
                             aria-label='Add a new field'
