@@ -69,7 +69,7 @@ export const useCreateReqTypeForm = () => {
   const reqTypeForm = useForm<NewReqType>({
     defaultValues: {
       name: '',
-      requirementTypeField: [{ title: '', type: '' }],
+      requirementTypeField: [{ title: '', type: '', order: 0 }],
     },
     onSubmit: async ({ value }) => {
       try {

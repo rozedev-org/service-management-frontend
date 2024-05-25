@@ -17,6 +17,7 @@ import {
   Box,
   VStack,
   Divider,
+  HStack,
 } from '@chakra-ui/react'
 import {
   useCreateReqTypeForm,
@@ -88,7 +89,20 @@ export default function ReqTypesAddPage() {
                         mb={4}
                       >
                         <Heading as='h3' size='sm'>
-                          Campo {i + 1}
+                          <HStack>
+                            <Text> Campo {i + 1}</Text>
+                            <Tooltip label='Eliminar este campo'>
+                              {/* Button to Delete selected field */}
+                              <Button
+                                leftIcon={<CloseIcon />}
+                                ml={'10px'}
+                                variant='link'
+                                colorScheme='red'
+                                size={'xs'}
+                                onClick={() => field.removeValue(i)}
+                              />
+                            </Tooltip>
+                          </HStack>
                         </Heading>
                         <Divider />
                         {/* Title field */}
@@ -119,20 +133,7 @@ export default function ReqTypesAddPage() {
                           {(subField) => {
                             return (
                               <FormControl isRequired>
-                                <FormLabel pt='20px'>
-                                  Tipo de Campo
-                                  <Tooltip label='Eliminar este campo'>
-                                    {/* Button to Delete selected field */}
-                                    <Button
-                                      leftIcon={<CloseIcon />}
-                                      ml={'10px'}
-                                      variant='link'
-                                      colorScheme='red'
-                                      size={'xs'}
-                                      onClick={() => field.removeValue(i)}
-                                    />
-                                  </Tooltip>
-                                </FormLabel>
+                                <FormLabel pt='20px'>Tipo de Campo</FormLabel>
                                 {/* Type input */}
                                 <Select
                                   onChange={(e) =>
@@ -151,6 +152,29 @@ export default function ReqTypesAddPage() {
                                   <option value='text'>Texto</option>
                                   <option value='checkbox'>Check</option>
                                 </Select>
+                              </FormControl>
+                            )
+                          }}
+                        </reqTypeForm.Field>
+
+                        {/* order field */}
+                        <reqTypeForm.Field
+                          name={`requirementTypeField[${i}].order`}
+                        >
+                          {(subField) => {
+                            return (
+                              <FormControl isRequired>
+                                <FormLabel pt='20px'>Order</FormLabel>
+                                {/* Type input */}
+                                <Input
+                                  type='number'
+                                  min={0}
+                                  onChange={(e) =>
+                                    subField.handleChange(
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                />
                               </FormControl>
                             )
                           }}
@@ -174,7 +198,11 @@ export default function ReqTypesAddPage() {
                             {/* Button to add a new field */}
                             <IconButton
                               onClick={() =>
-                                field.pushValue({ title: '', type: '' })
+                                field.pushValue({
+                                  title: '',
+                                  type: '',
+                                  order: field.state.value.length + 1,
+                                })
                               }
                               aria-label='Add a new field'
                               icon={<AddIcon />}
