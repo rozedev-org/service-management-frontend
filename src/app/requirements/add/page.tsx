@@ -190,7 +190,9 @@ export default function AddReq() {
                                   onBlur={subField.handleBlur}
                                   value={subField.state.value}
                                   onChange={(e) => {
-                                    subField.handleChange(e.target.checked)
+                                    subField.handleChange(
+                                      String(e.target.checked)
+                                    )
                                   }}
                                 ></Checkbox>
                               )}

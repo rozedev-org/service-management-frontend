@@ -22,7 +22,7 @@ export const useLoginForm = () => {
     onSubmit: async ({ value }) => {
       const onLogin = await login(value.username, value.password)
       if (onLogin) {
-        router.push(appRoutes.home.url(0))
+        router.push(appRoutes.home.board.url(0))
         setIsLoggedIn(true)
       } else {
         setOnError(true)

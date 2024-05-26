@@ -18,6 +18,8 @@ import {
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
+import Cookies from 'js-cookie'
+
 export const Profile = (props: mobileOnCloseType) => {
   const router = useRouter()
   const { setId, id, setIsLoggedIn } = useUserSession()
@@ -28,16 +30,15 @@ export const Profile = (props: mobileOnCloseType) => {
     }
   }, [id])
 
-  const handleLogout = () => {
-    axiosInstace.post(`/auth/logout`)
+  const handleLogout = async () => {
+    await axiosInstace.post(`/auth/logout`)
+    Cookies.set('isLoggedIn', String(false))
     router.push(appRoutes.home.login.url(0))
     setIsLoggedIn(false)
-    const loggedId = id
-    if (loggedId) {
-      localStorage.setItem('userID', '')
-      setId(0)
-    }
-    window.location.reload()
+    setId(0)
+    localStorage.setItem('userID', '')
+
+    router.push(appRoutes.home.login.url(0))
   }
 
   return (

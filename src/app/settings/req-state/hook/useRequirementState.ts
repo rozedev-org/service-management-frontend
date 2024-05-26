@@ -1,21 +1,21 @@
-
 import axios from 'axios'
 import { config } from '@/config'
 import {
   PaginatedResponse,
   PaginationParams,
 } from '@/common/interfaces/response.interface'
-import {
-  NewReqState,
-  ReqStateEntity,
-  RequirementsEntity,
-} from '@/app/requirements/types/req.types'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
 import { useForm } from '@tanstack/react-form'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { usePaginated } from '@/common/hooks/usePaginated'
+import {
+  NewReqState,
+  ReqStateEntity,
+} from '@/app/requirements/types/requirement-state.type'
+import { RequirementsEntity } from '@/app/requirements/types/requirements.types'
 
 export const useRequirementsState = () => {
   const fetchReqState = async (queryPamas: PaginationParams) => {

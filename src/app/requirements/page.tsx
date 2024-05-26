@@ -2,7 +2,6 @@
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { SearchInput } from '@/components/input/SearchInput'
-import { CustomTable } from '@/components/table/CustomTable/CustomTable'
 import { RequirementsEntity } from './types/requirements.types'
 import { requirementsColumns } from './types/columnDef'
 import { useRequirements } from './hook/useRequirements'

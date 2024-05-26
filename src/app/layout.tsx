@@ -3,6 +3,8 @@ import './globals.css'
 import { Providers } from './providers'
 import { fonts } from './fonts'
 import { DefaultLayout } from '@/components/layout/default'
+import { theme } from './theme'
+import { ColorModeScript } from '@chakra-ui/react'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,6 +20,7 @@ export default function RootLayout({
     <html lang='en' className={fonts.dm_Sans.className}>
       <body>
         <Providers>
+          <ColorModeScript initialColorMode={theme.config.initialColorMode} />
           <DefaultLayout>{children}</DefaultLayout>
         </Providers>
       </body>

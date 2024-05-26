@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { ReqStateEntity } from '@/app/requirements/types/req.types'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { useRequirementsState } from './hook/useRequirementState'
 import { reqStateCustomColumn } from './types/ReqStateCustomTable'
@@ -9,6 +8,7 @@ import { SearchInput } from '@/components/input/SearchInput'
 import { useEffect } from 'react'
 import { PaginatedTable } from '@/components/table/PaginatedTable/PaginatedTable'
 import { PaginationParams } from '@/common/interfaces/response.interface'
+import { ReqStateEntity } from '@/app/requirements/types/requirement-state.type'
 
 export default function ReqStatePage() {
   const {

@@ -44,8 +44,8 @@ export default function ReqPage({ params }: { params: { id: number } }) {
         <Stack w='100%' paddingTop={20}>
           <Text borderBottomWidth={2}>Detalle</Text>
 
-          {requirement?.requirementFieldValue.map((field) => (
-            <VStack>
+          {requirement?.requirementFieldValue.map((field, index) => (
+            <VStack key={`req-${index}`}>
               <Heading> {field.requirementTypeField.title}</Heading>
               <Text>{field.value}</Text>
             </VStack>

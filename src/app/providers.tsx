@@ -1,11 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { ChakraProvider } from '@chakra-ui/react'
 import { theme } from './theme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useUserSession } from '@/states/useUserId'
 import { UserSessionProvider } from '@/providers/session.provider'
+import dynamic from 'next/dynamic'
+const ChakraProvider = dynamic(
+  () => import('@chakra-ui/react').then((mod) => mod.ChakraProvider),
+  { ssr: false }
+)
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const { setId } = useUserSession()

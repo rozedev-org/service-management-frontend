@@ -25,15 +25,15 @@ import { ReqTableOptions } from '../../requirements/components/TableOptions'
 import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
 import { BiChevronDown } from 'react-icons/bi'
 import { useRefreshSignal } from '../states/useRefreshSignal'
-import { RequirementsEntity } from '@/app/requirements/types/req.types'
-import { useUpdateReqForm } from '@/app/requirements/hook/useRequirements'
 import { useUsers } from '@/app/users/hook/useUser'
 import { useEffect, useState } from 'react'
 import { PaginationParams } from '@/common/interfaces/response.interface'
 import { UserEntity } from '@/app/users/types/user.types'
 import { UpDownIcon } from '@chakra-ui/icons'
+import { RequirementEntity } from '@/app/requirements/types/requirements.types'
+import { useUpdateReqForm } from '@/app/requirements/hook/useRequirements'
 
-export default function ReqModal(props: { requirement: RequirementsEntity }) {
+export default function ReqModal(props: { requirement: RequirementEntity }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { title, id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)

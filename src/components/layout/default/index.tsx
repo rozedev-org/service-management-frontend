@@ -4,6 +4,7 @@ import { MobileSideBar } from './MobileSideBar'
 import { Sidebar } from './Sidebar'
 import { Content } from './Content'
 import { useUserSession } from '@/states/useUserId'
+import { cookies } from 'next/headers'
 
 export const DefaultLayout = ({
   children,
@@ -11,6 +12,10 @@ export const DefaultLayout = ({
   children: React.ReactNode
 }>) => {
   const { isLoggedIn } = useUserSession()
+  // const cookieStore = cookies()
+
+  // const isLoggedIn =
+  //   cookieStore.get('isLoggedIn')?.value === 'true' ? true : false
   return (
     <Stack
       flexDirection={['column', 'column', 'row']}
