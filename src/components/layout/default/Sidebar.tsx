@@ -13,6 +13,7 @@ import { ManagementOptions } from './options/ManagementOptions'
 import { UserOptions } from './options/UserOptions'
 import { SearchInput } from '@/components/input/SearchInput'
 import { useState } from 'react'
+import { GlobalStyles } from '@/constants/Colors'
 
 export const Sidebar = () => {
   const [optionFilter, setOptionFilter] = useState('')
@@ -25,14 +26,11 @@ export const Sidebar = () => {
     <VStack
       minH={'100vh'}
       maxW={'xs'}
-      borderRight={'1px'}
-      borderColor={'gray.200'}
-      borderStyle={'solid'}
       paddingY={8}
       paddingX={6}
-      boxShadow={'rgba(112, 144, 176, 0.08) 14px 17px 40px 4px'}
-      // bg={'white'}
+      boxShadow={GlobalStyles().BOX_SHADOW}
       display={['none', 'none', 'flex']}
+      bg={GlobalStyles().BG_COLOR_PRIMARY}
     >
       {/* Top Section */}
       <VStack gap={8} alignItems={'start'}>

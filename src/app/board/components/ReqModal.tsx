@@ -32,6 +32,7 @@ import { UserEntity } from '@/app/users/types/user.types'
 import { UpDownIcon } from '@chakra-ui/icons'
 import { RequirementEntity } from '@/app/requirements/types/requirements.types'
 import { useUpdateReqForm } from '@/app/requirements/hook/useRequirements'
+import { GlobalStyles } from '@/constants/Colors'
 
 export default function ReqModal(props: { requirement: RequirementEntity }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -70,11 +71,10 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
     <>
       {/* Boton con un titulo que se renderiza en la columna */}
       <Button
-        colorScheme='gray'
         variant={'link'}
         onClick={handleOpen}
         fontSize={14}
-        color={'black'}
+        color={GlobalStyles().TEXT_COLOR_PRIMARY}
         textAlign={'left'}
       >
         {title}

@@ -2,6 +2,7 @@
 import { VStack, Text } from '@chakra-ui/react'
 import ReqCard from './ReqCard'
 import { RequirementEntity } from '@/app/requirements/types/requirements.types'
+import { GlobalStyles } from '@/constants/Colors'
 
 export default function ReqStateColumn(props: {
   id: number
@@ -12,19 +13,25 @@ export default function ReqStateColumn(props: {
 
   return (
     <VStack
-      w={['74vw', '320px']}
+      // w={['74vw', '330px']}
+      w={'328px'}
       h={'100%'}
-      bg={'#F4F7FE'}
       alignItems='start'
       borderRadius='20px'
       padding='10px'
+      boxShadow={'2xl'}
     >
-      {/* Titulo de la comuna */}
-      <Text p={2}>{title}</Text>
+      {/*Titulo*/}
+      <Text color={GlobalStyles().TEXT_COLOR_PRIMARY} p={2}>
+        {title}
+      </Text>
 
       <VStack
+        h={'100%'}
+        w={['250px', '250px', '306px', '306px', '306px', '306px']}
+        p={2}
         data-test-id='req-cards-stack'
-        overflowY={'scroll'}
+        overflowY={props.requirements.length > 3 ? 'scroll' : 'hidden'}
         overflowX={'hidden'}
       >
         {props.requirements.map((req) => (

@@ -1,3 +1,4 @@
+import { GlobalStyles } from '@/constants/Colors'
 import {
   Card,
   CardHeader,
@@ -21,9 +22,10 @@ export const CardContainer = (props: CardContainerProps) => {
   return (
     <Card
       borderRadius={'20px'}
-      w={'100%'}
+      // w={'100%'}
       h={['80vh', '80vh', '85vh']}
-      bg={'white'}
+      bg={GlobalStyles().BG_COLOR_SECONDARY}
+      boxShadow={GlobalStyles().BOX_SHADOW}
     >
       <CardHeader>
         <HStack>
@@ -36,12 +38,15 @@ export const CardContainer = (props: CardContainerProps) => {
           {props.aditionalHeaderItems && props.aditionalHeaderItems}
         </HStack>
       </CardHeader>
-      <CardBody h={['80vh', '80vh', '85vh']}>
+      <CardBody
+        h={['80vh', '80vh', '85vh']}
+        // w={'100%'}
+      >
         {props.isLoading && (
           <Stack
             justifyContent={'center'}
             alignItems={'center'}
-            w={'100%'}
+            // w={'100%'}
             h={'100%'}
           >
             <Spinner size={'xl'} />

@@ -1,3 +1,4 @@
+import { GlobalStyles } from '@/constants/Colors'
 import {
   InputGroup,
   InputLeftElement,
@@ -18,6 +19,9 @@ export const SearchInput = (props: SearchInputProps) => {
         <Icon as={BiSearch} />
       </InputLeftElement>
       <Input
+        _placeholder={{
+          color: GlobalStyles().TEXT_COLOR_PRIMARY,
+        }}
         type='text'
         placeholder='Search'
         onChange={(e) => {

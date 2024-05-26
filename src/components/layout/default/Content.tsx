@@ -12,6 +12,7 @@ export const Content = (props: ContentProps) => {
       pt={[0, 0, '30px']}
       w={'100%'}
       h={'100vh'}
+      overflow={'auto'}
     >
       <CustomBreadcrum />
       {props.children}

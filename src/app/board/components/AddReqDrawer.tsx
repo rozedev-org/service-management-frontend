@@ -26,6 +26,7 @@ import {
   IconButton,
   HStack,
 } from '@chakra-ui/react'
+import { GlobalStyles } from '@/constants/Colors'
 
 //130k - 42.3k
 export const AddReqDrawer = () => {
@@ -57,12 +58,12 @@ export const AddReqDrawer = () => {
     <>
       <Tooltip label='Crear Requerimiento'>
         <IconButton
-          variant={'ghost'}
           fontSize='20px'
           icon={<BiPlus />}
           aria-label={''}
-          bg={'gray.100'}
           onClick={onOpen}
+          boxShadow={GlobalStyles().BOX_SHADOW}
+          bg={'#16a085'}
         />
       </Tooltip>
       <Drawer isOpen={isOpen} placement='right' onClose={onClose}>

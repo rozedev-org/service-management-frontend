@@ -76,7 +76,6 @@ export const UserOptions = (props: UserOptionsProps) => {
           option.isEnabled &&
           isLoggedIn && (
             <Link
-              color={'gray.600'}
               key={`user option - ${index}`}
               href={option.href}
               w={'full'}
@@ -84,7 +83,6 @@ export const UserOptions = (props: UserOptionsProps) => {
             >
               <Button
                 leftIcon={option.icon}
-                variant='ghost'
                 w={'full'}
                 justifyContent={'start'}
                 onClick={onClose}

@@ -16,7 +16,7 @@ export const CustomBreadcrum = () => {
   }
 
   return (
-    <Breadcrumb fontSize={'14px'} color={'gray.700'} lineHeight={'25.6px'}>
+    <Breadcrumb fontSize={'14px'} lineHeight={'25.6px'}>
       {items.map((item, index) => (
         <BreadcrumbItem key={`breadcrum-item-${index}`}>
           {/* Comment: Render a breadcrumb item */}

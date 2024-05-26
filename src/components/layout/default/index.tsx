@@ -4,7 +4,7 @@ import { MobileSideBar } from './MobileSideBar'
 import { Sidebar } from './Sidebar'
 import { Content } from './Content'
 import { useUserSession } from '@/states/useUserId'
-import { cookies } from 'next/headers'
+import { GlobalStyles } from '@/constants/Colors'
 
 export const DefaultLayout = ({
   children,
@@ -21,7 +21,7 @@ export const DefaultLayout = ({
       flexDirection={['column', 'column', 'row']}
       minH={'100vh'}
       alignItems={'start'}
-      bg={'#f4f7fe'}
+      bg={GlobalStyles().BG_COLOR_SECONDARY}
     >
       {isLoggedIn === true && (
         <>

@@ -16,19 +16,19 @@ main {
 
 /* Personalizar el fondo de la barra de scroll */
 ::-webkit-scrollbar-track {
-  background-color: #f1f1f1;
+  background-color: #34495E;
   border-radius: 2px;
 }
 
 /* Personalizar el color de la barra de scroll */
 ::-webkit-scrollbar-thumb {
-  background-color: #718096;
+  background-color: #95A5A6;
 
   border-radius: 2px;
 }
 
 /* Personalizar el color de la barra de scroll al hacer hover */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #71809669;
+  background-color: #6e7272;
   border-radius: 2px;
 }
