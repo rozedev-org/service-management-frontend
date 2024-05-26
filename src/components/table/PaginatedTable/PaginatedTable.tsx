@@ -1,4 +1,3 @@
-import { ColumnDef, ColumnHelper } from '@tanstack/react-table'
 import { Box, Flex, FormControl, FormLabel, Select } from '@chakra-ui/react'
 import style from './PaginatedTable.module.css'
 import { TablePagination } from '../TablePagination/TablePagination'

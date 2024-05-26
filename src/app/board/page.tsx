@@ -3,10 +3,15 @@
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { useBoard } from './hook/useBoard'
 import ReqStateColumn from './components/ReqStateColumn'
-import { HStack } from '@chakra-ui/react'
 import { useEffect } from 'react'
 import { useRefreshSignal } from './states/useRefreshSignal'
-import { AddReqDrawer } from './components/AddReqDrawer'
+import { HStack } from '@chakra-ui/react'
+import dynamic from 'next/dynamic'
+
+const AddReqDrawer = dynamic(
+  () => import('./components/AddReqDrawer').then((mod) => mod.AddReqDrawer),
+  { ssr: false }
+)
 
 export default function BoardPage() {
   const { boardState, fetchBoard, isLoading } = useBoard()

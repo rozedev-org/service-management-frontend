@@ -1,5 +1,5 @@
 'use client'
-import { HStack, VStack, Stack, Text } from '@chakra-ui/react'
+import { VStack, Text } from '@chakra-ui/react'
 import ReqCard from './ReqCard'
 import { RequirementEntity } from '@/app/requirements/types/requirements.types'
 
