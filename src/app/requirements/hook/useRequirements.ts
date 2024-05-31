@@ -125,10 +125,12 @@ export const useUpdateReqForm = (req?: RequirementEntity) => {
       stateId: req?.stateId || 1,
       requirementTypeId: req?.requirementTypeId || 0,
       requirementFieldValue:
-        req?.requirementFieldValue.map((field) => ({
-          requirementTypeFieldId: field.requirementTypeField.id,
-          value: field.value,
-        })) || [],
+        req?.requirementFieldValue && Array.isArray(req.requirementFieldValue)
+          ? req.requirementFieldValue.map((field) => ({
+              requirementTypeFieldId: field.requirementTypeField.id,
+              value: field.value,
+            }))
+          : [],
     },
     onSubmit: async ({ value }) => {
       try {

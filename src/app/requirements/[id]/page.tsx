@@ -80,20 +80,61 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                     <FormLabel>
                       <Text>{reqField.requirementTypeField.title}</Text>
                     </FormLabel>
-                    {updateReqForm.Field({
-                      name: 'requirementFieldValue',
-                      children: (field) => (
-                        <Editable
+                    <updateReqForm.Field
+                      name='requirementFieldValue'
+                      mode='array'
+                    >
+                      {(field) => {
+                        return (
+                          <>
+                            {field.state.value.map((_, i) => {
+                              return (
+                                <updateReqForm.Field
+                                  key={i}
+                                  name={`requirementFieldValue[${i}].value`}
+                                >
+                                  {(subField) => {
+                                    return (
+                                      <>
+                                        <Editable
+                                          defaultValue={reqField.value}
+                                          onBlur={subField.handleBlur}
+                                          onChange={() => {
+                                            setEdited(true)
+                                          }}
+                                        >
+                                          <EditablePreview />
+                                          <EditableInput
+                                            onChange={(e) =>
+                                              subField.handleChange(
+                                                e.target.value
+                                              )
+                                            }
+                                          />
+                                        </Editable>
+                                      </>
+                                    )
+                                  }}
+                                </updateReqForm.Field>
+                              )
+                            })}
+                          </>
+                        )
+                      }}
+                    </updateReqForm.Field>
+                  </FormControl>
+                  {/* <Editable
                           defaultValue={reqField.value}
                           onBlur={field.handleBlur}
-                          onChange={() => setEdited(true)}
+                          onChange={() => {
+                            setEdited(true)
+                          }}
                         >
                           <EditablePreview />
-                          <EditableInput />
-                        </Editable>
-                      ),
-                    })}
-                  </FormControl>
+                          <EditableInput
+                            onChange={(e) => field.handleChange(e.target.value)}
+                          />
+                        </Editable> */}
                 </VStack>
               </form>
             </Stack>
