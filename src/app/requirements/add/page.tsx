@@ -9,6 +9,8 @@ import {
   FormLabel,
   Heading,
   Input,
+  InputGroup,
+  InputLeftElement,
   Select,
   Spinner,
   VStack,
@@ -24,6 +26,7 @@ import { PaginationParams } from '@/common/interfaces/response.interface'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
 import { useReqId } from '@/states/useReqId'
+import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
 
 export default function AddReq() {
   const router = useRouter()
@@ -154,9 +157,10 @@ export default function AddReq() {
           <ReqForm.Field name='requirementFieldValue' mode='array'>
             {(field) => {
               return (
-                <VStack>
+                <VStack w={'100%'} pt={2}>
                   {field.state.value.map((_, i) => (
                     <VStack
+                      w={'100%'}
                       key={i}
                       gap={2}
                       alignItems={'start'}
@@ -184,18 +188,6 @@ export default function AddReq() {
                             <FormControl isRequired>
                               <FormLabel>{reqTypeField?.title}</FormLabel>
 
-                              {/* For checkbox input type */}
-                              {inputType === 'checkbox' && (
-                                <Checkbox
-                                  onBlur={subField.handleBlur}
-                                  value={subField.state.value}
-                                  onChange={(e) => {
-                                    subField.handleChange(e.target.checked)
-                                  }}
-                                ></Checkbox>
-                              )}
-
-                              {/* For text input type */}
                               {inputType === 'text' && (
                                 <Input
                                   type={'text'}
@@ -207,7 +199,6 @@ export default function AddReq() {
                                 />
                               )}
 
-                              {/* For text input date */}
                               {inputType === 'date' && (
                                 <Input
                                   type={'datetime-local'}
@@ -215,6 +206,48 @@ export default function AddReq() {
                                   value={subField.state.value}
                                   onChange={(e) => {
                                     subField.handleChange(e.target.value)
+                                  }}
+                                />
+                              )}
+                              {inputType === 'email' && (
+                                <InputGroup>
+                                  <InputLeftElement pointerEvents='none'>
+                                    <EmailIcon color='gray.300' />
+                                  </InputLeftElement>
+                                  <Input
+                                    type={'email'}
+                                    onBlur={subField.handleBlur}
+                                    value={subField.state.value}
+                                    onChange={(e) => {
+                                      subField.handleChange(e.target.value)
+                                    }}
+                                  />
+                                </InputGroup>
+                              )}
+                              {inputType === 'number' && (
+                                <InputGroup>
+                                  <InputLeftElement pointerEvents='none'>
+                                    <PhoneIcon color='gray.300' />
+                                  </InputLeftElement>
+                                  <Input
+                                    type={'tel'}
+                                    onBlur={subField.handleBlur}
+                                    value={subField.state.value}
+                                    onChange={(e) => {
+                                      subField.handleChange(e.target.value)
+                                    }}
+                                  />
+                                </InputGroup>
+                              )}
+
+                              {inputType === 'checkbox' && (
+                                <Checkbox
+                                  onBlur={subField.handleBlur}
+                                  value={subField.state.value}
+                                  onChange={(e) => {
+                                    subField.handleChange(
+                                      String(e.target.checked)
+                                    )
                                   }}
                                 />
                               )}
