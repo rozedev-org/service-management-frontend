@@ -19,28 +19,38 @@ import {
   MenuList,
   FormControl,
   FormLabel,
-  Select,
+  Editable,
+  EditableInput,
+  EditablePreview,
 } from '@chakra-ui/react'
 import { ReqTableOptions } from '../../requirements/components/TableOptions'
 import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
 import { BiChevronDown } from 'react-icons/bi'
 import { useRefreshSignal } from '../states/useRefreshSignal'
-import { useUpdateReqForm } from '@/app/requirements/hook/useRequirements'
+import {
+  useRequirement,
+  useUpdateReqForm,
+} from '@/app/requirements/hook/useRequirements'
 import { useUsers } from '@/app/users/hook/useUser'
 import { useEffect, useState } from 'react'
 import { PaginationParams } from '@/common/interfaces/response.interface'
 import { UserEntity } from '@/app/users/types/user.types'
 import { UpDownIcon } from '@chakra-ui/icons'
 import { RequirementEntity } from '@/app/requirements/types/requirements.types'
+import { useRouter } from 'next/navigation'
+import ModalUpdateReq from '@/app/requirements/[id]/components/ModalUpdateReq'
 
 export default function ReqModal(props: { requirement: RequirementEntity }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { title, id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
   const { setOnRefresh } = useRefreshSignal()
-  const { updateReqForm } = useUpdateReqForm(props.requirement)
   const { user: usersData, fetchUsers } = useUsers()
   const [selectedUser, setSelectedUser] = useState<UserEntity | null>(user)
+  const { requirement, fetchReq, isLoading } = useRequirement(id)
+  const { updateReqForm } = useUpdateReqForm(requirement)
+  const [edited, setEdited] = useState(false)
+  const router = useRouter()
   const handleOpen = async () => {
     await fetchReqActions()
     onOpen()
@@ -58,12 +68,18 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
     onClose()
     setOnRefresh(true)
   }
+  const handleUpdate = async () => {
+    await updateReqForm.handleSubmit()
+    handleCloseModal()
+  }
+
   useEffect(() => {
     const queryPamas: PaginationParams = {
       page: 1,
       take: 5,
     }
     fetchUsers(queryPamas)
+    fetchReq()
   }, [])
 
   return (
@@ -209,6 +225,87 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                         })}
                       </FormControl>
                     </HStack>
+                  </Stack>
+                  {/* Stack De los Tipos de Requerimiento */}
+                  <Stack w={'100%'}>
+                    <Text>Detalle</Text>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        void updateReqForm.handleSubmit()
+                      }}
+                    >
+                      <VStack overflow={'scroll'} h={'200px'}>
+                        <FormControl>
+                          <updateReqForm.Field
+                            name='requirementFieldValue'
+                            mode='array'
+                          >
+                            {(field) => {
+                              return (
+                                <>
+                                  {field.state.value.map((_, i) => {
+                                    return (
+                                      <updateReqForm.Field
+                                        key={i}
+                                        name={`requirementFieldValue[${i}].value`}
+                                      >
+                                        {(subField) => {
+                                          return (
+                                            <Stack
+                                              borderWidth={'3px'}
+                                              borderColor={'gray.200'}
+                                              p={4}
+                                              spacing={4}
+                                              borderRadius={'5px'}
+                                            >
+                                              <FormLabel>
+                                                <Text>
+                                                  {
+                                                    requirement
+                                                      ?.requirementFieldValue[i]
+                                                      .requirementTypeField
+                                                      .title
+                                                  }
+                                                </Text>
+                                              </FormLabel>
+                                              <Editable
+                                                defaultValue={
+                                                  requirement
+                                                    ?.requirementFieldValue[i]
+                                                    .value
+                                                }
+                                                onBlur={subField.handleBlur}
+                                                onChange={() => {
+                                                  setEdited(true)
+                                                }}
+                                              >
+                                                <EditablePreview />
+                                                <EditableInput
+                                                  onChange={(e) =>
+                                                    subField.handleChange(
+                                                      e.target.value
+                                                    )
+                                                  }
+                                                />
+                                              </Editable>
+                                            </Stack>
+                                          )
+                                        }}
+                                      </updateReqForm.Field>
+                                    )
+                                  })}
+                                </>
+                              )
+                            }}
+                          </updateReqForm.Field>
+                        </FormControl>
+                      </VStack>
+                    </form>
+                    {edited === true ? (
+                      <ModalUpdateReq handleAction={handleUpdate} />
+                    ) : null}
                   </Stack>
                 </VStack>
               </CardContainer>
