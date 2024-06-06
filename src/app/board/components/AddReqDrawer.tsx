@@ -71,9 +71,10 @@ export const AddReqDrawer = () => {
   useEffect(() => {
     if (reqType) {
       const fieldsValues = reqType.requirementTypeField.map((field) => {
+        const value = field.type === 'checkbox' ? 'false' : ''
         return {
           requirementTypeFieldId: field.id,
-          value: '',
+          value,
         }
       })
       ReqForm.setFieldValue('requirementFieldValue', fieldsValues)
