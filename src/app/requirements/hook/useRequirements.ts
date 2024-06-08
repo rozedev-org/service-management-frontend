@@ -13,6 +13,7 @@ import { useForm } from '@tanstack/react-form'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { usePaginated } from '@/common/hooks/usePaginated'
 import { useReqId } from '@/states/useReqId'
+import { useNewData } from '@/states/useNewData'
 
 /**
  * Custom hook for fetching requirements data.
@@ -78,7 +79,7 @@ export const useRequirement = (id: number) => {
 export const useCreateReqForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-
+  const { setIsCreating } = useNewData()
   const { setId } = useReqId()
   const ReqForm = useForm<NewReq>({
     defaultValues: {
@@ -102,6 +103,7 @@ export const useCreateReqForm = () => {
             'Ocurrió un error al intentar crear el requerimiento, por favor intente nuevamente'
         )
       }
+      setIsCreating(false)
     },
   })
 
@@ -116,8 +118,7 @@ export const useCreateReqForm = () => {
 export const useUpdateReqForm = (req?: RequirementEntity) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const router = useRouter()
-
+  const { setIsCreating } = useNewData()
   const updateReqForm = useForm<NewReq>({
     defaultValues: {
       title: req?.title || '',
@@ -145,6 +146,7 @@ export const useUpdateReqForm = (req?: RequirementEntity) => {
             'Ocurrió un error al intentar actualizar el requerimiento, por favor intente nuevamente'
         )
       }
+      setIsCreating(false)
     },
   })
   return { updateReqForm, onError, errorMessage }

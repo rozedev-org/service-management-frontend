@@ -1,21 +1,20 @@
-
-import axios from 'axios'
-import { config } from '@/config'
 import {
   PaginatedResponse,
   PaginationParams,
 } from '@/common/interfaces/response.interface'
-import {
-  NewReqState,
-  ReqStateEntity,
-  RequirementsEntity,
-} from '@/app/requirements/types/req.types'
+
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
 import { useForm } from '@tanstack/react-form'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { usePaginated } from '@/common/hooks/usePaginated'
+import {
+  ReqStateEntity,
+  NewReqState,
+} from '@/app/requirements/types/requirement-state.type'
+import { RequirementsEntity } from '@/app/requirements/types/requirements.types'
+import { useNewData } from '@/states/useNewData'
 
 export const useRequirementsState = () => {
   const fetchReqState = async (queryPamas: PaginationParams) => {
@@ -69,7 +68,7 @@ export const useCreateReqStateForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
-
+  const { setIsCreating } = useNewData()
   const ReqStateForm = useForm<NewReqState>({
     defaultValues: {
       title: '',
@@ -91,6 +90,7 @@ export const useCreateReqStateForm = () => {
             'Ocurrió un error al intentar crear el requerimiento, por favor intente nuevamente'
         )
       }
+      setIsCreating(false)
     },
   })
 
@@ -101,6 +101,7 @@ export const useReqUpdateForm = (state?: ReqStateEntity) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
+  const { setIsCreating } = useNewData()
   const updateReqStateForm = useForm<NewReqState>({
     defaultValues: {
       title: state?.title || '',
@@ -122,6 +123,7 @@ export const useReqUpdateForm = (state?: ReqStateEntity) => {
             'Ocurrió un error al intentar crear el usuario, por favor intente nuevamente'
         )
       }
+      setIsCreating(false)
     },
   })
   return { updateReqStateForm, onError, errorMessage }

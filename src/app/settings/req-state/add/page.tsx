@@ -2,9 +2,16 @@
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { Button, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react'
 import { useCreateReqStateForm } from '../hook/useRequirementState'
+import { LoadItem } from '@/components/layout/default/Loading '
+import { useNewData } from '@/states/useNewData'
 
 export default function ReqStateAddPage() {
+  const { creating, setIsCreating } = useNewData()
   const { ReqStateForm } = useCreateReqStateForm()
+  const handleSubmit = () => {
+    ReqStateForm.handleSubmit()
+    setIsCreating(true)
+  }
   return (
     <CardContainer title='Crear Requerimiento'>
       <form
@@ -43,7 +50,8 @@ export default function ReqStateAddPage() {
               ),
             })}
           </FormControl>
-          <Button type='submit'>Guardar</Button>
+          {creating && <LoadItem />}
+          <Button onClick={handleSubmit}>Guardar</Button>
         </VStack>
       </form>
     </CardContainer>

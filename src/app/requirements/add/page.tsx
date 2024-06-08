@@ -27,9 +27,12 @@ import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
 import { useReqId } from '@/states/useReqId'
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
+import { useNewData } from '@/states/useNewData'
+import { LoadItem } from '@/components/layout/default/Loading '
 
 export default function AddReq() {
   const router = useRouter()
+  const { creating, setIsCreating } = useNewData()
   const { id, setId } = useReqId()
   const { ReqForm } = useCreateReqForm()
   const { user, fetchUsers, isLoading: isLoadingUsers } = useUsers()
@@ -74,6 +77,10 @@ export default function AddReq() {
     }
   }, [reqType])
 
+  const hanldeSubmit = () => {
+    ReqForm.handleSubmit()
+    setIsCreating(true)
+  }
   return (
     <CardContainer title='Crear Requerimiento'>
       <form
@@ -261,14 +268,8 @@ export default function AddReq() {
               )
             }}
           </ReqForm.Field>
-
-          {/* {reqType?.requirementTypeField.map((field, i) => (
-            <FormControl key={`req-typ-${i}`}>
-              <FormLabel>{field.title}</FormLabel>
-              <Input type={field.type} />
-            </FormControl>
-          ))} */}
-          <Button type='submit'>Guardar</Button>
+          {creating && <LoadItem />}
+          <Button onClick={hanldeSubmit}>Guardar</Button>
         </VStack>
       </form>
     </CardContainer>

@@ -10,6 +10,7 @@ import { appRoutes } from '@/appRoutes'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { BoardEntity } from '@/app/board/types/board.types'
 import { usePaginated } from '@/common/hooks/usePaginated'
+import { useNewData } from '@/states/useNewData'
 
 export const useUsers = () => {
   const fetchUsers = async (queryPamas: PaginationParams) => {
@@ -87,6 +88,7 @@ export const useCreateUserForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
+  const { setIsCreating } = useNewData()
 
   const userForm = useForm<NewUser>({
     defaultValues: {
@@ -106,9 +108,9 @@ export const useCreateUserForm = () => {
             'Ocurrió un error al intentar crear el usuario, por favor intente nuevamente'
         )
       }
+      setIsCreating(false)
     },
   })
-
   return { userForm, onError, errorMessage }
 }
 
@@ -116,6 +118,7 @@ export const useUpdateUserForm = (user?: UserEntity) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
+  const { creating, setIsCreating } = useNewData()
 
   const updateUserForm = useForm<NewUser>({
     defaultValues: {
@@ -138,6 +141,7 @@ export const useUpdateUserForm = (user?: UserEntity) => {
             'Ocurrió un error al intentar crear el usuario, por favor intente nuevamente'
         )
       }
+      setIsCreating(false)
     },
   })
 
