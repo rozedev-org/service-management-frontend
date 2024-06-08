@@ -2,10 +2,16 @@
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { Button, FormControl, FormLabel, Input, VStack } from '@chakra-ui/react'
 import { useCreateUserForm } from '../hook/useUser'
+import { useNewData } from '@/states/useNewData'
+import { LoadItem } from '@/components/layout/default/Loading '
 
 export default function AddUser() {
+  const { creating, setIsCreating } = useNewData()
   const { userForm } = useCreateUserForm()
-
+  const handleSubmit = () => {
+    setIsCreating(true)
+    userForm.handleSubmit()
+  }
   return (
     <CardContainer title='Crear Usuario'>
       <form
@@ -80,8 +86,8 @@ export default function AddUser() {
               ),
             })}
           </FormControl>
-
-          <Button type='submit'>Guardar</Button>
+          {creating && <LoadItem />}
+          <Button onClick={handleSubmit}>Guardar</Button>
         </VStack>
       </form>
     </CardContainer>

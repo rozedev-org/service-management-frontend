@@ -36,8 +36,11 @@ import {
   useRequirementsTypes,
 } from '@/app/requirements/req-types/hook/useRequirementsTypes'
 import { EmailIcon, PhoneIcon } from '@chakra-ui/icons'
+import { LoadItem } from '@/components/layout/default/Loading '
+import { useNewData } from '@/states/useNewData'
 
 export const AddReqDrawer = () => {
+  const { creating, setIsCreating } = useNewData()
   const { setId, id } = useReqId()
   const { setOnRefresh } = useRefreshSignal()
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -81,6 +84,7 @@ export const AddReqDrawer = () => {
     }
   }, [reqType])
   const handleCloseDrawer = async () => {
+    setIsCreating(true)
     await ReqForm.handleSubmit()
     onClose()
     setOnRefresh(true)
@@ -311,6 +315,7 @@ export const AddReqDrawer = () => {
           </DrawerFooter>
         </DrawerContent>
       </Drawer>
+      {creating && <LoadItem />}
     </>
   )
 }
