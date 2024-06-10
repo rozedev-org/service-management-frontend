@@ -149,6 +149,7 @@ export const useUpdateUserForm = (user?: UserEntity) => {
 }
 
 export const useUserReqDetail = (id: number) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const fetchBoard = async () => {
     try {
       const response = await axiosInstace.get<BoardEntity[]>(
@@ -158,6 +159,7 @@ export const useUserReqDetail = (id: number) => {
         }
       )
       setuserDetail(response.data)
+      setIsLoading(false)
       return response.data
     } catch (error) {
       console.log(error)
@@ -165,5 +167,5 @@ export const useUserReqDetail = (id: number) => {
   }
   const [userDetail, setuserDetail] = useState<BoardEntity[]>([])
 
-  return { userDetail, setuserDetail, fetchBoard }
+  return { userDetail, setuserDetail, fetchBoard, isLoading }
 }
