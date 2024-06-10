@@ -40,6 +40,7 @@ export default function Users() {
     <CardContainer
       title='Lista de Usuarios'
       optionsButton={<AddUserButton />}
+      isLoading={isLoading}
       searchInput={
         <SearchInput
           maxW={'320px'}
