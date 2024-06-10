@@ -12,7 +12,7 @@ import {
 
 interface ModalButtonsProps {
   handleAction: () => void
-  show: boolean
+  show?: boolean
 }
 
 export default function ModalButtons(props: ModalButtonsProps) {

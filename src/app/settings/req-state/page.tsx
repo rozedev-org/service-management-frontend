@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { ReqStateEntity } from '@/app/requirements/types/req.types'
+import { ReqStateEntity } from '@/app/requirements/types/requirement-state.type'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { useRequirementsState } from './hook/useRequirementState'
 import { reqStateCustomColumn } from './types/ReqStateCustomTable'

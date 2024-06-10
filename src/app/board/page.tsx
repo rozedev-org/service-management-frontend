@@ -34,10 +34,10 @@ export default function BoardPage() {
         display={'flex'}
         justifyContent={'left'}
         alignItems={'flex-start'}
-        w={['70vw', '81vw']}
+        w={['70vw', '74vw']}
         overflow={'scroll'}
         overflowY={'hidden'}
-        h={['57vh', '75vh']}
+        h={['57vh', '73vh']}
       >
         {boardState.map((board) => (
           <ReqStateColumn
