@@ -50,8 +50,13 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
   const { requirement, fetchReq, isLoading } = useRequirement(id)
   const { updateReqForm } = useUpdateReqForm(requirement)
   const [edited, setEdited] = useState(false)
-  const router = useRouter()
   const handleOpen = async () => {
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+    }
+    fetchUsers(queryPamas)
+    fetchReq()
     await fetchReqActions()
     onOpen()
   }
@@ -73,14 +78,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
     handleCloseModal()
   }
 
-  useEffect(() => {
-    const queryPamas: PaginationParams = {
-      page: 1,
-      take: 5,
-    }
-    fetchUsers(queryPamas)
-    fetchReq()
-  }, [])
+  useEffect(() => {}, [])
 
   return (
     <>
