@@ -66,7 +66,7 @@ export default function ReqTypesAddPage() {
         <reqTypeForm.Field name='requirementTypeField' mode='array'>
           {(field) => {
             return (
-              <VStack h={'70vh'} mt={4}>
+              <VStack h={'60vh'} mt={4}>
                 {/* field array */}
                 <Box
                   h={'100%'}
@@ -91,17 +91,19 @@ export default function ReqTypesAddPage() {
                         <Heading as='h3' size='sm'>
                           <HStack>
                             <Text> Campo {i + 1}</Text>
-                            <Tooltip label='Eliminar este campo'>
-                              {/* Button to Delete selected field */}
-                              <Button
-                                leftIcon={<CloseIcon />}
-                                ml={'10px'}
-                                variant='link'
-                                colorScheme='red'
-                                size={'xs'}
-                                onClick={() => field.removeValue(i)}
-                              />
-                            </Tooltip>
+                            {i !== 0 ? (
+                              <Tooltip label='Eliminar este campo'>
+                                {/* Button to Delete selected field */}
+                                <Button
+                                  leftIcon={<CloseIcon />}
+                                  ml={'10px'}
+                                  variant='link'
+                                  colorScheme='red'
+                                  size={'xs'}
+                                  onClick={() => field.removeValue(i)}
+                                />
+                              </Tooltip>
+                            ) : null}
                           </HStack>
                         </Heading>
                         <Divider />

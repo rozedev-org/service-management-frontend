@@ -14,10 +14,11 @@ import {
   Select,
   Spinner,
   VStack,
+  Text,
 } from '@chakra-ui/react'
 import { useCreateReqForm } from '../hook/useRequirements'
 import { useUsers } from '@/app/users/hook/useUser'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import {
   useRequirementType,
   useRequirementsTypes,
@@ -36,6 +37,10 @@ export default function AddReq() {
   const { id, setId } = useReqId()
   const { ReqForm } = useCreateReqForm()
   const { user, fetchUsers, isLoading: isLoadingUsers } = useUsers()
+  const [validating, setValidating] = useState(false)
+  const [titleInput, setTitleInput] = useState(false)
+  const [selectInput, setSelectInput] = useState(false)
+  const [fields, setFields] = useState<string[]>([])
   const {
     fetchReqTypes,
     reqTypes,
@@ -68,14 +73,37 @@ export default function AddReq() {
   useEffect(() => {
     if (reqType) {
       const fieldsValues = reqType.requirementTypeField.map((field) => {
+        const value = field.type === 'checkbox' ? 'false' : ''
         return {
           requirementTypeFieldId: field.id,
-          value: '',
+          value,
         }
       })
       ReqForm.setFieldValue('requirementFieldValue', fieldsValues)
     }
   }, [reqType])
+
+  //  Funciones para validar los inputs
+  useEffect(() => {
+    if (titleInput && selectInput) {
+      setValidating(true)
+    } else {
+      setValidating(false)
+    }
+  }, [titleInput, selectInput])
+
+  useEffect(() => {
+    setFields(reqType?.requirementTypeField.map(() => '') || [])
+  }, [reqType])
+
+  const handleFieldChange = (index: number, value: string) => {
+    const newFields = [...fields]
+    newFields[index] = value
+    setFields(newFields)
+
+    const allFieldsValid = newFields.every((field) => field.length > 0)
+    setSelectInput(allFieldsValid)
+  }
 
   const hanldeSubmit = () => {
     ReqForm.handleSubmit()
@@ -116,13 +144,33 @@ export default function AddReq() {
             <FormLabel>Titulo</FormLabel>
             {ReqForm.Field({
               name: 'title',
+              validators: {
+                onChange: ({ value }) => {
+                  if (value.length >= 1) {
+                    setTitleInput(true)
+                    return undefined
+                  } else {
+                    setTitleInput(false)
+                    return 'Este campo no puede estar vacio'
+                  }
+                },
+              },
               children: (field) => (
-                <Input
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
+                <>
+                  <Input
+                    name={field.name}
+                    value={field.state.value}
+                    onBlur={field.handleBlur}
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                  {field.state.meta.errors ? (
+                    <>
+                      <Text color={'salmon'}>
+                        {field.state.meta.errors.join(', ')}
+                      </Text>
+                    </>
+                  ) : null}
+                </>
               ),
             })}
           </FormControl>
@@ -131,26 +179,45 @@ export default function AddReq() {
             <FormLabel>Tipo de Requerimiento</FormLabel>
             {ReqForm.Field({
               name: 'requirementTypeId',
+              validators: {
+                onChange: ({ value }) => {
+                  if (value !== 0) {
+                    setSelectInput(false)
+                    return undefined
+                  } else {
+                    return 'Seleccione un tipo'
+                  }
+                },
+              },
               children: (field) => (
-                <Select
-                  defaultValue=''
-                  isDisabled={isLoadingReqTypes}
-                  name={field.name}
-                  onBlur={field.handleBlur}
-                  onChange={async (e) => {
-                    field.handleChange(Number(e.target.value))
-                    await fetchReqType(Number(e.target.value))
-                  }}
-                >
-                  <option value='' disabled hidden>
-                    Seleccione el tipo de requerimiento
-                  </option>
-                  {reqTypes.map((data) => (
-                    <option key={`select-form-id-${data.id}`} value={data.id}>
-                      {data.name}
+                <>
+                  <Select
+                    defaultValue=''
+                    isDisabled={isLoadingReqTypes}
+                    name={field.name}
+                    onBlur={field.handleBlur}
+                    onChange={async (e) => {
+                      field.handleChange(Number(e.target.value))
+                      await fetchReqType(Number(e.target.value))
+                    }}
+                  >
+                    <option value='' disabled hidden>
+                      Seleccione el tipo de requerimiento
                     </option>
-                  ))}
-                </Select>
+                    {reqTypes.map((data) => (
+                      <option key={`select-form-id-${data.id}`} value={data.id}>
+                        {data.name}
+                      </option>
+                    ))}
+                  </Select>
+                  {field.state.meta.errors ? (
+                    <>
+                      <Text color={'salmon'}>
+                        {field.state.meta.errors.join(', ')}
+                      </Text>
+                    </>
+                  ) : null}
+                </>
               ),
             })}
           </FormControl>
@@ -202,6 +269,7 @@ export default function AddReq() {
                                   value={subField.state.value}
                                   onChange={(e) => {
                                     subField.handleChange(e.target.value)
+                                    handleFieldChange(i, e.target.value)
                                   }}
                                 />
                               )}
@@ -213,6 +281,7 @@ export default function AddReq() {
                                   value={subField.state.value}
                                   onChange={(e) => {
                                     subField.handleChange(e.target.value)
+                                    handleFieldChange(i, e.target.value)
                                   }}
                                 />
                               )}
@@ -227,6 +296,7 @@ export default function AddReq() {
                                     value={subField.state.value}
                                     onChange={(e) => {
                                       subField.handleChange(e.target.value)
+                                      handleFieldChange(i, e.target.value)
                                     }}
                                   />
                                 </InputGroup>
@@ -242,6 +312,7 @@ export default function AddReq() {
                                     value={subField.state.value}
                                     onChange={(e) => {
                                       subField.handleChange(e.target.value)
+                                      handleFieldChange(i, e.target.value)
                                     }}
                                   />
                                 </InputGroup>
@@ -255,6 +326,7 @@ export default function AddReq() {
                                     subField.handleChange(
                                       String(e.target.checked)
                                     )
+                                    handleFieldChange(i, String(e.target.value))
                                   }}
                                 />
                               )}
@@ -269,7 +341,9 @@ export default function AddReq() {
             }}
           </ReqForm.Field>
           {creating && <LoadItem />}
-          <Button onClick={hanldeSubmit}>Guardar</Button>
+          <Button isDisabled={!validating} onClick={hanldeSubmit}>
+            Guardar
+          </Button>
         </VStack>
       </form>
     </CardContainer>

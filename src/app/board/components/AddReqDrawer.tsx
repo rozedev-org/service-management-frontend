@@ -26,8 +26,9 @@ import {
   Spinner,
   InputLeftElement,
   InputGroup,
+  Text,
 } from '@chakra-ui/react'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { BiPlus } from 'react-icons/bi'
 import { useRefreshSignal } from '../states/useRefreshSignal'
 import { useReqId } from '@/states/useReqId'
@@ -46,6 +47,10 @@ export const AddReqDrawer = () => {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { ReqForm } = useCreateReqForm()
   const { user, fetchUsers } = useUsers()
+  const [validating, setValidating] = useState(false)
+  const [titleInput, setTitleInput] = useState(false)
+  const [selectInput, setSelectInput] = useState(false)
+  const [fields, setFields] = useState<string[]>([])
   const {
     fetchReqTypes,
     reqTypes,
@@ -57,6 +62,7 @@ export const AddReqDrawer = () => {
     isLoading: isLoadingReqType,
     reqType,
   } = useRequirementType()
+
   useEffect(() => {
     const queryPamas: PaginationParams = {
       page: 1,
@@ -66,11 +72,13 @@ export const AddReqDrawer = () => {
     fetchUsers(queryPamas)
     fetchReqTypes(queryPamas)
   }, [])
+
   useEffect(() => {
     if (id !== 0) {
       setId(0)
     }
   }, [id])
+
   useEffect(() => {
     if (reqType) {
       const fieldsValues = reqType.requirementTypeField.map((field) => {
@@ -83,6 +91,30 @@ export const AddReqDrawer = () => {
       ReqForm.setFieldValue('requirementFieldValue', fieldsValues)
     }
   }, [reqType])
+
+  //  Funciones para validar los inputs
+  useEffect(() => {
+    if (titleInput && selectInput) {
+      setValidating(true)
+    } else {
+      setValidating(false)
+    }
+  }, [titleInput, selectInput])
+
+  useEffect(() => {
+    setFields(reqType?.requirementTypeField.map(() => '') || [])
+  }, [reqType])
+
+  const handleFieldChange = (index: number, value: string) => {
+    const newFields = [...fields]
+    newFields[index] = value
+    setFields(newFields)
+
+    const allFieldsValid = newFields.every((field) => field.length > 0)
+    setSelectInput(allFieldsValid)
+  }
+
+  // Funciones para Cerrar el Drawer
   const handleCloseDrawer = async () => {
     setIsCreating(true)
     await ReqForm.handleSubmit()
@@ -143,13 +175,35 @@ export const AddReqDrawer = () => {
                   <FormLabel>Titulo</FormLabel>
                   {ReqForm.Field({
                     name: 'title',
+                    validators: {
+                      onChange: ({ value }) => {
+                        if (value.length >= 1) {
+                          setTitleInput(true)
+                          return undefined
+                        } else {
+                          setTitleInput(false)
+                          return 'Este campo no puede estar vacio'
+                        }
+                      },
+                    },
                     children: (field) => (
-                      <Input
-                        name={field.name}
-                        value={field.state.value}
-                        onBlur={field.handleBlur}
-                        onChange={(e) => field.handleChange(e.target.value)}
-                      />
+                      <>
+                        <Input
+                          name={field.name}
+                          value={field.state.value}
+                          onBlur={field.handleBlur}
+                          onChange={(e) => {
+                            field.handleChange(e.target.value)
+                          }}
+                        />
+                        {field.state.meta.errors ? (
+                          <>
+                            <Text color={'salmon'}>
+                              {field.state.meta.errors.join(', ')}
+                            </Text>
+                          </>
+                        ) : null}
+                      </>
                     ),
                   })}
                 </FormControl>
@@ -157,29 +211,48 @@ export const AddReqDrawer = () => {
                   <FormLabel>Tipo de Requerimiento</FormLabel>
                   {ReqForm.Field({
                     name: 'requirementTypeId',
+                    validators: {
+                      onChange: ({ value }) => {
+                        if (value !== 0) {
+                          setSelectInput(false)
+                          return undefined
+                        } else {
+                          return 'Seleccione un tipo'
+                        }
+                      },
+                    },
                     children: (field) => (
-                      <Select
-                        defaultValue=''
-                        isDisabled={isLoadingReqTypes}
-                        name={field.name}
-                        onBlur={field.handleBlur}
-                        onChange={async (e) => {
-                          field.handleChange(Number(e.target.value))
-                          await fetchReqType(Number(e.target.value))
-                        }}
-                      >
-                        <option value='' disabled hidden>
-                          Seleccione el tipo de requerimiento
-                        </option>
-                        {reqTypes.map((data) => (
-                          <option
-                            key={`select-form-id-${data.id}`}
-                            value={data.id}
-                          >
-                            {data.name}
+                      <>
+                        <Select
+                          defaultValue=''
+                          isDisabled={isLoadingReqTypes}
+                          name={field.name}
+                          onBlur={field.handleBlur}
+                          onChange={async (e) => {
+                            field.handleChange(Number(e.target.value))
+                            await fetchReqType(Number(e.target.value))
+                          }}
+                        >
+                          <option value='' disabled hidden>
+                            Seleccione el tipo de requerimiento
                           </option>
-                        ))}
-                      </Select>
+                          {reqTypes.map((data) => (
+                            <option
+                              key={`select-form-id-${data.id}`}
+                              value={data.id}
+                            >
+                              {data.name}
+                            </option>
+                          ))}
+                        </Select>
+                        {field.state.meta.errors ? (
+                          <>
+                            <Text color={'salmon'}>
+                              {field.state.meta.errors.join(', ')}
+                            </Text>
+                          </>
+                        ) : null}
+                      </>
                     ),
                   })}
                 </FormControl>
@@ -230,6 +303,7 @@ export const AddReqDrawer = () => {
                                         value={subField.state.value}
                                         onChange={(e) => {
                                           subField.handleChange(e.target.value)
+                                          handleFieldChange(i, e.target.value)
                                         }}
                                       />
                                     )}
@@ -241,6 +315,7 @@ export const AddReqDrawer = () => {
                                         value={subField.state.value}
                                         onChange={(e) => {
                                           subField.handleChange(e.target.value)
+                                          handleFieldChange(i, e.target.value)
                                         }}
                                       />
                                     )}
@@ -257,6 +332,7 @@ export const AddReqDrawer = () => {
                                             subField.handleChange(
                                               e.target.value
                                             )
+                                            handleFieldChange(i, e.target.value)
                                           }}
                                         />
                                       </InputGroup>
@@ -274,6 +350,7 @@ export const AddReqDrawer = () => {
                                             subField.handleChange(
                                               e.target.value
                                             )
+                                            handleFieldChange(i, e.target.value)
                                           }}
                                         />
                                       </InputGroup>
@@ -286,6 +363,10 @@ export const AddReqDrawer = () => {
                                         onChange={(e) => {
                                           subField.handleChange(
                                             String(e.target.checked)
+                                          )
+                                          handleFieldChange(
+                                            i,
+                                            String(e.target.value)
                                           )
                                         }}
                                       />
@@ -305,7 +386,11 @@ export const AddReqDrawer = () => {
           </DrawerBody>
           <DrawerFooter>
             <HStack>
-              <Button colorScheme='blue' onClick={handleCloseDrawer}>
+              <Button
+                isDisabled={!validating}
+                colorScheme='blue'
+                onClick={handleCloseDrawer}
+              >
                 Crear
               </Button>
               <Button variant='outline' mr={3} onClick={onClose}>
