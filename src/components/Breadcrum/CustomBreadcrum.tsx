@@ -3,8 +3,10 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink } from '@chakra-ui/react'
 import { usePathname } from 'next/navigation'
 import { getBreadCrumTranslate } from './BreadCrumTranslate'
 import { Link } from '@chakra-ui/next-js'
+import { useUserSession } from '@/states/useUserId'
 
 export const CustomBreadcrum = () => {
+  const { isLoggedIn } = useUserSession()
   const pathname = usePathname()
   const items = pathname.split('/')
 
@@ -16,16 +18,20 @@ export const CustomBreadcrum = () => {
   }
 
   return (
-    <Breadcrumb fontSize={'14px'} color={'gray.700'} lineHeight={'25.6px'}>
-      {items.map((item, index) => (
-        <BreadcrumbItem key={`breadcrum-item-${index}`}>
-          {/* Comment: Render a breadcrumb item */}
-          <BreadcrumbLink href={getPath(items, item)} as={Link}>
-            {/* Comment: Get the translated breadcrumb label */}
-            {getBreadCrumTranslate(item)}
-          </BreadcrumbLink>
-        </BreadcrumbItem>
-      ))}
-    </Breadcrumb>
+    <>
+      {isLoggedIn && (
+        <Breadcrumb fontSize={'14px'} color={'gray.700'} lineHeight={'25.6px'}>
+          {items.map((item, index) => (
+            <BreadcrumbItem key={`breadcrum-item-${index}`}>
+              {/* Comment: Render a breadcrumb item */}
+              <BreadcrumbLink href={getPath(items, item)} as={Link}>
+                {/* Comment: Get the translated breadcrumb label */}
+                {getBreadCrumTranslate(item)}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+          ))}
+        </Breadcrumb>
+      )}
+    </>
   )
 }
