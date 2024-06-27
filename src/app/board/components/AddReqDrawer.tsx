@@ -62,6 +62,7 @@ export const AddReqDrawer = () => {
     fetchReqType,
     isLoading: isLoadingReqType,
     reqType,
+    setReqType,
   } = useRequirementType()
 
   useEffect(() => {
@@ -128,6 +129,7 @@ export const AddReqDrawer = () => {
     setTitleInput(false)
     setSelectInput(false)
     setValidating(false)
+    setReqType(undefined)
   }
   return (
     <>

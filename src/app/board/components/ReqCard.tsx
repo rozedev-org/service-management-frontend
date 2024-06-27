@@ -24,7 +24,7 @@ export default function ReqCard(props: ReqCardProps) {
       >
         <Avatar name={user?.userName || ''} w={'30px'} h={'30px'} />
         {/* Modal que muestra el detalle del requerimiento */}
-        <Box>
+        <Box textOverflow={'ellipsis'} overflow={'hidden'}>
           <ReqModal requirement={props.requirement} />
         </Box>
 
