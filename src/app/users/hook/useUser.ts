@@ -111,7 +111,7 @@ export const useCreateUserForm = () => {
       setIsCreating(false)
     },
   })
-  return { userForm, onError, errorMessage }
+  return { userForm, onError, errorMessage, setOnError }
 }
 
 export const useUpdateUserForm = (user?: UserEntity) => {

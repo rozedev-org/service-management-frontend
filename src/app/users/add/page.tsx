@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 
 export default function AddUser() {
   const { creating, setIsCreating } = useNewData()
-  const { userForm } = useCreateUserForm()
+  const { userForm, onError, errorMessage, setOnError } = useCreateUserForm()
   const [validating, setValidating] = useState(false)
   const [firstNameInput, setFirstNameInput] = useState(false)
   const [lastNameInput, setLastNameInput] = useState(false)
@@ -50,9 +50,13 @@ export default function AddUser() {
               name: 'firstName',
               validators: {
                 onChange: ({ value }) => {
-                  if (value.length >= 1) {
+                  if (value.length >= 1 && value.length <= 29) {
                     setFirstNameInput(true)
                     return undefined
+                  }
+                  if (value.length === 30) {
+                    setFirstNameInput(true)
+                    return 'Se han alcanzado el limite de caracteres permitidos'
                   } else {
                     setFirstNameInput(false)
                     return 'Este campo no puede estar vacio'
@@ -85,9 +89,13 @@ export default function AddUser() {
               name: 'lastName',
               validators: {
                 onChange: ({ value }) => {
-                  if (value.length >= 1) {
+                  if (value.length >= 1 && value.length <= 29) {
                     setLastNameInput(true)
                     return undefined
+                  }
+                  if (value.length === 30) {
+                    setLastNameInput(true)
+                    return 'Se han alcanzado el limite de caracteres permitidos'
                   } else {
                     setLastNameInput(false)
                     return 'Este campo no puede estar vacio'
@@ -120,9 +128,13 @@ export default function AddUser() {
               name: 'userName',
               validators: {
                 onChange: ({ value }) => {
-                  if (value.length >= 1) {
+                  if (value.length >= 1 && value.length <= 29) {
                     setUserNameInput(true)
                     return undefined
+                  }
+                  if (value.length === 30) {
+                    setUserNameInput(true)
+                    return 'Se han alcanzado el limite de caracteres permitidos'
                   } else {
                     setUserNameInput(false)
                     return 'Este campo no puede estar vacio'
@@ -137,6 +149,7 @@ export default function AddUser() {
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => {
+                      setOnError(false)
                       field.handleChange(e.target.value)
                     }}
                   />
@@ -155,9 +168,13 @@ export default function AddUser() {
               name: 'password',
               validators: {
                 onChange: ({ value }) => {
-                  if (value.length >= 8) {
+                  if (value.length >= 8 && value.length <= 63) {
                     setPasswordInput(true)
                     return undefined
+                  }
+                  if (value.length === 64) {
+                    setPasswordInput(true)
+                    return 'Se han alcanzado el limite de caracteres permitidos'
                   } else {
                     setPasswordInput(false)
                     return 'La contraseña debe tener un minimo de 8 caracteres'
@@ -182,8 +199,10 @@ export default function AddUser() {
                 </>
               ),
             })}
+            {onError && <Text color={'red'}>{errorMessage}</Text>}
           </FormControl>
           {creating && <LoadItem />}
+
           <Button
             isDisabled={!validating}
             isLoading={creating}
