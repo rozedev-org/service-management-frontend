@@ -15,7 +15,7 @@ import { useEffect, useState } from 'react'
 
 export default function ReqStateAddPage() {
   const { creating, setIsCreating } = useNewData()
-  const { ReqStateForm } = useCreateReqStateForm()
+  const { ReqStateForm, errorMessage } = useCreateReqStateForm()
   const handleSubmit = () => {
     ReqStateForm.handleSubmit()
     setIsCreating(true)
@@ -47,10 +47,10 @@ export default function ReqStateAddPage() {
               name: 'title',
               validators: {
                 onChange: ({ value }) => {
-                  if (value.length >= 1) {
+                  if (value.length > 0 && value.length < 31) {
                     SetStateTitleInput(true)
                     return undefined
-                  } else {
+                  } else if (value.length === 0) {
                     SetStateTitleInput(false)
                     return 'El título no puede estar vacío'
                   }
@@ -59,6 +59,7 @@ export default function ReqStateAddPage() {
               children: (field) => (
                 <>
                   <Input
+                    maxLength={30}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
@@ -77,28 +78,28 @@ export default function ReqStateAddPage() {
               name: 'secuence',
               validators: {
                 onChange: ({ value }) => {
-                  const numValue = value
-                  if (numValue >= 1) {
+                  if (value !== 0 && value < 100) {
                     SetStateSecuenceInput(true)
                     return undefined
                   } else {
                     SetStateSecuenceInput(false)
-                    return 'La secuencia debe ser mayor a 1'
                   }
                 },
               },
               children: (field) => (
                 <>
                   <Input
-                    min={0}
+                    min={1}
                     type='number'
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(Number(e.target.value))}
+                    onChange={(e) => {
+                      field.handleChange(Number(e.target.value))
+                    }}
                   />
                   {field.state.meta.errors ? (
-                    <Text color={'red'}>{field.state.meta.errors}</Text>
+                    <Text color={'red'}>{errorMessage}</Text>
                   ) : null}
                 </>
               ),

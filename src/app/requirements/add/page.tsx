@@ -37,6 +37,7 @@ export default function AddReq() {
   const { id, setId } = useReqId()
   const { ReqForm } = useCreateReqForm()
   const { user, fetchUsers, isLoading: isLoadingUsers } = useUsers()
+  const [reqErrorMessages, setReqErrorMessages] = useState('')
   const [validating, setValidating] = useState(false)
   const [titleInput, setTitleInput] = useState(false)
   const [selectInput, setSelectInput] = useState(false)
@@ -158,6 +159,7 @@ export default function AddReq() {
               children: (field) => (
                 <>
                   <Input
+                    maxLength={30}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
@@ -247,7 +249,19 @@ export default function AddReq() {
                         Campo {i + 1}
                       </Heading>
                       <Divider />
-                      <ReqForm.Field name={`requirementFieldValue[${i}].value`}>
+                      <ReqForm.Field
+                        name={`requirementFieldValue[${i}].value`}
+                        validators={{
+                          onChange: ({ value }) => {
+                            if (value === '') {
+                              setReqErrorMessages('Complete todos los campos')
+                            } else {
+                              setReqErrorMessages('')
+                              return undefined
+                            }
+                          },
+                        }}
+                      >
                         {(subField) => {
                           const reqTypeField =
                             reqType?.requirementTypeField.find(
@@ -259,39 +273,14 @@ export default function AddReq() {
                           const inputType = reqTypeField?.type || 'text'
 
                           return (
-                            <FormControl isRequired>
-                              <FormLabel>{reqTypeField?.title}</FormLabel>
+                            <>
+                              <FormControl isRequired>
+                                <FormLabel>{reqTypeField?.title}</FormLabel>
 
-                              {inputType === 'text' && (
-                                <Input
-                                  type={'text'}
-                                  onBlur={subField.handleBlur}
-                                  value={subField.state.value}
-                                  onChange={(e) => {
-                                    subField.handleChange(e.target.value)
-                                    handleFieldChange(i, e.target.value)
-                                  }}
-                                />
-                              )}
-
-                              {inputType === 'date' && (
-                                <Input
-                                  type={'datetime-local'}
-                                  onBlur={subField.handleBlur}
-                                  value={subField.state.value}
-                                  onChange={(e) => {
-                                    subField.handleChange(e.target.value)
-                                    handleFieldChange(i, e.target.value)
-                                  }}
-                                />
-                              )}
-                              {inputType === 'email' && (
-                                <InputGroup>
-                                  <InputLeftElement pointerEvents='none'>
-                                    <EmailIcon color='gray.300' />
-                                  </InputLeftElement>
+                                {inputType === 'text' && (
                                   <Input
-                                    type={'email'}
+                                    maxLength={100}
+                                    type={'text'}
                                     onBlur={subField.handleBlur}
                                     value={subField.state.value}
                                     onChange={(e) => {
@@ -299,15 +288,11 @@ export default function AddReq() {
                                       handleFieldChange(i, e.target.value)
                                     }}
                                   />
-                                </InputGroup>
-                              )}
-                              {inputType === 'number' && (
-                                <InputGroup>
-                                  <InputLeftElement pointerEvents='none'>
-                                    <PhoneIcon color='gray.300' />
-                                  </InputLeftElement>
+                                )}
+
+                                {inputType === 'date' && (
                                   <Input
-                                    type={'tel'}
+                                    type={'datetime-local'}
                                     onBlur={subField.handleBlur}
                                     value={subField.state.value}
                                     onChange={(e) => {
@@ -315,27 +300,67 @@ export default function AddReq() {
                                       handleFieldChange(i, e.target.value)
                                     }}
                                   />
-                                </InputGroup>
-                              )}
+                                )}
+                                {inputType === 'email' && (
+                                  <InputGroup>
+                                    <InputLeftElement pointerEvents='none'>
+                                      <EmailIcon color='gray.300' />
+                                    </InputLeftElement>
+                                    <Input
+                                      maxLength={50}
+                                      type={'email'}
+                                      onBlur={subField.handleBlur}
+                                      value={subField.state.value}
+                                      onChange={(e) => {
+                                        subField.handleChange(e.target.value)
+                                        handleFieldChange(i, e.target.value)
+                                      }}
+                                    />
+                                  </InputGroup>
+                                )}
+                                {inputType === 'number' && (
+                                  <InputGroup>
+                                    <InputLeftElement pointerEvents='none'>
+                                      <PhoneIcon color='gray.300' />
+                                    </InputLeftElement>
+                                    <Input
+                                      maxLength={15}
+                                      type={'tel'}
+                                      onBlur={subField.handleBlur}
+                                      value={subField.state.value}
+                                      onChange={(e) => {
+                                        subField.handleChange(e.target.value)
+                                        handleFieldChange(i, e.target.value)
+                                      }}
+                                    />
+                                  </InputGroup>
+                                )}
 
-                              {inputType === 'checkbox' && (
-                                <Checkbox
-                                  onBlur={subField.handleBlur}
-                                  value={subField.state.value}
-                                  onChange={(e) => {
-                                    subField.handleChange(
-                                      String(e.target.checked)
-                                    )
-                                    handleFieldChange(i, String(e.target.value))
-                                  }}
-                                />
-                              )}
-                            </FormControl>
+                                {inputType === 'checkbox' && (
+                                  <Checkbox
+                                    onBlur={subField.handleBlur}
+                                    value={subField.state.value}
+                                    onChange={(e) => {
+                                      subField.handleChange(
+                                        String(e.target.checked)
+                                      )
+                                      handleFieldChange(
+                                        i,
+                                        String(e.target.value)
+                                      )
+                                    }}
+                                  />
+                                )}
+                              </FormControl>
+                            </>
                           )
                         }}
                       </ReqForm.Field>
                     </VStack>
                   ))}
+                  {field.state.meta.errors ? (
+                    <Text color={'red'}>{reqErrorMessages}</Text>
+                  ) : null}
                 </VStack>
               )
             }}
