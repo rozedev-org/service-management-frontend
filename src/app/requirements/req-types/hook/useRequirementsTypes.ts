@@ -93,6 +93,7 @@ export const useCreateReqTypeForm = () => {
 }
 
 export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
+  const [loading, setLoading] = useState(false)
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
@@ -102,13 +103,15 @@ export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
       requirementTypeField: state?.requirementTypeField || [],
     },
     onSubmit: async ({ value }) => {
+      setLoading(true)
       try {
         const response = await axiosInstace.put<ReqTypeEntity>(
           `/requirements/type/${state?.id}`,
           value
         )
-        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
+        setLoading(false)
       } catch (error: any) {
+        setLoading(false)
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
@@ -117,5 +120,5 @@ export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
       }
     },
   })
-  return { updateReqTypeForm, onError, errorMessage }
+  return { updateReqTypeForm, onError, errorMessage, loading, setLoading }
 }
