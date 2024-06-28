@@ -7,19 +7,24 @@ import {
 } from '../hook/useRequirementsTypes'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import {
+  Box,
   Editable,
   EditableInput,
   EditablePreview,
   FormControl,
   FormLabel,
+  HStack,
+  Icon,
+  IconButton,
   Stack,
   Text,
   VStack,
+  useDisclosure,
 } from '@chakra-ui/react'
 import { ReqTypeTableOptions } from './components/ReqTypeTableOptions'
 import { ReqTypeModaleUpdate } from './components/ReqTypeModaleUpdate'
-import { useRouter } from 'next/navigation'
-import { appRoutes } from '@/appRoutes'
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { LoadItem } from '@/components/layout/default/Loading '
 
 export default function ReqTypesDetailPage({
   params,
@@ -28,11 +33,10 @@ export default function ReqTypesDetailPage({
 }) {
   const [edited, setEdited] = useState(false)
   const { fetchReqType, reqType, setReqType } = useRequirementType()
-  const { updateReqTypeForm } = useReqTypeUpdateForm(reqType)
-  const router = useRouter()
+  const { updateReqTypeForm, loading } = useReqTypeUpdateForm(reqType)
   const handleUpdate = async () => {
+    setEdited(!edited)
     await updateReqTypeForm.handleSubmit()
-    router.push(appRoutes.home.requirements.reqTypes.url(0))
   }
   useEffect(() => {
     fetchReqType(params.id)
@@ -55,7 +59,7 @@ export default function ReqTypesDetailPage({
               void updateReqTypeForm.handleSubmit()
             }}
           >
-            <VStack>
+            <VStack h={'60vh'} overflow={'auto'}>
               <FormControl>
                 <updateReqTypeForm.Field
                   name='requirementTypeField'
@@ -72,24 +76,38 @@ export default function ReqTypesDetailPage({
                             >
                               {(subField) => {
                                 return (
-                                  <>
+                                  <VStack
+                                    w={'98%'}
+                                    borderWidth={'3px'}
+                                    borderColor={'gray.200'}
+                                    m={2}
+                                    p={4}
+                                    spacing={4}
+                                    borderRadius={'5px'}
+                                    alignItems={'baseline'}
+                                  >
                                     <FormLabel>
                                       {reqType?.requirementTypeField[i].type ===
-                                        'date' && <Text>Fecha</Text>}
+                                        'date' && <Text as={'b'}>Fecha</Text>}
                                       {reqType?.requirementTypeField[i].type ===
                                         'email' && (
-                                        <Text>Correo Electronico</Text>
+                                        <Text as={'b'}>Correo Electronico</Text>
                                       )}
                                       {reqType?.requirementTypeField[i].type ===
                                         'number' && (
-                                        <Text>Numero Telefonico</Text>
+                                        <Text as={'b'}>Numero Telefonico</Text>
                                       )}
                                       {reqType?.requirementTypeField[i].type ===
-                                        'text' && <Text>Texto</Text>}
+                                        'text' && <Text as={'b'}>Texto</Text>}
                                       {reqType?.requirementTypeField[i].type ===
-                                        'checkbox' && <Text>Chequeo</Text>}
+                                        'checkbox' && (
+                                        <Text as={'b'}>Chequeo</Text>
+                                      )}
                                     </FormLabel>
                                     <Editable
+                                      w={'100%'}
+                                      borderRadius={'5px'}
+                                      _hover={{ bg: '#edf0f9' }}
                                       defaultValue={subField.state.value}
                                       onBlur={subField.handleBlur}
                                       onChange={() => {
@@ -103,7 +121,21 @@ export default function ReqTypesDetailPage({
                                         }
                                       />
                                     </Editable>
-                                  </>
+                                    <HStack spacing={2} ml={'auto'}>
+                                      <IconButton
+                                        ml={'auto'}
+                                        size='sm'
+                                        icon={<EditIcon />}
+                                        aria-label={''}
+                                      />
+                                      <IconButton
+                                        ml={'auto'}
+                                        size='sm'
+                                        icon={<DeleteIcon />}
+                                        aria-label={''}
+                                      />
+                                    </HStack>
+                                  </VStack>
                                 )
                               }}
                             </updateReqTypeForm.Field>
@@ -117,10 +149,13 @@ export default function ReqTypesDetailPage({
             </VStack>
           </form>
         </Stack>
-        {edited === true ? (
-          <ReqTypeModaleUpdate handleAction={handleUpdate} />
-        ) : null}
+        <ReqTypeModaleUpdate
+          handleAction={handleUpdate}
+          buttonEnable={!edited}
+          buttonLoading={loading}
+        />
       </VStack>
+      {loading && <LoadItem />}
     </CardContainer>
   )
 }
