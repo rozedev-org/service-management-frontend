@@ -18,12 +18,12 @@ export default function ReqCard(props: ReqCardProps) {
       // w={['100%', '18rem', '18rem', '18rem', '18rem', '18rem']}
       w={'100%'}
       key={`home-key-${id}`}
-      bg={GlobalStyles().BG_COLOR_PRIMARY}
+      // bg={GlobalStyles().BG_COLOR_PRIMARY}
       borderRadius='20px'
       p={2}
       minH={['3.5rem']}
-      _hover={{ bg: GlobalStyles().BG_COLOR_PRIMARY_HOVER }}
-      color={GlobalStyles().TEXT_COLOR_PRIMARY}
+      // _hover={{ bg: GlobalStyles().BG_COLOR_PRIMARY_HOVER }}
+      // color={GlobalStyles().TEXT_COLOR_PRIMARY}
     >
       <Avatar
         name={user?.userName || ''}

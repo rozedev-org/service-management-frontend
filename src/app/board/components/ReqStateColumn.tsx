@@ -22,7 +22,10 @@ export default function ReqStateColumn(props: {
       boxShadow={'2xl'}
     >
       {/*Titulo*/}
-      <Text color={GlobalStyles().TEXT_COLOR_PRIMARY} p={2}>
+      <Text
+        // color={GlobalStyles().TEXT_COLOR_PRIMARY}
+        p={2}
+      >
         {title}
       </Text>
 

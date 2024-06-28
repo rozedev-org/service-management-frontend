@@ -21,7 +21,7 @@ export const DefaultLayout = ({
       flexDirection={['column', 'column', 'row']}
       minH={'100vh'}
       alignItems={'start'}
-      bg={GlobalStyles().BG_COLOR_SECONDARY}
+      // bg={GlobalStyles().BG_COLOR_SECONDARY}
     >
       {isLoggedIn === true && (
         <>

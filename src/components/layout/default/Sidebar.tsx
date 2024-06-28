@@ -28,9 +28,9 @@ export const Sidebar = () => {
       maxW={'xs'}
       paddingY={8}
       paddingX={6}
-      boxShadow={GlobalStyles().BOX_SHADOW}
+      // boxShadow={GlobalStyles().BOX_SHADOW}
       display={['none', 'none', 'flex']}
-      bg={GlobalStyles().BG_COLOR_PRIMARY}
+      // bg={GlobalStyles().BG_COLOR_PRIMARY}
     >
       {/* Top Section */}
       <VStack gap={8} alignItems={'start'}>

@@ -62,8 +62,8 @@ export const AddReqDrawer = () => {
           icon={<BiPlus />}
           aria-label={''}
           onClick={onOpen}
-          boxShadow={GlobalStyles().BOX_SHADOW}
-          bg={'#16a085'}
+          // boxShadow={GlobalStyles().BOX_SHADOW}
+          // bg={'#16a085'}
         />
       </Tooltip>
       <Drawer isOpen={isOpen} placement='right' onClose={onClose}>

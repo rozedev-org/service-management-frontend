@@ -74,7 +74,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
         variant={'link'}
         onClick={handleOpen}
         fontSize={14}
-        color={GlobalStyles().TEXT_COLOR_PRIMARY}
+        // color={GlobalStyles().TEXT_COLOR_PRIMARY}
         textAlign={'left'}
       >
         {title}

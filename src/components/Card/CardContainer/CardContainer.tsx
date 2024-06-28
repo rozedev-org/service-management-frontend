@@ -24,8 +24,8 @@ export const CardContainer = (props: CardContainerProps) => {
       borderRadius={'20px'}
       // w={'100%'}
       h={['80vh', '80vh', '85vh']}
-      bg={GlobalStyles().BG_COLOR_SECONDARY}
-      boxShadow={GlobalStyles().BOX_SHADOW}
+      // bg={GlobalStyles().BG_COLOR_SECONDARY}
+      // boxShadow={GlobalStyles().BOX_SHADOW}
     >
       <CardHeader>
         <HStack>
