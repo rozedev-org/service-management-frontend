@@ -13,8 +13,8 @@ import { useReqTypeUpdateForm } from '../../hook/useRequirementsTypes'
 
 interface ModalButtonsProps {
   handleAction: () => void
-  buttonEnable: boolean
-  buttonLoading: boolean
+  buttonEnable?: boolean
+  buttonLoading?: boolean
 }
 
 export const ReqTypeModaleUpdate = (props: ModalButtonsProps) => {

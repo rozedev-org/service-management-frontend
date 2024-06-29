@@ -14,6 +14,8 @@ import { axiosInstace } from '@/common/utils/axiosIntance'
 import { usePaginated } from '@/common/hooks/usePaginated'
 import { useReqId } from '@/states/useReqId'
 import { useNewData } from '@/states/useNewData'
+import { toast } from 'sonner'
+import { appRoutes } from '@/appRoutes'
 
 /**
  * Custom hook for fetching requirements data.
@@ -81,6 +83,7 @@ export const useCreateReqForm = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const { setIsCreating } = useNewData()
   const { setId } = useReqId()
+  const router = useRouter()
   const ReqForm = useForm<NewReq>({
     defaultValues: {
       title: '',
@@ -96,7 +99,21 @@ export const useCreateReqForm = () => {
           value
         )
         setId(response.data.id)
+        toast.success(
+          `Se ha creado el Requerimiento : ${response.data.title}`,
+          {
+            action: {
+              label: 'Crear otro Requerimiento',
+              onClick: () =>
+                router.push(appRoutes.home.requirements.add.url(0)),
+            },
+          }
+        )
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            'Ha ocurrido un error al crear el requerimiento'
+        )
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
@@ -139,7 +156,12 @@ export const useUpdateReqForm = (req?: RequirementEntity) => {
           `/requirements/${req?.id}`,
           value
         )
+        toast.success(`Se ha actualizado el Requerimiento `)
       } catch (error: any) {
+        toast.error(
+          error.response.data.message ||
+            `Ha ocurrido un erro al actualizar el Requerimiento `
+        )
         setOnError(true)
         setErrorMessage(
           error.response.data.message ||

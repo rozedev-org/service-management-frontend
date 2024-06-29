@@ -15,6 +15,7 @@ import {
 } from '@/app/requirements/types/requirement-state.type'
 import { RequirementsEntity } from '@/app/requirements/types/requirements.types'
 import { useNewData } from '@/states/useNewData'
+import { toast } from 'sonner'
 
 export const useRequirementsState = () => {
   const fetchReqState = async (queryPamas: PaginationParams) => {
@@ -83,7 +84,18 @@ export const useCreateReqStateForm = () => {
         router.push(
           appRoutes.home.settings.reqState.getOne.url(response.data.id)
         )
+        toast.success(`Se ha creado el estado ${response.data.title}`, {
+          action: {
+            label: 'Crear otro estado',
+            onClick: () =>
+              router.push(appRoutes.home.settings.reqState.add.url(0)),
+          },
+        })
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            'Ha ocurrido un error al crear el estado'
+        )
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
@@ -116,7 +128,12 @@ export const useReqUpdateForm = (state?: ReqStateEntity) => {
         router.push(
           appRoutes.home.settings.reqState.getOne.url(response.data.id)
         )
+        toast.success(`Se ha actualizado el estado`)
       } catch (error: any) {
+        toast.error(
+          error.response.data.message ||
+            `Ha ocurrido un error al actualizar el estado `
+        )
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
