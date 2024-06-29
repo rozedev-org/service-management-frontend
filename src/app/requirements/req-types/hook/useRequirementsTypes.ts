@@ -15,6 +15,7 @@ import {
   NewReqType,
   UpdateReqType,
 } from '../../types/requirement-type.types'
+import { toast } from 'sonner'
 
 export const useRequirementsTypes = () => {
   const fetchReqTypes = async (queryPamas: PaginationParams) => {
@@ -80,7 +81,18 @@ export const useCreateReqTypeForm = () => {
         router.push(
           appRoutes.home.requirements.reqTypes.getOne.url(response.data.id)
         )
+        toast.success(`Se ha creado el tipo : ${response.data.title}`, {
+          action: {
+            label: 'Crear nuevamente',
+            onClick: () =>
+              router.push(appRoutes.home.requirements.reqTypes.add.url(0)),
+          },
+        })
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            'Ha ocurrido un error al crear el tipo'
+        )
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
@@ -110,7 +122,12 @@ export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
           value
         )
         setLoading(false)
+        toast.success(`Se ha actualizado correctamente`)
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            `Ocurrió un error al actualizar el tipo`
+        )
         setLoading(false)
         setOnError(true)
         setErrorMessage(

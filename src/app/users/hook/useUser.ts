@@ -11,6 +11,7 @@ import { axiosInstace } from '@/common/utils/axiosIntance'
 import { BoardEntity } from '@/app/board/types/board.types'
 import { usePaginated } from '@/common/hooks/usePaginated'
 import { useNewData } from '@/states/useNewData'
+import { toast } from 'sonner'
 
 export const useUsers = () => {
   const fetchUsers = async (queryPamas: PaginationParams) => {
@@ -101,7 +102,17 @@ export const useCreateUserForm = () => {
       try {
         const response = await axiosInstace.post<UserEntity>(`/users`, value)
         router.push(appRoutes.home.users.getOne.url(response.data.id))
+        toast.success(`Se ha creado el usuario : ${response.data.userName}`, {
+          action: {
+            label: 'Crear otro usuario',
+            onClick: () => router.push(appRoutes.home.users.add.url(0)),
+          },
+        })
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            'Ha ocurrido un error al crear el usuario'
+        )
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
@@ -134,7 +145,12 @@ export const useUpdateUserForm = (user?: UserEntity) => {
           value
         )
         router.push(appRoutes.home.users.getOne.url(response.data.id))
+        toast.success(`Se ha actualizado el usuario`)
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            `Ocurrió un error al actualizar el usuario`
+        )
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||

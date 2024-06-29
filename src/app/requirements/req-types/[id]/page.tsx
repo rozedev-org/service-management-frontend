@@ -49,7 +49,7 @@ export default function ReqTypesDetailPage({
     >
       <VStack display='flex' alignItems='start'>
         <Stack w='100%'>
-          <Text borderBottomWidth={2}>Titulo del Tipo: {reqType?.name}</Text>
+          <Text borderBottomWidth={2}>Titulo: {reqType?.name}</Text>
         </Stack>
         <Stack w='100%'>
           <form
@@ -88,39 +88,61 @@ export default function ReqTypesDetailPage({
                                   >
                                     <FormLabel>
                                       {reqType?.requirementTypeField[i].type ===
-                                        'date' && <Text as={'b'}>Fecha</Text>}
+                                        'date' && (
+                                        <HStack>
+                                          <Text as={'b'}>Tipo de campo: </Text>
+                                          <Text>Fecha</Text>
+                                        </HStack>
+                                      )}
                                       {reqType?.requirementTypeField[i].type ===
                                         'email' && (
-                                        <Text as={'b'}>Correo Electronico</Text>
+                                        <HStack>
+                                          <Text as={'b'}>Tipo de campo: </Text>
+                                          <Text>Email</Text>
+                                        </HStack>
                                       )}
                                       {reqType?.requirementTypeField[i].type ===
                                         'number' && (
-                                        <Text as={'b'}>Numero Telefonico</Text>
+                                        <HStack>
+                                          <Text as={'b'}>Tipo de campo: </Text>
+                                          <Text>Numero</Text>
+                                        </HStack>
                                       )}
                                       {reqType?.requirementTypeField[i].type ===
-                                        'text' && <Text as={'b'}>Texto</Text>}
+                                        'text' && (
+                                        <HStack>
+                                          <Text as={'b'}>Tipo de campo: </Text>
+                                          <Text>Texto</Text>
+                                        </HStack>
+                                      )}
                                       {reqType?.requirementTypeField[i].type ===
                                         'checkbox' && (
-                                        <Text as={'b'}>Chequeo</Text>
+                                        <Text as={'b'}>Esta check?</Text>
                                       )}
                                     </FormLabel>
-                                    <Editable
-                                      w={'100%'}
-                                      borderRadius={'5px'}
-                                      _hover={{ bg: '#edf0f9' }}
-                                      defaultValue={subField.state.value}
-                                      onBlur={subField.handleBlur}
-                                      onChange={() => {
-                                        setEdited(true)
-                                      }}
-                                    >
-                                      <EditablePreview />
-                                      <EditableInput
-                                        onChange={(e) =>
-                                          subField.handleChange(e.target.value)
-                                        }
-                                      />
-                                    </Editable>
+                                    <HStack w={'100%'}>
+                                      <Text as={'b'}>Descripcion:</Text>
+                                      <Editable
+                                        w={'100%'}
+                                        borderRadius={'5px'}
+                                        _hover={{ bg: '#edf0f9' }}
+                                        defaultValue={subField.state.value}
+                                        onBlur={subField.handleBlur}
+                                        onChange={() => {
+                                          setEdited(true)
+                                        }}
+                                      >
+                                        <EditablePreview />
+                                        <EditableInput
+                                          onChange={(e) =>
+                                            subField.handleChange(
+                                              e.target.value
+                                            )
+                                          }
+                                        />
+                                      </Editable>
+                                    </HStack>
+
                                     <HStack spacing={2} ml={'auto'}>
                                       <IconButton
                                         ml={'auto'}
