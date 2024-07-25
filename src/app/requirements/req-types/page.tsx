@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { ReqTypeEntity } from '@/app/requirements/types/req.types'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { CustomTable } from '@/components/table/CustomTable/CustomTable'
 import { SearchInput } from '@/components/input/SearchInput'
@@ -10,6 +9,7 @@ import { useEffect } from 'react'
 import { AddReqTypeButton } from './components/AddReqTypeButton'
 import { PaginationParams } from '@/common/interfaces/response.interface'
 import { PaginatedTable } from '@/components/table/PaginatedTable/PaginatedTable'
+import { ReqTypeEntity } from '../types/requirement-type.types'
 
 export default function ReqTypePage() {
   const {

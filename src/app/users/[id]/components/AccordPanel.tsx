@@ -1,7 +1,7 @@
-import { RequirementsEntity } from '@/app/requirements/types/req.types'
 import { UserEntity } from '../../types/user.types'
 import { AccordionPanel, Box } from '@chakra-ui/react'
 import ReqCard from '@/app/board/components/ReqCard'
+import { RequirementsEntity } from '@/app/requirements/types/requirements.types'
 
 interface AccordionPanelType {
   req: RequirementsEntity

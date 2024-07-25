@@ -36,11 +36,14 @@ import { useEffect, useState } from 'react'
 import { PaginationParams } from '@/common/interfaces/response.interface'
 import { UserEntity } from '@/app/users/types/user.types'
 import { UpDownIcon } from '@chakra-ui/icons'
-import { RequirementEntity } from '@/app/requirements/types/requirements.types'
+import {
+  RequirementEntity,
+  RequirementsEntity,
+} from '@/app/requirements/types/requirements.types'
 import { useRouter } from 'next/navigation'
 import ModalUpdateReq from '@/app/requirements/[id]/components/ModalUpdateReq'
 
-export default function ReqModal(props: { requirement: RequirementEntity }) {
+export default function ReqModal(props: { requirement: RequirementsEntity }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
   const { title, id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
@@ -139,7 +142,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                           {reqActions.current.title || 'Estado'}
                         </MenuButton>
                         <MenuList>
-                          {reqActions.remaining.map((state) => (
+                          {reqActions.remaining.map((state: any) => (
                             <MenuItem
                               key={`menu-item-req-${id}-state-${state.id}`}
                               onClick={async () =>
