@@ -1,4 +1,4 @@
-import { RequirementsEntity } from '@/app/requirements/types/req.types'
+import { RequirementsEntity } from '@/app/requirements/types/requirements.types'
 
 export interface BoardEntity {
   id: number

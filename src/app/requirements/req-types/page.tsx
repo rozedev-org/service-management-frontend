@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { ReqTypeEntity } from '@/app/requirements/types/req.types'
+import { ReqTypeEntity } from '../types/requirement-type.types'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { CustomTable } from '@/components/table/CustomTable/CustomTable'
 import { SearchInput } from '@/components/input/SearchInput'

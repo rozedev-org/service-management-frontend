@@ -143,7 +143,7 @@ export const useUpdateReqForm = (req?: RequirementEntity) => {
       requirementFieldValue:
         req?.requirementFieldValue && Array.isArray(req.requirementFieldValue)
           ? req.requirementFieldValue.map((field) => ({
-              id: field.requirementTypeField.id,
+              requirementTypeFieldId: field.requirementTypeField.id,
               value: field.value,
             }))
           : [],

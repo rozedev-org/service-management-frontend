@@ -179,7 +179,7 @@ export default function AddReq() {
 
           <FormControl isRequired>
             <FormLabel>Tipo de Requerimiento</FormLabel>
-            {ReqForm.Field({
+            {/* {ReqForm.Field({
               name: 'requirementTypeId',
               validators: {
                 onChange: ({ value }) => {
@@ -221,7 +221,7 @@ export default function AddReq() {
                   ) : null}
                 </>
               ),
-            })}
+            })} */}
           </FormControl>
           {isLoadingReqType && <Spinner />}
           {reqType && (

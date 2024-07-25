@@ -3,10 +3,10 @@ import { HStack, Avatar, Text, Box } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/next-js'
 import ReqModal from './ReqModal'
 import { appRoutes } from '@/appRoutes'
-import { RequirementEntity } from '@/app/requirements/types/requirements.types'
+import { RequirementsEntity } from '@/app/requirements/types/requirements.types'
 
 interface ReqCardProps {
-  requirement: RequirementEntity
+  requirement: RequirementsEntity
 }
 export default function ReqCard(props: ReqCardProps) {
   const { id, user } = props.requirement

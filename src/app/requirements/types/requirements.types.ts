@@ -9,7 +9,7 @@ export interface NewReq {
   userId: number | null
   stateId: number
   requirementFieldValue: {
-    id: number
+    requirementTypeFieldId: number
     value: string
   }[]
 }

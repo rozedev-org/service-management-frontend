@@ -122,6 +122,7 @@ export const AddReqDrawer = () => {
     await ReqForm.handleSubmit()
     onClose()
     setOnRefresh(true)
+    setReqType(undefined)
   }
 
   const onCloseDrawer = () => {
@@ -221,10 +222,10 @@ export const AddReqDrawer = () => {
                 <FormControl isRequired>
                   <FormLabel>Tipo de Requerimiento</FormLabel>
                   {ReqForm.Field({
-                    name: 'requirementTypeId',
+                    name: 'requirementFieldValue',
                     validators: {
                       onChange: ({ value }) => {
-                        if (value !== 0) {
+                        if (value.length !== 0) {
                           setSelectInput(false)
                           return undefined
                         } else {
@@ -240,7 +241,12 @@ export const AddReqDrawer = () => {
                           name={field.name}
                           onBlur={field.handleBlur}
                           onChange={async (e) => {
-                            field.handleChange(Number(e.target.value))
+                            field.handleChange(() => [
+                              {
+                                value: e.target.value,
+                                requirementTypeFieldId: Number(e.target.value),
+                              },
+                            ])
                             await fetchReqType(Number(e.target.value))
                           }}
                         >
@@ -266,6 +272,52 @@ export const AddReqDrawer = () => {
                       </>
                     ),
                   })}
+                  {/* <ReqForm.Field name='requirementFieldValue' mode='array'>
+                    {(field) => {
+                      return (
+                        <VStack>
+                          {field.state.value.map((_, i) => (
+                            <>
+                              <ReqForm.Field
+                                name={`requirementFieldValue[${i}].id`}
+                              >
+                                {(subField) => {
+                                  return (
+                                    <Select
+                                      defaultValue=''
+                                      isDisabled={isLoadingReqTypes}
+                                      name={subField.name}
+                                      onBlur={subField.handleBlur}
+                                      onChange={async (e) => {
+                                        subField.handleChange(
+                                          Number(e.target.value)
+                                        )
+                                        await fetchReqType(
+                                          Number(e.target.value)
+                                        )
+                                      }}
+                                    >
+                                      <option value='' disabled hidden>
+                                        Seleccione el tipo de requerimiento
+                                      </option>
+                                      {reqTypes.map((data) => (
+                                        <option
+                                          key={`select-form-id-${data.id}`}
+                                          value={data.id}
+                                        >
+                                          {data.name}
+                                        </option>
+                                      ))}
+                                    </Select>
+                                  )
+                                }}
+                              </ReqForm.Field>
+                            </>
+                          ))}
+                        </VStack>
+                      )
+                    }}
+                  </ReqForm.Field> */}
                 </FormControl>
                 {isLoadingReqType && <Spinner />}
                 {reqType && (
