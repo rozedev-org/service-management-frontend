@@ -279,7 +279,7 @@ export default function AddReq() {
 
                                 {inputType === 'text' && (
                                   <Input
-                                    maxLength={100}
+                                    maxLength={500}
                                     type={'text'}
                                     onBlur={subField.handleBlur}
                                     value={subField.state.value}

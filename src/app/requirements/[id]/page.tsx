@@ -6,15 +6,12 @@ import {
   VStack,
   Stack,
   HStack,
-  Heading,
   FormControl,
   FormLabel,
-  Input,
   Editable,
   EditableInput,
   EditablePreview,
   Button,
-  Icon,
 } from '@chakra-ui/react'
 import { useRequirement, useUpdateReqForm } from '../hook/useRequirements'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
@@ -23,8 +20,7 @@ import { useEffect, useState } from 'react'
 import ModalUpdateReq from './components/ModalUpdateReq'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
-import { FaBeer } from 'react-icons/fa'
-import { EditIcon } from '@chakra-ui/icons'
+import { format } from 'date-fns'
 
 export default function ReqPage({ params }: { params: { id: number } }) {
   const { requirement, fetchReq, isLoading } = useRequirement(params.id)
@@ -48,11 +44,11 @@ export default function ReqPage({ params }: { params: { id: number } }) {
       <Stack display='flex' alignItems='end' opacity='65%'>
         <Text>
           Fecha de Creacion:{' '}
-          {new Date(requirement?.createdAt || '').toLocaleDateString()}
+          {new Date(requirement?.createdAt || '').toLocaleString()}
         </Text>
         <Text>
           Fecha de Actualizacion:{' '}
-          {new Date(requirement?.updatedAt || '').toLocaleDateString()}
+          {new Date(requirement?.updatedAt || '').toLocaleString()}
         </Text>
       </Stack>
       <VStack display='flex' alignItems='start'>
@@ -89,6 +85,16 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                               name={`requirementFieldValue[${i}].value`}
                             >
                               {(subField) => {
+                                const dateValueFormated =
+                                  requirement?.requirementFieldValue[i]
+                                    .requirementTypeField.type === 'date'
+                                    ? format(
+                                        requirement.requirementFieldValue[i]
+                                          .value,
+                                        'dd/MM/yyyy hh:mm a'
+                                      )
+                                    : requirement?.requirementFieldValue[i]
+                                        .value
                                 return (
                                   <Stack
                                     borderWidth={'3px'}
@@ -110,10 +116,7 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                                       _hover={{ bg: '#edf0f9' }}
                                     >
                                       <Editable
-                                        defaultValue={
-                                          requirement?.requirementFieldValue[i]
-                                            .value
-                                        }
+                                        defaultValue={dateValueFormated}
                                         onBlur={subField.handleBlur}
                                         onChange={() => {
                                           setEdited(true)

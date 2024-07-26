@@ -169,6 +169,7 @@ export default function ReqTypesAddPage() {
                                 <FormLabel pt='20px'>Order</FormLabel>
                                 {/* Type input */}
                                 <Input
+                                  defaultValue={i + 1}
                                   type='number'
                                   min={0}
                                   onChange={(e) =>
