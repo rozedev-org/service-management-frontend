@@ -81,7 +81,7 @@ export const useCreateReqTypeForm = () => {
         router.push(
           appRoutes.home.requirements.reqTypes.getOne.url(response.data.id)
         )
-        toast.success(`Se ha creado el tipo : ${response.data.title}`, {
+        toast.success(`Se ha creado correctamente`, {
           action: {
             label: 'Crear nuevamente',
             onClick: () =>
