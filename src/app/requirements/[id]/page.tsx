@@ -12,8 +12,17 @@ import {
   EditableInput,
   EditablePreview,
   Button,
+  Select,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
 } from '@chakra-ui/react'
-import { useRequirement, useUpdateReqForm } from '../hook/useRequirements'
+import {
+  useCreateReqForm,
+  useRequirement,
+  useUpdateReqForm,
+} from '../hook/useRequirements'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { ReqTableOptions } from '../components/TableOptions'
 import { useEffect, useState } from 'react'
@@ -21,19 +30,42 @@ import ModalUpdateReq from './components/ModalUpdateReq'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
 import { format } from 'date-fns'
+import { useUsers } from '@/app/users/hook/useUser'
+import { PaginationParams } from '@/common/interfaces/response.interface'
+import { UpDownIcon } from '@chakra-ui/icons'
+import { UserEntity } from '@/app/users/types/user.types'
 
 export default function ReqPage({ params }: { params: { id: number } }) {
   const { requirement, fetchReq, isLoading } = useRequirement(params.id)
   const { updateReqForm } = useUpdateReqForm(requirement)
+  const { user: usersData, fetchUsers } = useUsers()
   const [edited, setEdited] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<UserEntity | null>(null)
   const router = useRouter()
   const handleUpdate = async () => {
     await updateReqForm.handleSubmit()
     router.push(appRoutes.home.requirements.url())
   }
   useEffect(() => {
+    const queryPamas: PaginationParams = {
+      page: 1,
+      take: 5,
+      getAll: true,
+    }
+    fetchUsers(queryPamas)
     fetchReq()
   }, [])
+  useEffect(() => {
+    {
+      requirement && setSelectedUser(requirement.user)
+    }
+  }, [isLoading])
+  const handleMenuItemClick = (user: UserEntity) => {
+    setSelectedUser(user)
+  }
+  const handleUpdateUser = async () => {
+    await updateReqForm.handleSubmit()
+  }
 
   return (
     <CardContainer
@@ -53,14 +85,72 @@ export default function ReqPage({ params }: { params: { id: number } }) {
       </Stack>
       <VStack display='flex' alignItems='start'>
         <Stack w='100%'>
-          <Text borderBottomWidth={2}>Realizar servicio tecnico</Text>
-          <Text>Descripcion: {requirement?.title}</Text>
+          {updateReqForm.Field({
+            name: 'title',
+            children: (field) => (
+              <HStack w={'100%'}>
+                <Text fontSize={'16px'} fontWeight={700} lineHeight={'24px'}>
+                  Descripcion:
+                </Text>
+                <Editable
+                  w={'100%'}
+                  defaultValue={requirement?.title}
+                  onBlur={field.handleBlur}
+                  onChange={() => {
+                    setEdited(true)
+                  }}
+                >
+                  <EditablePreview />
+                  <EditableInput
+                    onChange={(e) => field.handleChange(e.target.value)}
+                  />
+                </Editable>
+              </HStack>
+            ),
+          })}
         </Stack>
         <Stack w='100%' paddingTop={20}>
-          <Text borderBottomWidth={2}>Responsable</Text>
+          <Text
+            paddingBottom={'13px'}
+            borderBottomWidth={2}
+            fontSize={'20px'}
+            fontWeight={400}
+            lineHeight={'24px'}
+          >
+            Responsable
+          </Text>
           <HStack>
-            <Avatar name={requirement?.user?.userName} size={'md'} p='1' />
-            <Text size='md'>{requirement?.user?.userName}</Text>
+            <FormControl isRequired>
+              {updateReqForm.Field({
+                name: 'userId',
+                children: (field) => (
+                  <HStack>
+                    <Avatar size={'md'} p='1' name={selectedUser?.userName} />
+                    <Menu>
+                      {/* Menu que controla el responsable */}
+                      <MenuButton as={Button} rightIcon={<UpDownIcon />}>
+                        {selectedUser?.userName}
+                      </MenuButton>
+                      <MenuList>
+                        {usersData.map((data) => (
+                          <MenuItem
+                            value={data.id}
+                            key={`menu-item-req-${data.id}`}
+                            onClick={(e) => {
+                              field.handleChange(Number(e.currentTarget.value))
+                              handleUpdateUser()
+                              handleMenuItemClick(data)
+                            }}
+                          >
+                            {data.userName}
+                          </MenuItem>
+                        ))}
+                      </MenuList>
+                    </Menu>
+                  </HStack>
+                ),
+              })}
+            </FormControl>
           </HStack>
         </Stack>
         <Stack w='100%' paddingTop={10}>

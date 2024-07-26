@@ -28,9 +28,6 @@ export const ReqTableOptions = ({ id }: ReqTableOptionsProps) => {
         <Link href={appRoutes.home.requirements.getOne.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Detalle</MenuItem>
         </Link>
-        <Link href={appRoutes.home.requirements.update.url(id)}>
-          <MenuItem icon={<Icon as={SlControlPlay} />}>Editar</MenuItem>
-        </Link>
         <Link href={appRoutes.home.requirements.delete.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Eliminar</MenuItem>
         </Link>
