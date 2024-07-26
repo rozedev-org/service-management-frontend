@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react'
 import ModalUpdateReq from './components/ModalUpdateReq'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
+import { format } from 'date-fns'
 
 export default function ReqPage({ params }: { params: { id: number } }) {
   const { requirement, fetchReq, isLoading } = useRequirement(params.id)
