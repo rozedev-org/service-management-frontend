@@ -154,20 +154,35 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                     </HStack>
                     {/* Titulo del requerimiento */}
                     <HStack minH={'104px'} alignItems={'start'}>
-                      <Text
-                        fontSize={'16px'}
-                        fontWeight={700}
-                        lineHeight={'24px'}
-                      >
-                        Descripcion:{' '}
-                      </Text>
-                      <Text
-                        fontSize={'16px'}
-                        fontWeight={400}
-                        lineHeight={'24px'}
-                      >
-                        {title}
-                      </Text>
+                      {updateReqForm.Field({
+                        name: 'title',
+                        children: (field) => (
+                          <HStack w={'100%'}>
+                            <Text
+                              fontSize={'16px'}
+                              fontWeight={700}
+                              lineHeight={'24px'}
+                            >
+                              Descripcion:
+                            </Text>
+                            <Editable
+                              w={'100%'}
+                              defaultValue={field.state.value}
+                              onBlur={field.handleBlur}
+                              onChange={() => {
+                                setEdited(true)
+                              }}
+                            >
+                              <EditablePreview />
+                              <EditableInput
+                                onChange={(e) =>
+                                  field.handleChange(e.target.value)
+                                }
+                              />
+                            </Editable>
+                          </HStack>
+                        ),
+                      })}
                     </HStack>
                   </Stack>
                   {/* Responsable del requerimiento */}
