@@ -20,7 +20,6 @@ import { useEffect, useState } from 'react'
 import ModalUpdateReq from './components/ModalUpdateReq'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'
-import { format } from 'date-fns'
 
 export default function ReqPage({ params }: { params: { id: number } }) {
   const { requirement, fetchReq, isLoading } = useRequirement(params.id)
@@ -34,10 +33,6 @@ export default function ReqPage({ params }: { params: { id: number } }) {
   useEffect(() => {
     fetchReq()
   }, [])
-  const createdAtFormated =
-    requirement && format(requirement.createdAt, 'dd/MM/yyyy hh:mm a')
-  const updatedAtFormated =
-    requirement && format(requirement.updatedAt, 'dd/MM/yyyy hh:mm a')
 
   return (
     <CardContainer
@@ -45,10 +40,15 @@ export default function ReqPage({ params }: { params: { id: number } }) {
       title={`Detalle del Requerimiento ${params.id}`}
       optionsButton={<ReqTableOptions id={params.id} />}
     >
-      <Button onClick={() => console.log(createdAtFormated)}></Button>
       <Stack display='flex' alignItems='end' opacity='65%'>
-        <Text>Fecha de Creacion : {createdAtFormated}</Text>
-        <Text>Fecha de Actualizacion : {updatedAtFormated}</Text>
+        <Text>
+          Fecha de Creacion:{' '}
+          {new Date(requirement?.createdAt || '').toLocaleString()}
+        </Text>
+        <Text>
+          Fecha de Actualizacion:{' '}
+          {new Date(requirement?.updatedAt || '').toLocaleString()}
+        </Text>
       </Stack>
       <VStack display='flex' alignItems='start'>
         <Stack w='100%'>
