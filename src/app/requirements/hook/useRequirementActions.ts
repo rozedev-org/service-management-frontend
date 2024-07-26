@@ -3,6 +3,7 @@ import { config } from '@/config'
 import { useState } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { useRefreshSignal } from '@/app/board/states/useRefreshSignal'
+import { toast } from 'sonner'
 
 /**
  * Custom hook to fetch requirement actions.
@@ -27,10 +28,13 @@ export const useReqActions = (reqId: number) => {
       await axiosInstace.put(`/requirements/${reqId}`, {
         stateId: newReqStateId,
       })
-
       await fetchReqActions()
+      toast.success(`Se ha actualizado el estado del requerimiento`)
     } catch (error) {
       console.log(error)
+      toast.error(
+        `Ha ocurrido un error al actualizar el estado del requerimiento`
+      )
     }
   }
 

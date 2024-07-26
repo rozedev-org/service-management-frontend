@@ -10,11 +10,11 @@ import {
   CardFooter,
   CardHeader,
   Heading,
-  Link,
 } from '@chakra-ui/react'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
 import ReqStateModalDelete from './components/ReqStateModalDelete'
+import Link from 'next/link'
 
 export default function ReqStateDetailsPage({
   params,
