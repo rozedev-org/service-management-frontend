@@ -1,12 +1,9 @@
 import { VStack, Button } from '@chakra-ui/react'
 import { JSXElementConstructor, ReactElement } from 'react'
 import {
-  BiSolidDashboard,
   BiSolidPieChartAlt2,
-  BiFileBlank,
   BiHistory,
   BiBookmark,
-  BiSolidUser,
   BiHome,
   BiUser,
   BiTask,
@@ -14,6 +11,7 @@ import {
 import { Link } from '@chakra-ui/next-js'
 import { appRoutes } from '@/appRoutes'
 import { mobileOnCloseType } from '@/types/mobileOnCloseType'
+import { useUserSession } from '@/states/useUserId'
 interface UserOptionsListInterface {
   name: string
   icon: ReactElement<any, string | JSXElementConstructor<any>>
@@ -45,13 +43,6 @@ const UserOptionsList: UserOptionsListInterface[] = [
     isEnabled: true,
     href: appRoutes.home.requirements.url(),
   },
-
-  {
-    name: 'Login',
-    icon: <BiFileBlank />,
-    isEnabled: true,
-    href: appRoutes.home.login.url(0),
-  },
   {
     name: 'History',
     icon: <BiHistory />,
@@ -72,6 +63,7 @@ interface UserOptionsProps {
 }
 
 export const UserOptions = (props: UserOptionsProps) => {
+  const { isLoggedIn } = useUserSession()
   const filteredOptions = UserOptionsList.filter((option) =>
     option.name.toLocaleLowerCase().includes(props.optionFilter)
   )
@@ -81,7 +73,8 @@ export const UserOptions = (props: UserOptionsProps) => {
     <VStack w={'full'} gap={1}>
       {filteredOptions.map(
         (option, index) =>
-          option.isEnabled && (
+          option.isEnabled &&
+          isLoggedIn && (
             <Link
               color={'gray.600'}
               key={`user option - ${index}`}

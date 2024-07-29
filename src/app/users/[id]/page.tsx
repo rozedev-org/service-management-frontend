@@ -10,6 +10,7 @@ import {
   Avatar,
   Button,
   Link,
+  Spinner,
 } from '@chakra-ui/react'
 import { useUser } from '../hook/useUser'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
@@ -55,7 +56,11 @@ export default function UserPage({ params }: { params: { id: number } }) {
               </Button>
             </Link>
           </CardFooter>
-          <RequirementsAccord params={{ user, id }} />
+          {isLoading === true ? (
+            <Spinner />
+          ) : (
+            <RequirementsAccord params={{ user, id }} />
+          )}
         </Card>
       </CardContainer>
     </>

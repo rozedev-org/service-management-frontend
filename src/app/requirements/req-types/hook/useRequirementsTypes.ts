@@ -4,15 +4,18 @@ import {
 } from '@/common/interfaces/response.interface'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { useState } from 'react'
-import {
-  NewReqType,
-  ReqTypeEntity,
-  ReqTypeFieldEntity,
-} from '../../types/req.types'
+
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
 import { appRoutes } from '@/appRoutes'
 import { usePaginated } from '@/common/hooks/usePaginated'
+import { ReqTypeFieldEntity } from '../../types/requirement-type-field'
+import {
+  ReqTypeEntity,
+  NewReqType,
+  UpdateReqType,
+} from '../../types/requirement-type.types'
+import { toast } from 'sonner'
 
 export const useRequirementsTypes = () => {
   const fetchReqTypes = async (queryPamas: PaginationParams) => {
@@ -67,7 +70,7 @@ export const useCreateReqTypeForm = () => {
   const reqTypeForm = useForm<NewReqType>({
     defaultValues: {
       name: '',
-      requirementTypeField: [{ title: '', type: '' }],
+      requirementTypeField: [{ title: '', type: '', order: 0 }],
     },
     onSubmit: async ({ value }) => {
       try {
@@ -78,7 +81,18 @@ export const useCreateReqTypeForm = () => {
         router.push(
           appRoutes.home.requirements.reqTypes.getOne.url(response.data.id)
         )
+        toast.success(`Se ha creado correctamente`, {
+          action: {
+            label: 'Crear nuevamente',
+            onClick: () =>
+              router.push(appRoutes.home.requirements.reqTypes.add.url(0)),
+          },
+        })
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            'Ha ocurrido un error al crear el tipo'
+        )
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
@@ -91,26 +105,30 @@ export const useCreateReqTypeForm = () => {
 }
 
 export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
+  const [loading, setLoading] = useState(false)
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
-  const updateReqTypeForm = useForm<NewReqType>({
+  const updateReqTypeForm = useForm<UpdateReqType>({
     defaultValues: {
       name: state?.name || '',
-      requirementTypeField:
-        state?.requirementTypeField.map((field) => ({
-          title: field.title,
-          type: field.type,
-        })) || [],
+      requirementTypeField: state?.requirementTypeField || [],
     },
     onSubmit: async ({ value }) => {
+      setLoading(true)
       try {
         const response = await axiosInstace.put<ReqTypeEntity>(
           `/requirements/type/${state?.id}`,
           value
         )
-        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
+        setLoading(false)
+        toast.success(`Se ha actualizado correctamente`)
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            `Ocurrió un error al actualizar el tipo`
+        )
+        setLoading(false)
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
@@ -119,5 +137,5 @@ export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
       }
     },
   })
-  return { updateReqTypeForm, onError, errorMessage }
+  return { updateReqTypeForm, onError, errorMessage, loading, setLoading }
 }

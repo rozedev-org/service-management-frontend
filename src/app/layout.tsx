@@ -3,6 +3,7 @@ import './globals.css'
 import { Providers } from './providers'
 import { fonts } from './fonts'
 import { DefaultLayout } from '@/components/layout/default'
+import { Toaster } from 'sonner'
 
 export const metadata: Metadata = {
   title: 'Create Next App',
@@ -18,6 +19,7 @@ export default function RootLayout({
     <html lang='en' className={fonts.dm_Sans.className}>
       <body>
         <Providers>
+          <Toaster richColors closeButton />
           <DefaultLayout>{children}</DefaultLayout>
         </Providers>
       </body>

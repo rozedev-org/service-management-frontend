@@ -2,13 +2,20 @@ import {
   PaginatedResponse,
   PaginationParams,
 } from '@/common/interfaces/response.interface'
-import { NewReq, RequirementsEntity } from '../types/req.types'
+import {
+  NewReq,
+  RequirementEntity,
+  RequirementsEntity,
+} from '../types/requirements.types'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useForm } from '@tanstack/react-form'
-import { appRoutes } from '@/appRoutes'
 import { axiosInstace } from '@/common/utils/axiosIntance'
 import { usePaginated } from '@/common/hooks/usePaginated'
+import { useReqId } from '@/states/useReqId'
+import { useNewData } from '@/states/useNewData'
+import { toast } from 'sonner'
+import { appRoutes } from '@/appRoutes'
 
 /**
  * Custom hook for fetching requirements data.
@@ -54,14 +61,14 @@ export const useRequirements = () => {
  */
 export const useRequirement = (id: number) => {
   const fetchReq = async () => {
-    const response = await axiosInstace.get<RequirementsEntity>(
+    const response = await axiosInstace.get<RequirementEntity>(
       `/requirements/${id}`
     )
     setRequirement(response.data)
     setIsLoading(false)
     return response.data
   }
-  const [requirement, setRequirement] = useState<RequirementsEntity>()
+  const [requirement, setRequirement] = useState<RequirementEntity>()
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   return { fetchReq, requirement, setRequirement, isLoading }
@@ -74,14 +81,15 @@ export const useRequirement = (id: number) => {
 export const useCreateReqForm = () => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const { setIsCreating } = useNewData()
+  const { setId } = useReqId()
   const router = useRouter()
-
   const ReqForm = useForm<NewReq>({
     defaultValues: {
       title: '',
       userId: null,
-      stateId: 0,
-      reqTypeId: 0,
+      stateId: 1,
+      requirementFieldValue: [],
     },
     onSubmit: async ({ value }) => {
       try {
@@ -89,14 +97,29 @@ export const useCreateReqForm = () => {
           `/requirements`,
           value
         )
-        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
+        setId(response.data.id)
+        toast.success(
+          `Se ha creado el Requerimiento : ${response.data.title}`,
+          {
+            action: {
+              label: 'Crear otro Requerimiento',
+              onClick: () =>
+                router.push(appRoutes.home.requirements.add.url(0)),
+            },
+          }
+        )
       } catch (error: any) {
+        toast.error(
+          error.response?.data.message ||
+            'Ha ocurrido un error al crear el requerimiento'
+        )
         setOnError(true)
         setErrorMessage(
           error.response?.data.message ||
             'Ocurrió un error al intentar crear el requerimiento, por favor intente nuevamente'
         )
       }
+      setIsCreating(false)
     },
   })
 
@@ -108,17 +131,22 @@ export const useCreateReqForm = () => {
  * @param req - The requirement entity to be updated.
  * @returns An object containing the updateReqForm, onError, and errorMessage.
  */
-export const useUpdateReqForm = (req?: RequirementsEntity) => {
+export const useUpdateReqForm = (req?: RequirementEntity) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
-  const router = useRouter()
-
+  const { setIsCreating } = useNewData()
   const updateReqForm = useForm<NewReq>({
     defaultValues: {
       title: req?.title || '',
       userId: req?.userId || null,
       stateId: req?.stateId || 1,
-      reqTypeId: req?.reqTypeId || 1,
+      requirementFieldValue:
+        req?.requirementFieldValue && Array.isArray(req.requirementFieldValue)
+          ? req.requirementFieldValue.map((field) => ({
+              id: field.requirementTypeField.id,
+              value: field.value,
+            }))
+          : [],
     },
     onSubmit: async ({ value }) => {
       try {
@@ -126,14 +154,19 @@ export const useUpdateReqForm = (req?: RequirementsEntity) => {
           `/requirements/${req?.id}`,
           value
         )
-        router.push(appRoutes.home.requirements.getOne.url(response.data.id))
+        toast.success(`Se ha actualizado el Requerimiento `)
       } catch (error: any) {
+        toast.error(
+          error.response.data.message ||
+            `Ha ocurrido un erro al actualizar el Requerimiento `
+        )
         setOnError(true)
         setErrorMessage(
           error.response.data.message ||
             'Ocurrió un error al intentar actualizar el requerimiento, por favor intente nuevamente'
         )
       }
+      setIsCreating(false)
     },
   })
   return { updateReqForm, onError, errorMessage }

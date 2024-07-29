@@ -10,11 +10,11 @@ import {
   CardFooter,
   CardHeader,
   Heading,
-  Link,
 } from '@chakra-ui/react'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
 import ReqStateModalDelete from './components/ReqStateModalDelete'
+import Link from 'next/link'
 
 export default function ReqStateDetailsPage({
   params,
@@ -43,7 +43,7 @@ export default function ReqStateDetailsPage({
           gap={2}
         >
           <Heading size='md'>Titulo: {state?.title}</Heading>
-          <Text>ID del Usuario : {state?.id}</Text>
+          <Text>ID : {state?.id}</Text>
         </CardHeader>
         <CardBody>
           <Text>Secuencia: {state?.secuence}</Text>

@@ -13,17 +13,21 @@ import {
   HStack,
   Checkbox,
   Text,
+  Center,
 } from '@chakra-ui/react'
 import React from 'react'
 import { BiBraille } from 'react-icons/bi'
 import { FaEyeSlash, FaEye } from 'react-icons/fa'
 import { useLoginForm } from '../hooks/useLogin'
+import { LoadItem } from '@/components/layout/default/Loading '
 
 export function LoginForm() {
   const [show, setShow] = React.useState(false)
   const handleClick = () => setShow(!show)
-  const { loginForm } = useLoginForm()
-
+  const { loginForm, onError, setOnError, loading } = useLoginForm()
+  const handleSubmit = () => {
+    loginForm.handleSubmit()
+  }
   return (
     <form
       onSubmit={(e) => {
@@ -59,7 +63,10 @@ export function LoginForm() {
                 children: (field) => (
                   <Input
                     type='text'
-                    onChange={(e) => field.handleChange(e.target.value)}
+                    onChange={(e) => {
+                      setOnError(false)
+                      field.handleChange(e.target.value)
+                    }}
                   />
                 ),
               })}
@@ -73,7 +80,10 @@ export function LoginForm() {
                     <Input
                       pr='4.5rem'
                       type={show ? 'text' : 'password'}
-                      onChange={(e) => field.handleChange(e.target.value)}
+                      onChange={(e) => {
+                        setOnError(false)
+                        field.handleChange(e.target.value)
+                      }}
                     />
                   ),
                 })}
@@ -91,12 +101,22 @@ export function LoginForm() {
               <Checkbox>Recuerdame</Checkbox>
               <Link href={'#'}>He olvidado mi contraseña</Link>
             </HStack>
-            <Button colorScheme='blue' type='submit' p={'20px 150px 20px'}>
+            <Center w={'90%'}>
+              {onError && (
+                <Text color={'red'}>Datos incorrectos, intentelo de nuevo</Text>
+              )}
+            </Center>
+            <Button
+              colorScheme='blue'
+              onClick={handleSubmit}
+              p={'20px 150px 20px'}
+            >
               Entrar
             </Button>
           </Stack>
         </VStack>
       </Stack>
+      {loading && <LoadItem />}
     </form>
   )
 }

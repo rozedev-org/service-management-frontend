@@ -1,5 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useUser } from '@/app/users/hook/useUser'
+import { appRoutes } from '@/appRoutes'
+import { axiosInstace } from '@/common/utils/axiosIntance'
 import { useUserSession } from '@/states/useUserId'
 import { mobileOnCloseType } from '@/types/mobileOnCloseType'
 import {
@@ -18,8 +20,7 @@ import { useEffect } from 'react'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 export const Profile = (props: mobileOnCloseType) => {
   const router = useRouter()
-  const { setId } = useUserSession()
-  const { id } = useUserSession()
+  const { setId, id, setIsLoggedIn } = useUserSession()
   const { user, fetchUser } = useUser(id)
   useEffect(() => {
     if (id && id !== 0) {
@@ -28,13 +29,15 @@ export const Profile = (props: mobileOnCloseType) => {
   }, [id])
 
   const handleLogout = () => {
-    console.log('logout')
-    router.push('/auth/login')
+    axiosInstace.post(`/auth/logout`)
+    router.push(appRoutes.home.login.url(0))
+    setIsLoggedIn(false)
     const loggedId = id
     if (loggedId) {
       localStorage.setItem('userID', '')
       setId(0)
     }
+    window.location.reload()
   }
 
   return (

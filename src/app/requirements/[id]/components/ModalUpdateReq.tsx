@@ -12,6 +12,7 @@ import {
 
 interface ModalButtonsProps {
   handleAction: () => void
+  show?: boolean
 }
 
 export default function ModalButtons(props: ModalButtonsProps) {
@@ -19,7 +20,12 @@ export default function ModalButtons(props: ModalButtonsProps) {
 
   return (
     <>
-      <Button colorScheme='blue' margin='10px' onClick={onOpen}>
+      <Button
+        colorScheme='blue'
+        margin='10px'
+        onClick={onOpen}
+        isDisabled={props.show}
+      >
         Actualizar
       </Button>
       <Modal

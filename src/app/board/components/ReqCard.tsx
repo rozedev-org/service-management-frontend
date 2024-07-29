@@ -1,11 +1,12 @@
+'use client'
 import { HStack, Avatar, Text, Box } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/next-js'
 import ReqModal from './ReqModal'
 import { appRoutes } from '@/appRoutes'
-import { RequirementsEntity } from '@/app/requirements/types/req.types'
+import { RequirementEntity } from '@/app/requirements/types/requirements.types'
 
 interface ReqCardProps {
-  requirement: RequirementsEntity
+  requirement: RequirementEntity
 }
 export default function ReqCard(props: ReqCardProps) {
   const { id, user } = props.requirement
@@ -23,7 +24,7 @@ export default function ReqCard(props: ReqCardProps) {
       >
         <Avatar name={user?.userName || ''} w={'30px'} h={'30px'} />
         {/* Modal que muestra el detalle del requerimiento */}
-        <Box>
+        <Box textOverflow={'ellipsis'} overflow={'hidden'}>
           <ReqModal requirement={props.requirement} />
         </Box>
 

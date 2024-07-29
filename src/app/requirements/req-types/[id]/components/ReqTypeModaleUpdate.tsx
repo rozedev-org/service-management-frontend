@@ -9,16 +9,26 @@ import {
   ModalOverlay,
   useDisclosure,
 } from '@chakra-ui/react'
+import { useReqTypeUpdateForm } from '../../hook/useRequirementsTypes'
 
 interface ModalButtonsProps {
   handleAction: () => void
+  buttonEnable?: boolean
+  buttonLoading?: boolean
 }
 
 export const ReqTypeModaleUpdate = (props: ModalButtonsProps) => {
+  const { loading } = useReqTypeUpdateForm()
   const { isOpen, onClose, onOpen } = useDisclosure()
+  const handleConfirm = () => {
+    props.handleAction()
+    if (!loading) {
+      onClose()
+    }
+  }
   return (
     <>
-      <Button colorScheme='blue' margin='10px' onClick={onOpen}>
+      <Button onClick={onOpen} isDisabled={props.buttonEnable}>
         Actualizar
       </Button>
       <Modal
@@ -36,7 +46,7 @@ export const ReqTypeModaleUpdate = (props: ModalButtonsProps) => {
             <Button colorScheme='blue' mr={3} onClick={onClose}>
               Cerrar
             </Button>
-            <Button colorScheme='gray' onClick={props.handleAction}>
+            <Button colorScheme='gray' onClick={handleConfirm}>
               Confirmar
             </Button>
           </ModalFooter>

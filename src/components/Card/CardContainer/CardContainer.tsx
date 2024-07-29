@@ -37,8 +37,8 @@ export const CardContainer = (props: CardContainerProps) => {
           {props.aditionalHeaderItems && props.aditionalHeaderItems}
         </HStack>
       </CardHeader>
-      <CardBody>
-        {props.isLoading && (
+      <CardBody h={['80vh', '80vh', '85vh']}>
+        {props.isLoading === true ? (
           <Stack
             justifyContent={'center'}
             alignItems={'center'}
@@ -47,8 +47,9 @@ export const CardContainer = (props: CardContainerProps) => {
           >
             <Spinner size={'xl'} />
           </Stack>
+        ) : (
+          props.children
         )}
-        {props.children}
       </CardBody>
     </Card>
   )

@@ -1,11 +1,12 @@
-import { HStack, VStack, Stack, Text } from '@chakra-ui/react'
+'use client'
+import { VStack, Text } from '@chakra-ui/react'
 import ReqCard from './ReqCard'
-import { RequirementsEntity } from '@/app/requirements/types/req.types'
+import { RequirementEntity } from '@/app/requirements/types/requirements.types'
 
 export default function ReqStateColumn(props: {
   id: number
   title: string
-  requirements: RequirementsEntity[]
+  requirements: RequirementEntity[]
 }) {
   const { title } = props
 

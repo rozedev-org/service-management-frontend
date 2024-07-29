@@ -1,3 +1,4 @@
+import { appRoutes } from '@/appRoutes'
 import {
   Menu,
   MenuButton,
@@ -9,12 +10,11 @@ import {
 import { Link } from '@chakra-ui/next-js'
 import { BiDotsVerticalRounded } from 'react-icons/bi'
 import { SlControlPlay } from 'react-icons/sl'
-import { appRoutes } from '@/appRoutes'
 
-interface ReqTableOptionsProps {
+interface ReqTypeTableOptionsProps {
   id: number
 }
-export const ReqTableOptions = ({ id }: ReqTableOptionsProps) => {
+export const ReqTypeTableOptions = ({ id }: ReqTypeTableOptionsProps) => {
   return (
     <Menu direction='ltr'>
       <MenuButton
@@ -25,10 +25,13 @@ export const ReqTableOptions = ({ id }: ReqTableOptionsProps) => {
         icon={<Icon as={BiDotsVerticalRounded} />}
       ></MenuButton>
       <MenuList>
-        <Link href={appRoutes.home.requirements.getOne.url(id)}>
+        <Link href={appRoutes.home.requirements.reqTypes.getOne.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Detalle</MenuItem>
         </Link>
-        <Link href={appRoutes.home.requirements.delete.url(id)}>
+        <Link href={appRoutes.home.requirements.reqTypes.update.url(id)}>
+          <MenuItem icon={<Icon as={SlControlPlay} />}>Editar</MenuItem>
+        </Link>
+        <Link href={appRoutes.home.requirements.reqTypes.delete.url(id)}>
           <MenuItem icon={<Icon as={SlControlPlay} />}>Eliminar</MenuItem>
         </Link>
       </MenuList>

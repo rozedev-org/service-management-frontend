@@ -14,6 +14,10 @@ import {
   IconButton,
   Tooltip,
   Heading,
+  Box,
+  VStack,
+  Divider,
+  HStack,
 } from '@chakra-ui/react'
 import {
   useCreateReqTypeForm,
@@ -62,100 +66,157 @@ export default function ReqTypesAddPage() {
         <reqTypeForm.Field name='requirementTypeField' mode='array'>
           {(field) => {
             return (
-              <div>
-                {field.state.value.map((_, i) => {
-                  return (
-                    // New req field
-                    <div key={i}>
-                      <Heading as='h3' size='sm' pt='20px'>
-                        Campo {i + 1}
-                      </Heading>
-                      {/* Type input */}
-                      <reqTypeForm.Field
-                        name={`requirementTypeField[${i}].type`}
+              <VStack h={'60vh'} mt={4}>
+                {/* field array */}
+                <Box
+                  h={'100%'}
+                  w={'100%'}
+                  overflow={'scroll'}
+                  overflowX={'hidden'}
+                  p={2}
+                >
+                  {field.state.value.map((_, i) => {
+                    return (
+                      // New req field
+                      <VStack
+                        key={i}
+                        gap={2}
+                        alignItems={'start'}
+                        shadow={'xs'}
+                        p={2}
+                        // mt={4}
+                        borderRadius={'md'}
+                        mb={4}
                       >
-                        {(subField) => {
-                          return (
-                            <FormControl isRequired>
-                              <FormLabel pt='20px'>
-                                Tipo de Campo
-                                <Tooltip label='Eliminar este campo'>
-                                  <Button
-                                    leftIcon={<CloseIcon />}
-                                    ml={'10px'}
-                                    variant='link'
-                                    colorScheme='red'
-                                    size={'xs'}
-                                    onClick={() => field.removeValue(i)}
-                                  />
-                                </Tooltip>
-                              </FormLabel>
-                              <Select
-                                onChange={(e) =>
-                                  subField.handleChange(e.target.value)
-                                }
-                                defaultValue=''
-                              >
-                                <option value='' disabled hidden>
-                                  Selecciona un tipo
-                                </option>
-                                <option value='date'>Fecha</option>
-                                <option value='email'>Email</option>
-                                <option value='number'>
-                                  Numero de telefono
-                                </option>
-                                <option value='text'>Texto</option>
-                              </Select>
-                            </FormControl>
-                          )
-                        }}
-                      </reqTypeForm.Field>
-                      {/* Title input */}
-                      <reqTypeForm.Field
-                        name={`requirementTypeField[${i}].title`}
-                      >
-                        {(subField) => {
-                          return (
-                            <FormControl isRequired>
-                              <FormLabel>Titulo</FormLabel>
-                              <Input
-                                // type='text'
-                                onBlur={subField.handleBlur}
-                                value={subField.state.value}
-                                onChange={(e) =>
-                                  subField.handleChange(e.target.value)
-                                }
-                              />
-                            </FormControl>
-                          )
-                        }}
-                      </reqTypeForm.Field>
-                    </div>
-                  )
-                })}
+                        <Heading as='h3' size='sm'>
+                          <HStack>
+                            <Text> Campo {i + 1}</Text>
+                            {i !== 0 ? (
+                              <Tooltip label='Eliminar este campo'>
+                                {/* Button to Delete selected field */}
+                                <Button
+                                  leftIcon={<CloseIcon />}
+                                  ml={'10px'}
+                                  variant='link'
+                                  colorScheme='red'
+                                  size={'xs'}
+                                  onClick={() => field.removeValue(i)}
+                                />
+                              </Tooltip>
+                            ) : null}
+                          </HStack>
+                        </Heading>
+                        <Divider />
+                        {/* Title field */}
+                        <reqTypeForm.Field
+                          name={`requirementTypeField[${i}].title`}
+                        >
+                          {(subField) => {
+                            return (
+                              <FormControl isRequired>
+                                <FormLabel>Titulo</FormLabel>
+                                {/* Title input */}
+                                <Input
+                                  onBlur={subField.handleBlur}
+                                  value={subField.state.value}
+                                  onChange={(e) =>
+                                    subField.handleChange(e.target.value)
+                                  }
+                                />
+                              </FormControl>
+                            )
+                          }}
+                        </reqTypeForm.Field>
 
-                <reqTypeForm.Subscribe
-                  selector={(state) => [state.canSubmit, state.isSubmitting]}
-                  children={([canSubmit, isSubmitting]) => (
-                    <Stack mt='10px'>
-                      <ButtonGroup size='sm' isAttached variant='outline'>
-                        <Button type='submit' disabled={!canSubmit}>
-                          {isSubmitting ? '...' : 'Enviar'}
-                        </Button>
-                        <Tooltip label='Añadir un nuevo campo'>
-                          <IconButton
-                            onClick={() =>
-                              field.pushValue({ title: '', type: '' })
-                            }
-                            aria-label='Add to friends'
-                            icon={<AddIcon />}
-                          />
-                        </Tooltip>
-                      </ButtonGroup>
-                    </Stack>
-                  )}
-                />
-              </div>
+                        {/* Type field */}
+                        <reqTypeForm.Field
+                          name={`requirementTypeField[${i}].type`}
+                        >
+                          {(subField) => {
+                            return (
+                              <FormControl isRequired>
+                                <FormLabel pt='20px'>Tipo de Campo</FormLabel>
+                                {/* Type input */}
+                                <Select
+                                  onChange={(e) =>
+                                    subField.handleChange(e.target.value)
+                                  }
+                                  defaultValue=''
+                                >
+                                  <option value='' disabled hidden>
+                                    Selecciona un tipo
+                                  </option>
+                                  <option value='date'>Fecha</option>
+                                  <option value='email'>Email</option>
+                                  <option value='number'>
+                                    Numero de telefono
+                                  </option>
+                                  <option value='text'>Texto</option>
+                                  <option value='checkbox'>Check</option>
+                                </Select>
+                              </FormControl>
+                            )
+                          }}
+                        </reqTypeForm.Field>
+
+                        {/* order field */}
+                        <reqTypeForm.Field
+                          name={`requirementTypeField[${i}].order`}
+                        >
+                          {(subField) => {
+                            return (
+                              <FormControl isRequired>
+                                <FormLabel pt='20px'>Order</FormLabel>
+                                {/* Type input */}
+                                <Input
+                                  defaultValue={i + 1}
+                                  type='number'
+                                  min={0}
+                                  onChange={(e) =>
+                                    subField.handleChange(
+                                      Number(e.target.value)
+                                    )
+                                  }
+                                />
+                              </FormControl>
+                            )
+                          }}
+                        </reqTypeForm.Field>
+                      </VStack>
+                    )
+                  })}
+                </Box>
+                {/* Submit and add button */}
+                <Box mt={'auto'} w={'100%'}>
+                  <reqTypeForm.Subscribe
+                    selector={(state) => [state.canSubmit, state.isSubmitting]}
+                    children={([canSubmit, isSubmitting]) => (
+                      <Stack mt='10px'>
+                        <ButtonGroup size='sm' isAttached variant='outline'>
+                          {/* Submit button */}
+                          <Button type='submit' disabled={!canSubmit}>
+                            {isSubmitting ? '...' : 'Enviar'}
+                          </Button>
+                          <Tooltip label='Añadir un nuevo campo'>
+                            {/* Button to add a new field */}
+                            <IconButton
+                              onClick={() =>
+                                field.pushValue({
+                                  title: '',
+                                  type: '',
+                                  order: field.state.value.length + 1,
+                                })
+                              }
+                              aria-label='Add a new field'
+                              icon={<AddIcon />}
+                            />
+                          </Tooltip>
+                        </ButtonGroup>
+                      </Stack>
+                    )}
+                  />
+                </Box>
+              </VStack>
             )
           }}
         </reqTypeForm.Field>

@@ -12,8 +12,6 @@ import {
 } from '@chakra-ui/react'
 import { useRequirementState } from '../../hook/useRequirementState'
 import { useRouter } from 'next/navigation'
-import { config } from '@/config'
-import axios from 'axios'
 import { appRoutes } from '@/appRoutes'
 import { useEffect } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'
@@ -24,13 +22,12 @@ function ReqStateModalDelete({ params }: { params: { id: number } }) {
   const { isOpen, onClose, onOpen } = useDisclosure()
 
   const handleDelete = async () => {
-    await axiosInstace.delete(`/req-state/${params.id}`, {
+    await axiosInstace.delete(`/requirements/state/${params.id}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}` || '',
       },
     })
     router.push(appRoutes.home.settings.reqState.url(0))
-    console.log(reqState)
   }
 
   useEffect(() => {
