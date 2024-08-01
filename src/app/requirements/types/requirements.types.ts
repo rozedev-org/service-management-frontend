@@ -5,7 +5,6 @@ import {
 } from './requirement-type-field'
 
 export interface NewReq {
-  title: string
   userId: number | null
   stateId: number
   requirementFieldValue: {
@@ -16,7 +15,6 @@ export interface NewReq {
 
 export interface RequirementsEntity {
   id: number
-  title: string
   userId: number | null
   createdAt: Date
   updatedAt: Date

@@ -39,7 +39,6 @@ export default function AddReq() {
   const { user, fetchUsers, isLoading: isLoadingUsers } = useUsers()
   const [reqErrorMessages, setReqErrorMessages] = useState('')
   const [validating, setValidating] = useState(false)
-  const [titleInput, setTitleInput] = useState(false)
   const [selectInput, setSelectInput] = useState(false)
   const [fields, setFields] = useState<string[]>([])
   const {
@@ -86,12 +85,12 @@ export default function AddReq() {
 
   //  Funciones para validar los inputs
   useEffect(() => {
-    if (titleInput && selectInput) {
+    if ( selectInput) {
       setValidating(true)
     } else {
       setValidating(false)
     }
-  }, [titleInput, selectInput])
+  }, [selectInput])
 
   useEffect(() => {
     setFields(reqType?.requirementTypeField.map(() => '') || [])
@@ -141,42 +140,6 @@ export default function AddReq() {
               ),
             })}
           </FormControl>
-          <FormControl isRequired>
-            <FormLabel>Titulo</FormLabel>
-            {ReqForm.Field({
-              name: 'title',
-              validators: {
-                onChange: ({ value }) => {
-                  if (value.length >= 1) {
-                    setTitleInput(true)
-                    return undefined
-                  } else {
-                    setTitleInput(false)
-                    return 'Este campo no puede estar vacio'
-                  }
-                },
-              },
-              children: (field) => (
-                <>
-                  <Input
-                    maxLength={30}
-                    name={field.name}
-                    value={field.state.value}
-                    onBlur={field.handleBlur}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                  {field.state.meta.errors ? (
-                    <>
-                      <Text color={'salmon'}>
-                        {field.state.meta.errors.join(', ')}
-                      </Text>
-                    </>
-                  ) : null}
-                </>
-              ),
-            })}
-          </FormControl>
-
           <FormControl isRequired>
             <FormLabel>Tipo de Requerimiento</FormLabel>
             {ReqForm.Field({

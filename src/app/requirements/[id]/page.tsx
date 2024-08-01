@@ -84,31 +84,6 @@ export default function ReqPage({ params }: { params: { id: number } }) {
         </Text>
       </Stack>
       <VStack display='flex' alignItems='start'>
-        <Stack w='100%'>
-          {updateReqForm.Field({
-            name: 'title',
-            children: (field) => (
-              <HStack w={'100%'}>
-                <Text fontSize={'16px'} fontWeight={700} lineHeight={'24px'}>
-                  Descripcion:
-                </Text>
-                <Editable
-                  w={'100%'}
-                  defaultValue={requirement?.title}
-                  onBlur={field.handleBlur}
-                  onChange={() => {
-                    setEdited(true)
-                  }}
-                >
-                  <EditablePreview />
-                  <EditableInput
-                    onChange={(e) => field.handleChange(e.target.value)}
-                  />
-                </Editable>
-              </HStack>
-            ),
-          })}
-        </Stack>
         <Stack w='100%' paddingTop={20}>
           <Text
             paddingBottom={'13px'}

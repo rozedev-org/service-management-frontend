@@ -86,7 +86,6 @@ export const useCreateReqForm = () => {
   const router = useRouter()
   const ReqForm = useForm<NewReq>({
     defaultValues: {
-      title: '',
       userId: null,
       stateId: 1,
       requirementFieldValue: [],
@@ -99,7 +98,7 @@ export const useCreateReqForm = () => {
         )
         setId(response.data.id)
         toast.success(
-          `Se ha creado el Requerimiento : ${response.data.title}`,
+          `Se ha creado el Requerimiento : ${response.data.id}`,
           {
             action: {
               label: 'Crear otro Requerimiento',
@@ -137,7 +136,6 @@ export const useUpdateReqForm = (req?: RequirementEntity) => {
   const { setIsCreating } = useNewData()
   const updateReqForm = useForm<NewReq>({
     defaultValues: {
-      title: req?.title || '',
       userId: req?.userId || null,
       stateId: req?.stateId || 1,
       requirementFieldValue:
@@ -154,7 +152,7 @@ export const useUpdateReqForm = (req?: RequirementEntity) => {
           `/requirements/${req?.id}`,
           value
         )
-        toast.success(`Se ha actualizado el Requerimiento `)
+        toast.success(`Se ha actualizado el Requerimiento ${req?.id} `)
       } catch (error: any) {
         toast.error(
           error.response.data.message ||

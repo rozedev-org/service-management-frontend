@@ -77,7 +77,7 @@ export const useCreateReqStateForm = () => {
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axiosInstace.post<RequirementsEntity>(
+        const response = await axiosInstace.post<ReqStateEntity>(
           `/requirements/state`,
           value
         )

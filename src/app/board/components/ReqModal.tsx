@@ -42,7 +42,7 @@ import ModalUpdateReq from '@/app/requirements/[id]/components/ModalUpdateReq'
 
 export default function ReqModal(props: { requirement: RequirementEntity }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { title, id, updatedAt, createdAt, user } = props.requirement
+  const { id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
   const { setOnRefresh } = useRefreshSignal()
   const { user: usersData, fetchUsers } = useUsers()
@@ -91,7 +91,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
         color={'black'}
         textAlign={'left'}
       >
-        {title}
+        Averia #{id}
       </Button>
       <Stack>
         {/* Modal */}
@@ -130,9 +130,6 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                 <VStack display='flex' alignItems='start'>
                   <Stack w='100%' gap={'9px'}>
                     <HStack borderBottomWidth={2}>
-                      <Text fontSize={'20px'} paddingBottom={'13px'}>
-                        {title}
-                      </Text>
                       <Menu>
                         {/* Menu que controla los estados del requerimiento */}
                         <MenuButton as={Button} rightIcon={<BiChevronDown />}>
@@ -151,38 +148,6 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                           ))}
                         </MenuList>
                       </Menu>
-                    </HStack>
-                    {/* Titulo del requerimiento */}
-                    <HStack minH={'104px'} alignItems={'start'}>
-                      {updateReqForm.Field({
-                        name: 'title',
-                        children: (field) => (
-                          <HStack w={'100%'}>
-                            <Text
-                              fontSize={'16px'}
-                              fontWeight={700}
-                              lineHeight={'24px'}
-                            >
-                              Descripcion:
-                            </Text>
-                            <Editable
-                              w={'100%'}
-                              defaultValue={field.state.value}
-                              onBlur={field.handleBlur}
-                              onChange={() => {
-                                setEdited(true)
-                              }}
-                            >
-                              <EditablePreview />
-                              <EditableInput
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                              />
-                            </Editable>
-                          </HStack>
-                        ),
-                      })}
                     </HStack>
                   </Stack>
                   {/* Responsable del requerimiento */}

@@ -41,7 +41,7 @@ export default function ModalButtons({ params }: { params: { id: number } }) {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Eliminacion del requerimiento : {requirement?.title}
+            Eliminacion del requerimiento : {requirement?.id}
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>Confirmacion de Eliminacion</ModalBody>
