@@ -76,21 +76,6 @@ export default function UpdateReqPage({ params }: { params: { id: number } }) {
               ),
             })}
           </FormControl>
-          <FormControl isRequired>
-            <FormLabel>Titulo del Requerimiento</FormLabel>
-            {updateReqForm.Field({
-              name: 'title',
-              children: (field) => (
-                <Input
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                />
-              ),
-            })}
-          </FormControl>
-
           <Stack>Modal de actualizacion</Stack>
           <ModalUpdateReq handleAction={handleUpdate} />
         </VStack>

@@ -32,7 +32,7 @@ export default function ReqStateAddPage() {
     }
   }, [stateTitleInput, stateSecuenceInput])
   return (
-    <CardContainer title='Crear Requerimiento'>
+    <CardContainer title='Crear Estado de Requerimientos'>
       <form
         onSubmit={(e) => {
           e.preventDefault()
