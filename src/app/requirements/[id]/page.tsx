@@ -166,12 +166,13 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                                   <HStack
                                     p={2}
                                     borderRadius={'5px'}
-                                    alignItems={'flex-start'}
+                                    alignItems={'center'}
                                   >
                                     <Text
-                                      w={'100%'}
                                       fontSize={18}
                                       fontWeight={450}
+                                      pr={4}
+                                      w={'20%'}
                                     >
                                       {
                                         requirement?.requirementFieldValue[i]
