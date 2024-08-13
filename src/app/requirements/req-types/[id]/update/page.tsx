@@ -14,6 +14,7 @@ import {
   Heading,
   Text,
   HStack,
+  Box,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { appRoutes } from '@/appRoutes'

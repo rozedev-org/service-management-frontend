@@ -127,9 +127,9 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                 }
               >
                 {/* Todo el cuerpo del modal */}
-                <VStack display='flex' alignItems='start'>
+                <VStack display='flex' alignItems='center'>
                   <Stack w='100%' gap={'9px'}>
-                    <HStack borderBottomWidth={2}>
+                    <HStack borderBottomWidth={2} pb={2}>
                       <Menu>
                         {/* Menu que controla los estados del requerimiento */}
                         <MenuButton as={Button} rightIcon={<BiChevronDown />}>
@@ -214,7 +214,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                         void updateReqForm.handleSubmit()
                       }}
                     >
-                      <VStack overflow={'scroll'} h={'200px'}>
+                      <VStack>
                         <FormControl>
                           <updateReqForm.Field
                             name='requirementFieldValue'
@@ -231,24 +231,31 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                                       >
                                         {(subField) => {
                                           return (
-                                            <Stack
-                                              borderWidth={'3px'}
-                                              borderColor={'gray.200'}
-                                              p={4}
-                                              spacing={4}
+                                            <HStack
+                                              p={2}
                                               borderRadius={'5px'}
+                                              alignItems={'flex-start'}
                                             >
-                                              <FormLabel>
-                                                <Text>
-                                                  {
-                                                    requirement
-                                                      ?.requirementFieldValue[i]
-                                                      .requirementTypeField
-                                                      .title
-                                                  }
-                                                </Text>
-                                              </FormLabel>
+                                              <Text
+                                                whiteSpace={'nowrap'}
+                                                w={'100%'}
+                                                fontSize={18}
+                                                fontWeight={450}
+                                              >
+                                                {
+                                                  requirement
+                                                    ?.requirementFieldValue[i]
+                                                    .requirementTypeField.title
+                                                }
+                                              </Text>
                                               <Editable
+                                                border={'solid'}
+                                                borderWidth={1}
+                                                borderTop={'none'}
+                                                borderLeft={'none'}
+                                                borderRight={'none'}
+                                                borderColor={'gray.100'}
+                                                w={'100%'}
                                                 defaultValue={
                                                   requirement
                                                     ?.requirementFieldValue[i]
@@ -268,7 +275,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                                                   }
                                                 />
                                               </Editable>
-                                            </Stack>
+                                            </HStack>
                                           )
                                         }}
                                       </updateReqForm.Field>

@@ -17,6 +17,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Heading,
 } from '@chakra-ui/react'
 import {
   useCreateReqForm,
@@ -72,19 +73,21 @@ export default function ReqPage({ params }: { params: { id: number } }) {
       isLoading={isLoading}
       title={`Detalle del Requerimiento ${params.id}`}
       optionsButton={<ReqTableOptions id={params.id} />}
+      aditionalHeaderItems={
+        <Stack display='flex' opacity='65%' ml={'auto'}>
+          <Text>
+            Fecha de Creacion:{' '}
+            {new Date(requirement?.createdAt || '').toLocaleString()}
+          </Text>
+          <Text>
+            Fecha de Actualizacion:{' '}
+            {new Date(requirement?.updatedAt || '').toLocaleString()}
+          </Text>
+        </Stack>
+      }
     >
-      <Stack display='flex' alignItems='end' opacity='65%'>
-        <Text>
-          Fecha de Creacion:{' '}
-          {new Date(requirement?.createdAt || '').toLocaleString()}
-        </Text>
-        <Text>
-          Fecha de Actualizacion:{' '}
-          {new Date(requirement?.updatedAt || '').toLocaleString()}
-        </Text>
-      </Stack>
       <VStack display='flex' alignItems='start'>
-        <Stack w='100%' paddingTop={20}>
+        <Stack w='100%'>
           <Text
             paddingBottom={'13px'}
             borderBottomWidth={2}
@@ -128,8 +131,7 @@ export default function ReqPage({ params }: { params: { id: number } }) {
             </FormControl>
           </HStack>
         </Stack>
-        <Stack w='100%' paddingTop={10}>
-          <Text>Detalle</Text>
+        <Stack w='100%' paddingTop={6} h={'100%'}>
           <form
             onSubmit={(e) => {
               e.preventDefault()
@@ -137,7 +139,7 @@ export default function ReqPage({ params }: { params: { id: number } }) {
               void updateReqForm.handleSubmit()
             }}
           >
-            <VStack overflow={'scroll'} h={'200px'}>
+            <VStack>
               <FormControl>
                 <updateReqForm.Field name='requirementFieldValue' mode='array'>
                   {(field) => {
@@ -161,19 +163,52 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                                     : requirement?.requirementFieldValue[i]
                                         .value
                                 return (
-                                  <Stack
-                                    borderWidth={'3px'}
-                                    borderColor={'gray.200'}
-                                    p={4}
-                                    spacing={4}
+                                  <HStack
+                                    p={2}
                                     borderRadius={'5px'}
+                                    alignItems={'center'}
                                   >
-                                    <FormLabel>
-                                      <Text>
+                                    <Text
+                                      fontSize={18}
+                                      fontWeight={450}
+                                      pr={4}
+                                      w={'20%'}
+                                    >
+                                      {
+                                        requirement?.requirementFieldValue[i]
+                                          .requirementTypeField.title
+                                      }
+                                    </Text>
+
+                                    <Editable
+                                      border={'solid'}
+                                      borderWidth={1}
+                                      borderTop={'none'}
+                                      borderLeft={'none'}
+                                      borderRight={'none'}
+                                      borderColor={'gray.100'}
+                                      w={'100%'}
+                                      defaultValue={dateValueFormated}
+                                      onBlur={subField.handleBlur}
+                                      onChange={() => {
+                                        setEdited(true)
+                                      }}
+                                    >
+                                      <EditablePreview />
+                                      <EditableInput
+                                        onChange={(e) =>
+                                          subField.handleChange(e.target.value)
+                                        }
+                                      />
+                                    </Editable>
+
+                                    {/* <FormLabel>
+                                      <Text p={0}>
                                         {
                                           requirement?.requirementFieldValue[i]
                                             .requirementTypeField.title
                                         }
+                                        :{' '}
                                       </Text>
                                     </FormLabel>
                                     <Stack
@@ -196,8 +231,8 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                                           }
                                         />
                                       </Editable>
-                                    </Stack>
-                                  </Stack>
+                                    </Stack> */}
+                                  </HStack>
                                 )
                               }}
                             </updateReqForm.Field>
