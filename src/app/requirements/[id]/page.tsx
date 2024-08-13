@@ -17,6 +17,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
+  Heading,
 } from '@chakra-ui/react'
 import {
   useCreateReqForm,
@@ -128,8 +129,7 @@ export default function ReqPage({ params }: { params: { id: number } }) {
             </FormControl>
           </HStack>
         </Stack>
-        <Stack w='100%' paddingTop={10}>
-          <Text>Detalle</Text>
+        <Stack w='100%' paddingTop={6}>
           <form
             onSubmit={(e) => {
               e.preventDefault()
@@ -161,19 +161,46 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                                     : requirement?.requirementFieldValue[i]
                                         .value
                                 return (
-                                  <Stack
-                                    borderWidth={'3px'}
-                                    borderColor={'gray.200'}
-                                    p={4}
-                                    spacing={4}
+                                  <HStack
+                                    p={2}
                                     borderRadius={'5px'}
+                                    alignItems={'flex-start'}
                                   >
-                                    <FormLabel>
-                                      <Text>
+                                    <Text fontSize={20} fontWeight={450}>
+                                      {
+                                        requirement?.requirementFieldValue[i]
+                                          .requirementTypeField.title
+                                      }
+                                      :
+                                    </Text>
+
+                                    <Editable
+                                      border={'solid'}
+                                      borderWidth={1}
+                                      borderRadius={5}
+                                      borderColor={'gray.100'}
+                                      w={'100%'}
+                                      defaultValue={dateValueFormated}
+                                      onBlur={subField.handleBlur}
+                                      onChange={() => {
+                                        setEdited(true)
+                                      }}
+                                    >
+                                      <EditablePreview />
+                                      <EditableInput
+                                        onChange={(e) =>
+                                          subField.handleChange(e.target.value)
+                                        }
+                                      />
+                                    </Editable>
+
+                                    {/* <FormLabel>
+                                      <Text p={0}>
                                         {
                                           requirement?.requirementFieldValue[i]
                                             .requirementTypeField.title
                                         }
+                                        :{' '}
                                       </Text>
                                     </FormLabel>
                                     <Stack
@@ -196,8 +223,8 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                                           }
                                         />
                                       </Editable>
-                                    </Stack>
-                                  </Stack>
+                                    </Stack> */}
+                                  </HStack>
                                 )
                               }}
                             </updateReqForm.Field>
