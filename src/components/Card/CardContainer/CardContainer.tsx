@@ -37,7 +37,7 @@ export const CardContainer = (props: CardContainerProps) => {
           {props.aditionalHeaderItems && props.aditionalHeaderItems}
         </HStack>
       </CardHeader>
-      <CardBody h={['80vh', '80vh', '85vh']}>
+      <CardBody h={['80vh', '80vh', '85vh']} overflowY={'scroll'}>
         {props.isLoading === true ? (
           <Stack
             justifyContent={'center'}

@@ -73,19 +73,21 @@ export default function ReqPage({ params }: { params: { id: number } }) {
       isLoading={isLoading}
       title={`Detalle del Requerimiento ${params.id}`}
       optionsButton={<ReqTableOptions id={params.id} />}
+      aditionalHeaderItems={
+        <Stack display='flex' opacity='65%' ml={'auto'}>
+          <Text>
+            Fecha de Creacion:{' '}
+            {new Date(requirement?.createdAt || '').toLocaleString()}
+          </Text>
+          <Text>
+            Fecha de Actualizacion:{' '}
+            {new Date(requirement?.updatedAt || '').toLocaleString()}
+          </Text>
+        </Stack>
+      }
     >
-      <Stack display='flex' alignItems='end' opacity='65%'>
-        <Text>
-          Fecha de Creacion:{' '}
-          {new Date(requirement?.createdAt || '').toLocaleString()}
-        </Text>
-        <Text>
-          Fecha de Actualizacion:{' '}
-          {new Date(requirement?.updatedAt || '').toLocaleString()}
-        </Text>
-      </Stack>
       <VStack display='flex' alignItems='start'>
-        <Stack w='100%' paddingTop={20}>
+        <Stack w='100%'>
           <Text
             paddingBottom={'13px'}
             borderBottomWidth={2}
@@ -129,7 +131,7 @@ export default function ReqPage({ params }: { params: { id: number } }) {
             </FormControl>
           </HStack>
         </Stack>
-        <Stack w='100%' paddingTop={6}>
+        <Stack w='100%' paddingTop={6} h={'100%'}>
           <form
             onSubmit={(e) => {
               e.preventDefault()
@@ -137,7 +139,7 @@ export default function ReqPage({ params }: { params: { id: number } }) {
               void updateReqForm.handleSubmit()
             }}
           >
-            <VStack overflow={'scroll'} h={'200px'}>
+            <VStack>
               <FormControl>
                 <updateReqForm.Field name='requirementFieldValue' mode='array'>
                   {(field) => {
@@ -166,18 +168,23 @@ export default function ReqPage({ params }: { params: { id: number } }) {
                                     borderRadius={'5px'}
                                     alignItems={'flex-start'}
                                   >
-                                    <Text fontSize={20} fontWeight={450}>
+                                    <Text
+                                      w={'100%'}
+                                      fontSize={18}
+                                      fontWeight={450}
+                                    >
                                       {
                                         requirement?.requirementFieldValue[i]
                                           .requirementTypeField.title
                                       }
-                                      :
                                     </Text>
 
                                     <Editable
                                       border={'solid'}
                                       borderWidth={1}
-                                      borderRadius={5}
+                                      borderTop={'none'}
+                                      borderLeft={'none'}
+                                      borderRight={'none'}
                                       borderColor={'gray.100'}
                                       w={'100%'}
                                       defaultValue={dateValueFormated}

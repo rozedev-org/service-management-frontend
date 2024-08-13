@@ -59,7 +59,7 @@ export default function ReqTypesDetailPage({
               void updateReqTypeForm.handleSubmit()
             }}
           >
-            <VStack h={'60vh'} overflow={'auto'}>
+            <VStack>
               <FormControl>
                 <updateReqTypeForm.Field
                   name='requirementTypeField'
