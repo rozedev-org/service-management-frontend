@@ -1,9 +1,7 @@
-import { ReqActionsActions } from '../types/requirements.types'
-import { config } from '@/config'
 import { useState } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'
-import { useRefreshSignal } from '@/app/board/states/useRefreshSignal'
 import { toast } from 'sonner'
+import { ReqActionsActions } from '../types/requirement-action.types'
 
 /**
  * Custom hook to fetch requirement actions.

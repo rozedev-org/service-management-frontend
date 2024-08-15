@@ -18,10 +18,10 @@ import {
   MenuItem,
   MenuList,
   FormControl,
-  FormLabel,
   Editable,
   EditableInput,
   EditablePreview,
+  Box,
 } from '@chakra-ui/react'
 import { ReqTableOptions } from '../../requirements/components/TableOptions'
 import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
@@ -37,7 +37,6 @@ import { PaginationParams } from '@/common/interfaces/response.interface'
 import { UserEntity } from '@/app/users/types/user.types'
 import { UpDownIcon } from '@chakra-ui/icons'
 import { RequirementEntity } from '@/app/requirements/types/requirements.types'
-import { useRouter } from 'next/navigation'
 import ModalUpdateReq from '@/app/requirements/[id]/components/ModalUpdateReq'
 
 export default function ReqModal(props: { requirement: RequirementEntity }) {
@@ -47,7 +46,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
   const { setOnRefresh } = useRefreshSignal()
   const { user: usersData, fetchUsers } = useUsers()
   const [selectedUser, setSelectedUser] = useState<UserEntity | null>(user)
-  const { requirement, fetchReq, isLoading } = useRequirement(id)
+  const { requirement, fetchReq } = useRequirement(id)
   const { updateReqForm } = useUpdateReqForm(requirement)
   const [edited, setEdited] = useState(false)
   const handleOpen = async () => {
@@ -90,8 +89,26 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
         fontSize={14}
         color={'black'}
         textAlign={'left'}
+        _hover={{ textDecoration: 'none' }}
       >
-        Averia #{id}
+        <Box w={['10rem', '19rem']} pr={2}>
+          <HStack
+            key={`home-key-${id}`}
+            bg='#FFFFFF'
+            borderRadius='20px'
+            p={2}
+            minH={['3.5rem', '56px']}
+            _hover={{ bg: '#c1c1c1' }}
+          >
+            <Avatar name={user?.userName || ''} w={'30px'} h={'30px'} />
+            <Box textOverflow={'ellipsis'} overflow={'hidden'}>
+              Averia #{id}
+            </Box>
+            <Text fontSize={10} ml={'auto'}>
+              REQ-{id}
+            </Text>
+          </HStack>
+        </Box>
       </Button>
       <Stack>
         {/* Modal */}
