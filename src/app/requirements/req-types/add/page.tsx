@@ -18,16 +18,18 @@ import {
   VStack,
   Divider,
   HStack,
+  Switch,
 } from '@chakra-ui/react'
 import {
   useCreateReqTypeForm,
   useRequirementsTypes,
 } from '../hook/useRequirementsTypes'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { AddIcon, CloseIcon } from '@chakra-ui/icons'
 import { PaginationParams } from '@/common/interfaces/response.interface'
 
 export default function ReqTypesAddPage() {
+  const [switchCheck, setSwitchCheck] = useState(true)
   const { reqTypeForm } = useCreateReqTypeForm()
   const { fetchReqTypes } = useRequirementsTypes()
   useEffect(() => {
@@ -182,6 +184,28 @@ export default function ReqTypesAddPage() {
                             )
                           }}
                         </reqTypeForm.Field>
+                        {/* isOptional field */}
+                        <reqTypeForm.Field
+                          name={`requirementTypeField[${i}].isOptional`}
+                        >
+                          {(subField) => {
+                            return (
+                              <FormControl>
+                                <FormLabel htmlFor='is-optional'>
+                                  isOptional
+                                </FormLabel>
+                                <Switch
+                                  id='is-optional'
+                                  onChange={() => {
+                                    setSwitchCheck(!switchCheck)
+                                    console.log(switchCheck)
+                                    subField.handleChange(switchCheck)
+                                  }}
+                                />
+                              </FormControl>
+                            )
+                          }}
+                        </reqTypeForm.Field>
                       </VStack>
                     )
                   })}
@@ -205,6 +229,7 @@ export default function ReqTypesAddPage() {
                                   title: '',
                                   type: '',
                                   order: field.state.value.length + 1,
+                                  isOptional: false,
                                 })
                               }
                               aria-label='Add a new field'

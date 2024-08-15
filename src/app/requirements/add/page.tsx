@@ -85,7 +85,7 @@ export default function AddReq() {
 
   //  Funciones para validar los inputs
   useEffect(() => {
-    if ( selectInput) {
+    if (selectInput) {
       setValidating(true)
     } else {
       setValidating(false)
@@ -101,7 +101,10 @@ export default function AddReq() {
     newFields[index] = value
     setFields(newFields)
 
-    const allFieldsValid = newFields.every((field) => field.length > 0)
+    const allFieldsValid = newFields.every((field, i) => {
+      const isOptionalType = reqType?.requirementTypeField[i].isOptional
+      return isOptionalType || field.length > 0
+    })
     setSelectInput(allFieldsValid)
   }
 
@@ -216,8 +219,13 @@ export default function AddReq() {
                         name={`requirementFieldValue[${i}].value`}
                         validators={{
                           onChange: ({ value }) => {
-                            if (value === '') {
-                              setReqErrorMessages('Complete todos los campos')
+                            if (
+                              value === '' &&
+                              !reqType?.requirementTypeField[i].isOptional
+                            ) {
+                              setReqErrorMessages(
+                                'Complete todos los campos requeridos'
+                              )
                             } else {
                               setReqErrorMessages('')
                               return undefined
@@ -232,12 +240,13 @@ export default function AddReq() {
                                 value.id ===
                                 field.state.value[i].requirementTypeFieldId
                             )
-
                           const inputType = reqTypeField?.type || 'text'
+                          const isOptionalType =
+                            reqType?.requirementTypeField[i].isOptional
 
                           return (
                             <>
-                              <FormControl isRequired>
+                              <FormControl isRequired={!isOptionalType}>
                                 <FormLabel>{reqTypeField?.title}</FormLabel>
 
                                 {inputType === 'text' && (
