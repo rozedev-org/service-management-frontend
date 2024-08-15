@@ -4,6 +4,7 @@ export interface ReqTypeFieldEntity {
   type: string
   requirementTypeId: number
   order: number
+  isOptional: boolean
 }
 
 export interface UpdateReqTypeField {
@@ -18,6 +19,7 @@ export interface NewReqTypeField {
   title: string
   type: string
   order: number
+  isOptional: boolean
 }
 
 export interface RequirementFieldValueEntity {
