@@ -1,7 +1,7 @@
 'use client'
 import { VStack, Text } from '@chakra-ui/react'
-import ReqCard from './ReqCard'
 import { RequirementEntity } from '@/app/requirements/types/requirements.types'
+import ReqModal from './ReqModal'
 
 export default function ReqStateColumn(props: {
   id: number
@@ -21,7 +21,6 @@ export default function ReqStateColumn(props: {
     >
       {/* Titulo de la comuna */}
       <Text p={2}>{title}</Text>
-
       <VStack
         data-test-id='req-cards-stack'
         overflowY={'scroll'}
@@ -29,7 +28,7 @@ export default function ReqStateColumn(props: {
       >
         {props.requirements.map((req) => (
           // Card que muestra el requerimiento
-          <ReqCard key={`req-card-${req.id}`} requirement={req} />
+          <ReqModal key={`req-modal-${req.id}`} requirement={req} />
         ))}
       </VStack>
     </VStack>
