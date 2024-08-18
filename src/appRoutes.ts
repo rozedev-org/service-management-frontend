@@ -39,6 +39,21 @@ export const appRoutes = {
     },
     users: {
       url: () => '/users',
+      profile: {
+        url: (_: number) => `/users/profiles`,
+        getOne: {
+          url: (id: number) => `/users/profiles/${id}`,
+        },
+        add: {
+          url: (_: number) => `/users/profiles/add`,
+        },
+        update: {
+          url: (id: number) => `/users/profiles/${id}/update`,
+        },
+        delete: {
+          url: (id: number) => `/users/profiles/${id}/delete`,
+        },
+      },
       getOne: {
         url: (id: number) => `/users/${id}`,
       },
