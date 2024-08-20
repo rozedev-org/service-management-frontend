@@ -7,6 +7,7 @@ import {
   BiHome,
   BiUser,
   BiTask,
+  BiSolidBuilding,
 } from 'react-icons/bi'
 import { Link } from '@chakra-ui/next-js'
 import { appRoutes } from '@/appRoutes'
@@ -47,13 +48,13 @@ const UserOptionsList: UserOptionsListInterface[] = [
     name: 'Clientes',
     icon: <BiMale />,
     isEnabled: true,
-    href: '/customers',
+    href: appRoutes.home.customers.url(),
   },
   {
-    name: 'Favorites',
-    icon: <BiBookmark />,
-    isEnabled: false,
-    href: '/users',
+    name: 'Offices',
+    icon: <BiSolidBuilding />,
+    isEnabled: true,
+    href: appRoutes.home.offices.url(),
   },
 ]
 
