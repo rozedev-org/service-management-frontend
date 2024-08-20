@@ -2,7 +2,7 @@ import { VStack, Button } from '@chakra-ui/react'
 import { JSXElementConstructor, ReactElement } from 'react'
 import {
   BiSolidPieChartAlt2,
-  BiHistory,
+  BiMale,
   BiBookmark,
   BiHome,
   BiUser,
@@ -44,10 +44,10 @@ const UserOptionsList: UserOptionsListInterface[] = [
     href: appRoutes.home.requirements.url(),
   },
   {
-    name: 'History',
-    icon: <BiHistory />,
-    isEnabled: false,
-    href: '/users',
+    name: 'Clientes',
+    icon: <BiMale />,
+    isEnabled: true,
+    href: '/customers',
   },
   {
     name: 'Favorites',

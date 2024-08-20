@@ -67,6 +67,21 @@ export const appRoutes = {
         url: (id: number) => `/users/${id}/delete`,
       },
     },
+    customers: {
+      url: (_: number) => `/customers`,
+      getOne: {
+        url: (id: number) => `/customers/${id}`,
+      },
+      add: {
+        url: (_: number) => `/customers/add`,
+      },
+      update: {
+        url: (id: number) => `/customers/${id}/update`,
+      },
+      delete: {
+        url: (id: number) => `/customers/${id}/delete`,
+      },
+    },
     settings: {
       url: (_: number) => `/settings`,
       reqState: {
