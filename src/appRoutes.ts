@@ -68,7 +68,7 @@ export const appRoutes = {
       },
     },
     customers: {
-      url: (_: number) => `/customers`,
+      url: () => `/customers`,
       getOne: {
         url: (id: number) => `/customers/${id}`,
       },
@@ -98,6 +98,21 @@ export const appRoutes = {
         delete: {
           url: (id: number) => `/settings/req-state/${id}/delete`,
         },
+      },
+    },
+    offices: {
+      url: () => `/offices`,
+      getOne: {
+        url: (id: number) => `/offices/${id}`,
+      },
+      add: {
+        url: (_: number) => `/offices/add`,
+      },
+      update: {
+        url: (id: number) => `/offices/${id}/update`,
+      },
+      delete: {
+        url: (id: number) => `/offices/${id}/delete`,
       },
     },
   },

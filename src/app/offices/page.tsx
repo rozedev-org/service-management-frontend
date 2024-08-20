@@ -1,42 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
-import { useCustomers } from './hook/useCustomer'
+
 import { PaginationParams } from '@/common/interfaces/response.interface'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
 import { SearchInput } from '@/components/input/SearchInput'
 import { PaginatedTable } from '@/components/table/PaginatedTable/PaginatedTable'
 import { useState, useEffect } from 'react'
-import { CustomerEntity } from './types/customer.types'
-import { customerColumns } from './types/columnDefCustomer'
-import AddCustomerButton from './components/AddCustomerButton'
+import { useOffices } from './hook/useOffice'
+import { OfficeEntity } from './types/office.types'
+import { officeColumns } from './types/columnDefOffice'
+import AddOfficeButton from './components/AddOfficeButton'
 
-export default function CustomerPage() {
+export default function OfficePage() {
   const [userFilter, setUserFilter] = useState('')
   const handleOnChangeUserFilter = (value: string) => {
     setUserFilter(value)
   }
   const {
-    fetchCustomers,
-    customer,
     meta,
     handlePageChange,
     handlePerRowsChange,
     isLoading,
-  } = useCustomers()
+    fetchOffices,
+    office,
+  } = useOffices()
   useEffect(() => {
     const queryPamas: PaginationParams = {
       page: 1,
       take: 5,
     }
-    fetchCustomers(queryPamas)
+    fetchOffices(queryPamas)
   }, [])
 
   return (
     <CardContainer
-      title='Lista de Clientes'
+      title='Lista de Sucursales'
       optionsButton={
         <>
-          <AddCustomerButton />
+          <AddOfficeButton />
         </>
       }
       isLoading={isLoading}
@@ -48,12 +49,12 @@ export default function CustomerPage() {
         />
       }
     >
-      <PaginatedTable<CustomerEntity>
+      <PaginatedTable<OfficeEntity>
         meta={meta}
-        data={customer}
+        data={office}
         handlePageChange={handlePageChange}
         handlePerRowsChange={handlePerRowsChange}
-        columns={customerColumns}
+        columns={officeColumns}
         isLoadingData={isLoading}
       />
     </CardContainer>

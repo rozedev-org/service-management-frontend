@@ -318,7 +318,7 @@ export const AddReqDrawer = () => {
                                           }}
                                         />
                                       )}
-                                      {inputType === 'email' && (
+                                      {inputType === 'mail' && (
                                         <InputGroup>
                                           <InputLeftElement pointerEvents='none'>
                                             <EmailIcon color='gray.300' />
