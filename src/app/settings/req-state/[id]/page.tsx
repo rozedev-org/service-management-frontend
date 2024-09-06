@@ -22,7 +22,6 @@ export default function ReqStateDetailsPage({
   params: { id: number }
 }) {
   const { reqState, fetchReqState, isLoading } = useRequirementState(params.id)
-  const state = reqState
 
   useEffect(() => {
     fetchReqState()
@@ -42,11 +41,12 @@ export default function ReqStateDetailsPage({
           alignItems='center'
           gap={2}
         >
-          <Heading size='md'>Titulo: {state?.title}</Heading>
-          <Text>ID : {state?.id}</Text>
+          <Heading size='md'>Titulo: {reqState?.title}</Heading>
+          <Text>ID : {reqState?.id}</Text>
         </CardHeader>
         <CardBody>
-          <Text>Secuencia: {state?.secuence}</Text>
+          <Text>Secuencia: {reqState?.secuence}</Text>
+          <Text>Tipo: {reqState?.stateType}</Text>
         </CardBody>
         <CardFooter>
           <ReqStateModalDelete params={params} />

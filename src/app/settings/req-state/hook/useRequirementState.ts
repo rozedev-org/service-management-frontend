@@ -54,6 +54,7 @@ export const useRequirementState = (id: number) => {
     secuence: 1,
     createdAt: new Date(),
     updatedAt: new Date(),
+    stateType: '',
   })
   const fetchReqState = async () => {
     const response = await axiosInstace.get<ReqStateEntity>(
@@ -74,6 +75,7 @@ export const useCreateReqStateForm = () => {
     defaultValues: {
       title: '',
       secuence: 1,
+      stateType: '',
     },
     onSubmit: async ({ value }) => {
       try {
@@ -118,6 +120,7 @@ export const useReqUpdateForm = (state?: ReqStateEntity) => {
     defaultValues: {
       title: state?.title || '',
       secuence: state?.secuence || 1,
+      stateType: state?.stateType || '',
     },
     onSubmit: async ({ value }) => {
       try {
