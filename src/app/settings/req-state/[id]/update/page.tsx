@@ -1,6 +1,6 @@
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
-import { VStack, FormControl, FormLabel, Input } from '@chakra-ui/react'
+import { VStack, FormControl, FormLabel, Input, Select } from '@chakra-ui/react'
 import {
   useReqUpdateForm,
   useRequirementState,
@@ -65,6 +65,27 @@ export default function ReqStateUpdatePage({
                   onBlur={field.handleBlur}
                   onChange={(e) => field.handleChange(Number(e.target.value))}
                 />
+              ),
+            })}
+          </FormControl>
+          <FormControl isRequired>
+            <FormLabel>Tipo</FormLabel>
+            {updateReqStateForm.Field({
+              name: 'stateType',
+              children: (field) => (
+                <Select
+                  defaultValue=''
+                  onChange={(e) => {
+                    field.handleChange(e.target.value)
+                  }}
+                >
+                  <option value='' disabled hidden>
+                    Seleccione el tipo de estado
+                  </option>
+                  <option value={'Started'}>{'Inicio'}</option>
+                  <option value={'In Process'}>{'Transitorio'}</option>
+                  <option value={'Done'}>{'Finalizacion'}</option>
+                </Select>
               ),
             })}
           </FormControl>
