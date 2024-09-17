@@ -1,4 +1,3 @@
-/* eslint-disable react/no-children-prop */
 /* eslint-disable react-hooks/exhaustive-deps */
 'use client'
 import { CardContainer } from '@/components/Card/CardContainer/CardContainer'
@@ -6,246 +5,220 @@ import {
   Button,
   FormControl,
   FormLabel,
-  Input,
-  Text,
-  Select,
-  Stack,
-  ButtonGroup,
-  IconButton,
-  Tooltip,
-  Heading,
-  Box,
-  VStack,
-  Divider,
   HStack,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Select,
   Switch,
+  useDisclosure,
+  VStack,
 } from '@chakra-ui/react'
-import {
-  useCreateReqTypeForm,
-  useRequirementsTypes,
-} from '../hook/useRequirementsTypes'
-import { useEffect, useState } from 'react'
-import { AddIcon, CloseIcon } from '@chakra-ui/icons'
-import { PaginationParams } from '@/common/interfaces/response.interface'
+import { useState } from 'react'
+import { NewReqType } from '../../types/requirement-type.types'
+import { reqTypeFormColumn } from '../types/ReqTypeFormTable'
+import { NewReqTypeField } from '../../types/requirement-type-field'
+import { PaginatedFormTable } from '@/components/table/CustomFormTable/CustomFormTable'
+import { useCreateReqTypeForm } from '../hook/useRequirementsTypes'
 
 export default function ReqTypesAddPage() {
-  const [switchCheck, setSwitchCheck] = useState(true)
-  const { reqTypeForm } = useCreateReqTypeForm()
-  const { fetchReqTypes } = useRequirementsTypes()
-  useEffect(() => {
-    const queryPamas: PaginationParams = {
-      page: 1,
-      take: 5,
-      getAll: true,
-    }
-    fetchReqTypes(queryPamas)
-  }, [])
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [dataTable, setDataTable] = useState<NewReqType[]>([])
+  const [requiredInput, setRequiredInput] = useState(true)
+  const [optionalInput, setOptionalInput] = useState(true)
+  const [nameInput, setNameInput] = useState('')
+  const [newField, setNewField] = useState<NewReqTypeField>({
+    title: '',
+    type: '',
+    order: 1,
+    isOptional: false,
+    isRequired: false,
+  })
+  const { reqTypeForm } = useCreateReqTypeForm(dataTable)
+  // const [dataTable, setDataTable] = useState<NewReqType[]>([
+  //   {
+  //     name: 'Si',
+  //     requirementTypeField: [
+  //       {
+  //         title: 'Titulo',
+  //         order: 1,
+  //         type: 'Tipo',
+  //         isOptional: true,
+  //         isRequired: false,
+  //       },
+  //       {
+  //         title: 'Title',
+  //         order: 2,
+  //         type: 'Type',
+  //         isOptional: false,
+  //         isRequired: true,
+  //       },
+  //     ],
+  //   },
+  // ])
+  const handleInputChange = (value: string | boolean, type: string) => {
+    setNewField((prevField) => ({
+      ...prevField,
+      [type]: value,
+    }))
+  }
+
+  const updateName = (name: string) => {
+    setNameInput(name)
+    setDataTable((prevDataTable) =>
+      prevDataTable.map((item) => (name ? { ...item, name: name } : item))
+    )
+  }
+
+  const handleAddField = () => {
+    setDataTable((prevDataTable) => {
+      const updatedDataTable = [...prevDataTable]
+      if (updatedDataTable.length > 0) {
+        updatedDataTable[0].requirementTypeField.push(newField)
+      } else {
+        updatedDataTable.push({
+          name: nameInput,
+          requirementTypeField: [newField],
+        })
+      }
+      return updatedDataTable
+    })
+    onClose()
+    setRequiredInput(true)
+    setOptionalInput(true)
+    setNewField({
+      title: '',
+      type: '',
+      order: 1,
+      isOptional: false,
+      isRequired: false,
+    })
+  }
+
+  const resetDataTable = () => {
+    setDataTable([{ name: '', requirementTypeField: [] }])
+  }
+
+  const handleSubmit = () => {
+    reqTypeForm.handleSubmit()
+  }
 
   return (
     <CardContainer title='Crear tipo de Requerimiento'>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          reqTypeForm.handleSubmit()
-        }}
-      >
-        {/* Name input */}
-        <reqTypeForm.Field name='name'>
-          {(field) => (
-            <FormControl isRequired>
-              <FormLabel>Nombre</FormLabel>
-              <Input
-                onBlur={field.handleBlur}
-                value={field.state.value}
-                onChange={(e) => field.handleChange(e.target.value)}
-              />
-            </FormControl>
-          )}
-        </reqTypeForm.Field>
-
-        {/* Requirement Type Fields */}
-        <reqTypeForm.Field name='requirementTypeField' mode='array'>
-          {(field) => {
-            return (
-              <VStack h={'60vh'} mt={4}>
-                {/* field array */}
-                <Box
-                  h={'100%'}
-                  w={'100%'}
-                  overflow={'scroll'}
-                  overflowX={'hidden'}
-                  p={2}
-                >
-                  {field.state.value.map((_, i) => {
-                    return (
-                      // New req field
-                      <VStack
-                        key={i}
-                        gap={2}
-                        alignItems={'start'}
-                        shadow={'xs'}
-                        p={2}
-                        // mt={4}
-                        borderRadius={'md'}
-                        mb={4}
-                      >
-                        <Heading as='h3' size='sm'>
-                          <HStack>
-                            <Text> Campo {i + 1}</Text>
-                            {i !== 0 ? (
-                              <Tooltip label='Eliminar este campo'>
-                                {/* Button to Delete selected field */}
-                                <Button
-                                  leftIcon={<CloseIcon />}
-                                  ml={'10px'}
-                                  variant='link'
-                                  colorScheme='red'
-                                  size={'xs'}
-                                  onClick={() => field.removeValue(i)}
-                                />
-                              </Tooltip>
-                            ) : null}
-                          </HStack>
-                        </Heading>
-                        <Divider />
-                        {/* Title field */}
-                        <reqTypeForm.Field
-                          name={`requirementTypeField[${i}].title`}
-                        >
-                          {(subField) => {
-                            return (
-                              <FormControl isRequired>
-                                <FormLabel>Titulo</FormLabel>
-                                {/* Title input */}
-                                <Input
-                                  onBlur={subField.handleBlur}
-                                  value={subField.state.value}
-                                  onChange={(e) =>
-                                    subField.handleChange(e.target.value)
-                                  }
-                                />
-                              </FormControl>
-                            )
-                          }}
-                        </reqTypeForm.Field>
-
-                        {/* Type field */}
-                        <reqTypeForm.Field
-                          name={`requirementTypeField[${i}].type`}
-                        >
-                          {(subField) => {
-                            return (
-                              <FormControl isRequired>
-                                <FormLabel pt='20px'>Tipo de Campo</FormLabel>
-                                {/* Type input */}
-                                <Select
-                                  onChange={(e) =>
-                                    subField.handleChange(e.target.value)
-                                  }
-                                  defaultValue=''
-                                >
-                                  <option value='' disabled hidden>
-                                    Selecciona un tipo
-                                  </option>
-                                  <option value='date'>Fecha</option>
-                                  <option value='email'>Email</option>
-                                  <option value='number'>
-                                    Numero de telefono
-                                  </option>
-                                  <option value='text'>Texto</option>
-                                  <option value='checkbox'>Check</option>
-                                </Select>
-                              </FormControl>
-                            )
-                          }}
-                        </reqTypeForm.Field>
-
-                        {/* order field */}
-                        <reqTypeForm.Field
-                          name={`requirementTypeField[${i}].order`}
-                        >
-                          {(subField) => {
-                            return (
-                              <FormControl isRequired>
-                                <FormLabel pt='20px'>Order</FormLabel>
-                                {/* Type input */}
-                                <Input
-                                  defaultValue={i + 1}
-                                  type='number'
-                                  min={0}
-                                  onChange={(e) =>
-                                    subField.handleChange(
-                                      Number(e.target.value)
-                                    )
-                                  }
-                                />
-                              </FormControl>
-                            )
-                          }}
-                        </reqTypeForm.Field>
-                        {/* isOptional field */}
-                        <reqTypeForm.Field
-                          name={`requirementTypeField[${i}].isOptional`}
-                        >
-                          {(subField) => {
-                            return (
-                              <FormControl>
-                                <FormLabel htmlFor='is-optional'>
-                                  isOptional
-                                </FormLabel>
-                                <Switch
-                                  id='is-optional'
-                                  onChange={() => {
-                                    setSwitchCheck(!switchCheck)
-                                    console.log(switchCheck)
-                                    subField.handleChange(switchCheck)
-                                  }}
-                                />
-                              </FormControl>
-                            )
-                          }}
-                        </reqTypeForm.Field>
-                      </VStack>
-                    )
-                  })}
-                </Box>
-                {/* Submit and add button */}
-                <Box mt={'auto'} w={'100%'}>
-                  <reqTypeForm.Subscribe
-                    selector={(state) => [state.canSubmit, state.isSubmitting]}
-                    children={([canSubmit, isSubmitting]) => (
-                      <Stack mt='10px'>
-                        <ButtonGroup size='sm' isAttached variant='outline'>
-                          {/* Submit button */}
-                          <Button type='submit' disabled={!canSubmit}>
-                            {isSubmitting ? '...' : 'Enviar'}
-                          </Button>
-                          <Tooltip label='Añadir un nuevo campo'>
-                            {/* Button to add a new field */}
-                            <IconButton
-                              onClick={() =>
-                                field.pushValue({
-                                  title: '',
-                                  type: '',
-                                  order: field.state.value.length + 1,
-                                  isOptional: false,
-                                })
-                              }
-                              aria-label='Add a new field'
-                              icon={<AddIcon />}
-                            />
-                          </Tooltip>
-                        </ButtonGroup>
-                      </Stack>
-                    )}
-                  />
-                </Box>
-              </VStack>
-            )
+      <FormControl isRequired>
+        <FormLabel>Nombre</FormLabel>
+        <Input
+          onChange={(e) => {
+            updateName(e.target.value)
           }}
-        </reqTypeForm.Field>
-      </form>
+        />
+      </FormControl>
+
+      <PaginatedFormTable<NewReqType>
+        data={dataTable}
+        columns={reqTypeFormColumn}
+        isLoadingData={true}
+      />
+      <HStack>
+        <Button colorScheme='purple' onClick={(e) => console.log(dataTable)}>
+          clg
+        </Button>
+        <Button colorScheme='yellow' onClick={resetDataTable}>
+          Limpiar
+        </Button>
+        <Button colorScheme='blue' onClick={handleSubmit}>
+          Enviar
+        </Button>
+        <Button onClick={onOpen} colorScheme='green'>
+          Agregar
+        </Button>
+      </HStack>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Agregar Nuevo Campo</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <VStack w={'100%'}>
+              <FormControl isRequired>
+                <FormLabel>Titulo</FormLabel>
+                <Input
+                  onChange={(e) => {
+                    handleInputChange(e.target.value, 'title')
+                  }}
+                />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Tipo de Campo</FormLabel>
+                <Select
+                  defaultValue=''
+                  onChange={(e) => {
+                    handleInputChange(e.target.value, 'type')
+                  }}
+                >
+                  <option value='' disabled hidden>
+                    Selecciona un tipo
+                  </option>
+                  <option value='date'>Fecha</option>
+                  <option value='email'>Email</option>
+                  <option value='number'>Numero de telefono</option>
+                  <option value='text'>Texto</option>
+                  <option value='checkbox'>Check</option>
+                </Select>
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel pt='20px'>Orden</FormLabel>
+                <Input
+                  type='number'
+                  min={0}
+                  onChange={(e) => {
+                    handleInputChange(e.target.value, 'order')
+                  }}
+                />
+              </FormControl>
+
+              <HStack w={'100%'}>
+                <FormControl>
+                  <FormLabel htmlFor='is-optional'>Es Opcional?</FormLabel>
+                  <Switch
+                    id='is-optional'
+                    onChange={(e) => {
+                      console.log(newField)
+                      handleInputChange(optionalInput, 'isOptional')
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor='is-required'>Es Requerido?</FormLabel>
+                  <Switch
+                    id='is-required'
+                    onChange={(e) => {
+                      handleInputChange(requiredInput, 'isRequired')
+                    }}
+                  />
+                </FormControl>
+              </HStack>
+            </VStack>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme='red' mr={3} onClick={onClose}>
+              Cerrar
+            </Button>
+            <Button colorScheme='blue' onClick={handleAddField}>
+              Añadir
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </CardContainer>
   )
 }

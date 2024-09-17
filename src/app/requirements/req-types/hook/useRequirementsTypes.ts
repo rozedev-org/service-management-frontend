@@ -62,7 +62,7 @@ export const useRequirementType = () => {
   return { fetchReqType, reqType, setReqType, isLoading }
 }
 
-export const useCreateReqTypeForm = () => {
+export const useCreateReqTypeForm = (dataTable: NewReqType[]) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()
@@ -71,14 +71,14 @@ export const useCreateReqTypeForm = () => {
     defaultValues: {
       name: '',
       requirementTypeField: [
-        { title: '', type: '', order: 0, isOptional: false },
+        { title: '', type: '', order: 0, isOptional: false, isRequired: false },
       ],
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: async () => {
       try {
         const response = await axiosInstace.post<ReqTypeFieldEntity>(
           `/requirements/type`,
-          value
+          dataTable
         )
         router.push(
           appRoutes.home.requirements.reqTypes.getOne.url(response.data.id)
