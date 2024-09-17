@@ -7,8 +7,9 @@ import {
 export interface NewReq {
   userId: number | null
   stateId: number
+  requirementTypeId: number
   requirementFieldValue: {
-    id: number
+    requirementTypeFieldId: number
     value: string
   }[]
 }
@@ -28,5 +29,9 @@ interface RequirementFieldValue extends RequirementFieldValueEntity {
 }
 
 export interface RequirementEntity extends RequirementsEntity {
+  requirementType: {
+    id: number
+    name: string
+  }
   requirementFieldValue: RequirementFieldValue[]
 }
