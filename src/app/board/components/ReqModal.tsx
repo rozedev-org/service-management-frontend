@@ -59,8 +59,8 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
     await fetchReqActions()
     onOpen()
   }
-  const handleUpdateAction = async (id: number) => {
-    await updateReqAction(id)
+  const handleUpdateAction = async (id: number, userId: number) => {
+    await updateReqAction(id, userId)
   }
   const handleUpdateUser = async () => {
     await updateReqForm.handleSubmit()
@@ -156,7 +156,10 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                             <MenuItem
                               key={`menu-item-req-${id}-state-${state.id}`}
                               onClick={async () =>
-                                await handleUpdateAction(state.id)
+                                await handleUpdateAction(
+                                  state.id,
+                                  user?.id ?? 0
+                                )
                               }
                             >
                               {state.title}

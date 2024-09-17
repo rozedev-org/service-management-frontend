@@ -21,10 +21,11 @@ export const useReqActions = (reqId: number) => {
     }
   }
 
-  const updateReqAction = async (newReqStateId: number) => {
+  const updateReqAction = async (newReqStateId: number, userId: number) => {
     try {
       await axiosInstace.put(`/requirements/${reqId}`, {
         stateId: newReqStateId,
+        userId,
       })
       await fetchReqActions()
       toast.success(`Se ha actualizado el estado del requerimiento`)

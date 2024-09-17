@@ -5,6 +5,8 @@ export interface ReqTypeFieldEntity {
   requirementTypeId: number
   order: number
   isOptional: boolean
+  isRequired: boolean
+  options: any[]
 }
 
 export interface UpdateReqTypeField {

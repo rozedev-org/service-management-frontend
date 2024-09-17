@@ -362,7 +362,70 @@ export const AddReqDrawer = () => {
                                         }}
                                       />
                                     )}
-                                    
+
+                                    {inputType === 'list' && (
+                                      <Select
+                                        value={subField.state.value}
+                                        onChange={(e) => {
+                                          subField.handleChange(
+                                            String(e.target.value)
+                                          )
+                                          handleFieldChange(
+                                            i,
+                                            String(e.target.value)
+                                          )
+                                        }}
+                                      >
+                                        <option></option>
+                                        {reqTypeField?.options.map((option) => (
+                                          <option>{option.name}</option>
+                                        ))}
+                                      </Select>
+                                    )}
+
+                                    {inputType === 'user' && (
+                                      <Select
+                                        value={subField.state.value}
+                                        onChange={(e) => {
+                                          subField.handleChange(
+                                            String(e.target.value)
+                                          )
+                                          handleFieldChange(
+                                            i,
+                                            String(e.target.value)
+                                          )
+                                        }}
+                                      >
+                                        <option></option>
+
+                                        {reqTypeField?.options.map((option) => (
+                                          <option>
+                                            {option.userName} -{' '}
+                                            {option.firstName} {option.lastName}
+                                          </option>
+                                        ))}
+                                      </Select>
+                                    )}
+
+                                    {inputType === 'customer' && (
+                                      <Select
+                                        value={subField.state.value}
+                                        onChange={(e) => {
+                                          subField.handleChange(
+                                            String(e.target.value)
+                                          )
+                                          handleFieldChange(
+                                            i,
+                                            String(e.target.value)
+                                          )
+                                        }}
+                                      >
+                                        <option></option>
+                                        {reqTypeField?.options.map((option) => (
+                                          <option>{option.name}</option>
+                                        ))}
+                                      </Select>
+                                    )}
                                   </FormControl>
                                 )
                               }}
