@@ -27,7 +27,7 @@ export default function ModalDeleteCustomers({
 
   const handleDelete = async () => {
     await axiosInstace.delete(`/customers/${params.id}`, {})
-    router.push(appRoutes.home.customers.url(0))
+    router.push(appRoutes.home.customers.url())
   }
 
   useEffect(() => {

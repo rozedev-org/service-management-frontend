@@ -378,7 +378,9 @@ export const AddReqDrawer = () => {
                                       >
                                         <option></option>
                                         {reqTypeField?.options.map((option) => (
-                                          <option>{option.name}</option>
+                                          <option key={option.name}>
+                                            {option.name}
+                                          </option>
                                         ))}
                                       </Select>
                                     )}
@@ -399,7 +401,7 @@ export const AddReqDrawer = () => {
                                         <option></option>
 
                                         {reqTypeField?.options.map((option) => (
-                                          <option>
+                                          <option key={option.id}>
                                             {option.userName} -{' '}
                                             {option.firstName} {option.lastName}
                                           </option>
@@ -422,7 +424,9 @@ export const AddReqDrawer = () => {
                                       >
                                         <option></option>
                                         {reqTypeField?.options.map((option) => (
-                                          <option>{option.name}</option>
+                                          <option key={option.id}>
+                                            {option.name}
+                                          </option>
                                         ))}
                                       </Select>
                                     )}

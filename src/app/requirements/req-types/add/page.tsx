@@ -213,7 +213,7 @@ export default function ReqTypesAddPage() {
                             return (
                               <FormControl>
                                 <FormLabel htmlFor='is-required'>
-                                El campo es requerido
+                                  El campo es requerido
                                 </FormLabel>
                                 <Switch
                                   id='is-required'
@@ -250,6 +250,7 @@ export default function ReqTypesAddPage() {
                                   type: '',
                                   order: field.state.value.length + 1,
                                   isOptional: false,
+                                  isRequired: false,
                                 })
                               }
                               aria-label='Add a new field'

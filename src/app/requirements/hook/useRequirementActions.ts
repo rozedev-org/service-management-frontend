@@ -44,6 +44,7 @@ export const useReqActions = (reqId: number) => {
       createdAt: new Date(),
       updatedAt: new Date(),
       secuence: 0,
+      stateType: '',
     },
     remaining: [],
   })
