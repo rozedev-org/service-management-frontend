@@ -1,4 +1,4 @@
-import { RequirementsEntity } from '@/app/requirements/types/req.types'
+import { RequirementEntity } from "@/app/requirements/types/requirements.types"
 
 export interface BoardEntity {
   id: number
@@ -6,5 +6,5 @@ export interface BoardEntity {
   secuence: number
   createdAt: Date
   updatedAt: Date
-  requirement: RequirementsEntity[]
+  requirement: RequirementEntity[]
 }

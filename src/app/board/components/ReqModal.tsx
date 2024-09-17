@@ -18,10 +18,10 @@ import {
   MenuItem,
   MenuList,
   FormControl,
-  FormLabel,
   Editable,
   EditableInput,
   EditablePreview,
+  Box,
 } from '@chakra-ui/react'
 import { ReqTableOptions } from '../../requirements/components/TableOptions'
 import { useReqActions } from '@/app/requirements/hook/useRequirementActions'
@@ -37,17 +37,16 @@ import { PaginationParams } from '@/common/interfaces/response.interface'
 import { UserEntity } from '@/app/users/types/user.types'
 import { UpDownIcon } from '@chakra-ui/icons'
 import { RequirementEntity } from '@/app/requirements/types/requirements.types'
-import { useRouter } from 'next/navigation'
 import ModalUpdateReq from '@/app/requirements/[id]/components/ModalUpdateReq'
 
 export default function ReqModal(props: { requirement: RequirementEntity }) {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const { title, id, updatedAt, createdAt, user } = props.requirement
+  const { id, updatedAt, createdAt, user } = props.requirement
   const { reqActions, fetchReqActions, updateReqAction } = useReqActions(id)
   const { setOnRefresh } = useRefreshSignal()
   const { user: usersData, fetchUsers } = useUsers()
   const [selectedUser, setSelectedUser] = useState<UserEntity | null>(user)
-  const { requirement, fetchReq, isLoading } = useRequirement(id)
+  const { requirement, fetchReq } = useRequirement(id)
   const { updateReqForm } = useUpdateReqForm(requirement)
   const [edited, setEdited] = useState(false)
   const handleOpen = async () => {
@@ -60,8 +59,8 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
     await fetchReqActions()
     onOpen()
   }
-  const handleUpdateAction = async (id: number) => {
-    await updateReqAction(id)
+  const handleUpdateAction = async (id: number, userId: number) => {
+    await updateReqAction(id, userId)
   }
   const handleUpdateUser = async () => {
     await updateReqForm.handleSubmit()
@@ -79,7 +78,6 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
   }
 
   useEffect(() => {}, [])
-
   return (
     <>
       {/* Boton con un titulo que se renderiza en la columna */}
@@ -90,8 +88,26 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
         fontSize={14}
         color={'black'}
         textAlign={'left'}
+        _hover={{ textDecoration: 'none' }}
       >
-        {title}
+        <Box w={['10rem', '19rem']} pr={2}>
+          <HStack
+            key={`home-key-${id}`}
+            bg='#FFFFFF'
+            borderRadius='20px'
+            p={2}
+            minH={['3.5rem', '56px']}
+            _hover={{ bg: '#c1c1c1' }}
+          >
+            <Avatar name={user?.userName || ''} w={'30px'} h={'30px'} />
+            <Box textOverflow={'ellipsis'} overflow={'hidden'}>
+              {props.requirement?.requirementType.name} #{id}
+            </Box>
+            <Text fontSize={10} ml={'auto'}>
+              REQ-{id}
+            </Text>
+          </HStack>
+        </Box>
       </Button>
       <Stack>
         {/* Modal */}
@@ -107,7 +123,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
             <ModalBody>
               {/* Container con el menu desplegable de opciones, titulo y fecha */}
               <CardContainer
-                title={`Detalle del Requerimiento ${id}`}
+                title={`Detalle del Requerimiento - ${props.requirement.requirementType.name} #${id}`}
                 optionsButton={<ReqTableOptions id={id} />}
                 aditionalHeaderItems={
                   <Stack
@@ -127,12 +143,9 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                 }
               >
                 {/* Todo el cuerpo del modal */}
-                <VStack display='flex' alignItems='start'>
+                <VStack display='flex' alignItems='center'>
                   <Stack w='100%' gap={'9px'}>
-                    <HStack borderBottomWidth={2}>
-                      <Text fontSize={'20px'} paddingBottom={'13px'}>
-                        {title}
-                      </Text>
+                    <HStack borderBottomWidth={2} pb={2}>
                       <Menu>
                         {/* Menu que controla los estados del requerimiento */}
                         <MenuButton as={Button} rightIcon={<BiChevronDown />}>
@@ -143,7 +156,10 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                             <MenuItem
                               key={`menu-item-req-${id}-state-${state.id}`}
                               onClick={async () =>
-                                await handleUpdateAction(state.id)
+                                await handleUpdateAction(
+                                  state.id,
+                                  user?.id ?? 0
+                                )
                               }
                             >
                               {state.title}
@@ -151,38 +167,6 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                           ))}
                         </MenuList>
                       </Menu>
-                    </HStack>
-                    {/* Titulo del requerimiento */}
-                    <HStack minH={'104px'} alignItems={'start'}>
-                      {updateReqForm.Field({
-                        name: 'title',
-                        children: (field) => (
-                          <HStack w={'100%'}>
-                            <Text
-                              fontSize={'16px'}
-                              fontWeight={700}
-                              lineHeight={'24px'}
-                            >
-                              Descripcion:
-                            </Text>
-                            <Editable
-                              w={'100%'}
-                              defaultValue={field.state.value}
-                              onBlur={field.handleBlur}
-                              onChange={() => {
-                                setEdited(true)
-                              }}
-                            >
-                              <EditablePreview />
-                              <EditableInput
-                                onChange={(e) =>
-                                  field.handleChange(e.target.value)
-                                }
-                              />
-                            </Editable>
-                          </HStack>
-                        ),
-                      })}
                     </HStack>
                   </Stack>
                   {/* Responsable del requerimiento */}
@@ -249,7 +233,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                         void updateReqForm.handleSubmit()
                       }}
                     >
-                      <VStack overflow={'scroll'} h={'200px'}>
+                      <VStack>
                         <FormControl>
                           <updateReqForm.Field
                             name='requirementFieldValue'
@@ -266,24 +250,31 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                                       >
                                         {(subField) => {
                                           return (
-                                            <Stack
-                                              borderWidth={'3px'}
-                                              borderColor={'gray.200'}
-                                              p={4}
-                                              spacing={4}
+                                            <HStack
+                                              p={2}
                                               borderRadius={'5px'}
+                                              alignItems={'flex-start'}
                                             >
-                                              <FormLabel>
-                                                <Text>
-                                                  {
-                                                    requirement
-                                                      ?.requirementFieldValue[i]
-                                                      .requirementTypeField
-                                                      .title
-                                                  }
-                                                </Text>
-                                              </FormLabel>
+                                              <Text
+                                                whiteSpace={'nowrap'}
+                                                w={'100%'}
+                                                fontSize={18}
+                                                fontWeight={450}
+                                              >
+                                                {
+                                                  requirement
+                                                    ?.requirementFieldValue[i]
+                                                    .requirementTypeField.title
+                                                }
+                                              </Text>
                                               <Editable
+                                                border={'solid'}
+                                                borderWidth={1}
+                                                borderTop={'none'}
+                                                borderLeft={'none'}
+                                                borderRight={'none'}
+                                                borderColor={'gray.100'}
+                                                w={'100%'}
                                                 defaultValue={
                                                   requirement
                                                     ?.requirementFieldValue[i]
@@ -303,7 +294,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
                                                   }
                                                 />
                                               </Editable>
-                                            </Stack>
+                                            </HStack>
                                           )
                                         }}
                                       </updateReqForm.Field>

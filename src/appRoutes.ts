@@ -39,6 +39,21 @@ export const appRoutes = {
     },
     users: {
       url: () => '/users',
+      profile: {
+        url: (_: number) => `/users/profiles`,
+        getOne: {
+          url: (id: number) => `/users/profiles/${id}`,
+        },
+        add: {
+          url: (_: number) => `/users/profiles/add`,
+        },
+        update: {
+          url: (id: number) => `/users/profiles/${id}/update`,
+        },
+        delete: {
+          url: (id: number) => `/users/profiles/${id}/delete`,
+        },
+      },
       getOne: {
         url: (id: number) => `/users/${id}`,
       },
@@ -50,6 +65,21 @@ export const appRoutes = {
       },
       delete: {
         url: (id: number) => `/users/${id}/delete`,
+      },
+    },
+    customers: {
+      url: () => `/customers`,
+      getOne: {
+        url: (id: number) => `/customers/${id}`,
+      },
+      add: {
+        url: (_: number) => `/customers/add`,
+      },
+      update: {
+        url: (id: number) => `/customers/${id}/update`,
+      },
+      delete: {
+        url: (id: number) => `/customers/${id}/delete`,
       },
     },
     settings: {
@@ -68,6 +98,21 @@ export const appRoutes = {
         delete: {
           url: (id: number) => `/settings/req-state/${id}/delete`,
         },
+      },
+    },
+    offices: {
+      url: () => `/offices`,
+      getOne: {
+        url: (id: number) => `/offices/${id}`,
+      },
+      add: {
+        url: (_: number) => `/offices/add`,
+      },
+      update: {
+        url: (id: number) => `/offices/${id}/update`,
+      },
+      delete: {
+        url: (id: number) => `/offices/${id}/delete`,
       },
     },
   },

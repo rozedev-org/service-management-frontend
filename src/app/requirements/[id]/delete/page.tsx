@@ -27,7 +27,6 @@ export default function DeleteUserPage({ params }: { params: { id: number } }) {
         <Text fontWeight='bold'>
           Confirmar la eliminacion del requerimiento
         </Text>
-        <Text>{requirement?.title}</Text>
         <Card display='flex' flexDirection='column' alignItems='center' gap={2}>
           <CardHeader
             display='flex'

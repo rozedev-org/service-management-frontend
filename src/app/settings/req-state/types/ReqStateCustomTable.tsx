@@ -18,4 +18,8 @@ export const reqStateCustomColumn = [
     cell: (row) => row.getValue(),
     header: 'Titulo',
   }),
+  columnHelper.accessor('stateType', {
+    cell: (row) => row.getValue(),
+    header: 'Tipo',
+  }),
 ]

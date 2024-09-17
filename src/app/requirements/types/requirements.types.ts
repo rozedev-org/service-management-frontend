@@ -5,18 +5,17 @@ import {
 } from './requirement-type-field'
 
 export interface NewReq {
-  title: string
   userId: number | null
   stateId: number
+  requirementTypeId: number
   requirementFieldValue: {
-    id: number
+    requirementTypeFieldId: number
     value: string
   }[]
 }
 
 export interface RequirementsEntity {
   id: number
-  title: string
   userId: number | null
   createdAt: Date
   updatedAt: Date
@@ -30,5 +29,9 @@ interface RequirementFieldValue extends RequirementFieldValueEntity {
 }
 
 export interface RequirementEntity extends RequirementsEntity {
+  requirementType: {
+    id: number
+    name: string
+  }
   requirementFieldValue: RequirementFieldValue[]
 }

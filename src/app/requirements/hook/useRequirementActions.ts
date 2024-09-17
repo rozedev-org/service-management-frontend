@@ -1,9 +1,7 @@
-import { ReqActionsActions } from '../types/requirements.types'
-import { config } from '@/config'
 import { useState } from 'react'
 import { axiosInstace } from '@/common/utils/axiosIntance'
-import { useRefreshSignal } from '@/app/board/states/useRefreshSignal'
 import { toast } from 'sonner'
+import { ReqActionsActions } from '../types/requirement-action.types'
 
 /**
  * Custom hook to fetch requirement actions.
@@ -23,10 +21,11 @@ export const useReqActions = (reqId: number) => {
     }
   }
 
-  const updateReqAction = async (newReqStateId: number) => {
+  const updateReqAction = async (newReqStateId: number, userId: number) => {
     try {
       await axiosInstace.put(`/requirements/${reqId}`, {
         stateId: newReqStateId,
+        userId,
       })
       await fetchReqActions()
       toast.success(`Se ha actualizado el estado del requerimiento`)
@@ -45,6 +44,7 @@ export const useReqActions = (reqId: number) => {
       createdAt: new Date(),
       updatedAt: new Date(),
       secuence: 0,
+      stateType: '',
     },
     remaining: [],
   })

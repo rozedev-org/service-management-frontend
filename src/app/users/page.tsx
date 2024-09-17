@@ -9,6 +9,7 @@ import { UserEntity } from './types/user.types'
 import { useEffect, useState } from 'react'
 import { PaginatedTable } from '@/components/table/PaginatedTable/PaginatedTable'
 import { PaginationParams } from '@/common/interfaces/response.interface'
+import OptionsButton from './components/OptionButton'
 
 export default function Users() {
   const [userFilter, setUserFilter] = useState('')
@@ -39,7 +40,12 @@ export default function Users() {
   return (
     <CardContainer
       title='Lista de Usuarios'
-      optionsButton={<AddUserButton />}
+      optionsButton={
+        <>
+          <AddUserButton />
+          <OptionsButton />
+        </>
+      }
       isLoading={isLoading}
       searchInput={
         <SearchInput

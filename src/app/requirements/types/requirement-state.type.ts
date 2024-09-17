@@ -4,9 +4,11 @@ export interface ReqStateEntity {
   secuence: number
   createdAt: Date
   updatedAt: Date
+  stateType: string
 }
 
 export interface NewReqState {
   title: string
   secuence: number
+  stateType: string
 }

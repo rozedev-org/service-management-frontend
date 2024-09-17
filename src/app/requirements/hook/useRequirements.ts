@@ -86,9 +86,9 @@ export const useCreateReqForm = () => {
   const router = useRouter()
   const ReqForm = useForm<NewReq>({
     defaultValues: {
-      title: '',
       userId: null,
       stateId: 1,
+      requirementTypeId: 0,
       requirementFieldValue: [],
     },
     onSubmit: async ({ value }) => {
@@ -98,16 +98,12 @@ export const useCreateReqForm = () => {
           value
         )
         setId(response.data.id)
-        toast.success(
-          `Se ha creado el Requerimiento : ${response.data.title}`,
-          {
-            action: {
-              label: 'Crear otro Requerimiento',
-              onClick: () =>
-                router.push(appRoutes.home.requirements.add.url(0)),
-            },
-          }
-        )
+        toast.success(`Se ha creado el Requerimiento : ${response.data.id}`, {
+          action: {
+            label: 'Crear otro Requerimiento',
+            onClick: () => router.push(appRoutes.home.requirements.add.url(0)),
+          },
+        })
       } catch (error: any) {
         toast.error(
           error.response?.data.message ||
@@ -137,24 +133,24 @@ export const useUpdateReqForm = (req?: RequirementEntity) => {
   const { setIsCreating } = useNewData()
   const updateReqForm = useForm<NewReq>({
     defaultValues: {
-      title: req?.title || '',
-      userId: req?.userId || null,
-      stateId: req?.stateId || 1,
+      userId: req?.userId ?? null,
+      stateId: req?.stateId ?? 0,
+      requirementTypeId: req?.requirementTypeId ?? 0,
       requirementFieldValue:
         req?.requirementFieldValue && Array.isArray(req.requirementFieldValue)
           ? req.requirementFieldValue.map((field) => ({
-              id: field.requirementTypeField.id,
+              requirementTypeFieldId: field.requirementTypeField.id,
               value: field.value,
             }))
           : [],
     },
     onSubmit: async ({ value }) => {
       try {
-        const response = await axiosInstace.put<RequirementsEntity>(
+        await axiosInstace.put<RequirementsEntity>(
           `/requirements/${req?.id}`,
           value
         )
-        toast.success(`Se ha actualizado el Requerimiento `)
+        toast.success(`Se ha actualizado el Requerimiento ${req?.id} `)
       } catch (error: any) {
         toast.error(
           error.response.data.message ||
