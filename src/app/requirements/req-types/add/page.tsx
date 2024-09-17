@@ -19,7 +19,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { NewReqType } from '../../types/requirement-type.types'
 import { reqTypeFormColumn } from '../types/ReqTypeFormTable'
 import { NewReqTypeField } from '../../types/requirement-type-field'
@@ -28,7 +28,10 @@ import { useCreateReqTypeForm } from '../hook/useRequirementsTypes'
 
 export default function ReqTypesAddPage() {
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const [dataTable, setDataTable] = useState<NewReqType[]>([])
+  const [newReqType, setNewReqType] = useState<NewReqType>({
+    name: '',
+    requirementTypeField: [],
+  })
   const [requiredInput, setRequiredInput] = useState(true)
   const [optionalInput, setOptionalInput] = useState(true)
   const [nameInput, setNameInput] = useState('')
@@ -39,7 +42,7 @@ export default function ReqTypesAddPage() {
     isOptional: false,
     isRequired: false,
   })
-  const { reqTypeForm } = useCreateReqTypeForm(dataTable)
+  const { reqTypeForm } = useCreateReqTypeForm(newReqType)
   // const [dataTable, setDataTable] = useState<NewReqType[]>([
   //   {
   //     name: 'Si',
@@ -70,27 +73,32 @@ export default function ReqTypesAddPage() {
 
   const updateName = (name: string) => {
     setNameInput(name)
-    setDataTable((prevDataTable) =>
-      prevDataTable.map((item) => (name ? { ...item, name: name } : item))
-    )
+    setNewReqType((previousValue) => ({ ...previousValue, name }))
   }
 
   const handleAddField = () => {
-    setDataTable((prevDataTable) => {
-      const updatedDataTable = [...prevDataTable]
-      if (updatedDataTable.length > 0) {
-        updatedDataTable[0].requirementTypeField.push(newField)
-      } else {
-        updatedDataTable.push({
-          name: nameInput,
-          requirementTypeField: [newField],
-        })
-      }
-      return updatedDataTable
-    })
+    setNewReqType((previousValue) => ({
+      ...previousValue,
+      requirementTypeField: [...previousValue.requirementTypeField, newField],
+    }))
+
+    // setDataTable((prevDataTable) => {
+
+    //   const updatedDataTable = [...prevDataTable]
+    //   if (updatedDataTable.length > 0) {
+    //     updatedDataTable[0].requirementTypeField.push(newField)
+    //   } else {
+    //     updatedDataTable.push({
+    //       name: nameInput,
+    //       requirementTypeField: [newField],
+    //     })
+    //   }
+    //   return updatedDataTable
+    // })
     onClose()
     setRequiredInput(true)
     setOptionalInput(true)
+
     setNewField({
       title: '',
       type: '',
@@ -101,7 +109,7 @@ export default function ReqTypesAddPage() {
   }
 
   const resetDataTable = () => {
-    setDataTable([{ name: '', requirementTypeField: [] }])
+    setNewReqType({ name: '', requirementTypeField: [] })
   }
 
   const handleSubmit = () => {
@@ -119,13 +127,13 @@ export default function ReqTypesAddPage() {
         />
       </FormControl>
 
-      <PaginatedFormTable<NewReqType>
-        data={dataTable}
+      <PaginatedFormTable<NewReqTypeField>
+        data={newReqType.requirementTypeField}
         columns={reqTypeFormColumn}
-        isLoadingData={true}
+        isLoadingData={false}
       />
       <HStack>
-        <Button colorScheme='purple' onClick={(e) => console.log(dataTable)}>
+        <Button colorScheme='purple' onClick={(e) => console.log(newReqType)}>
           clg
         </Button>
         <Button colorScheme='yellow' onClick={resetDataTable}>
@@ -191,7 +199,6 @@ export default function ReqTypesAddPage() {
                   <Switch
                     id='is-optional'
                     onChange={(e) => {
-                      console.log(newField)
                       handleInputChange(optionalInput, 'isOptional')
                     }}
                   />

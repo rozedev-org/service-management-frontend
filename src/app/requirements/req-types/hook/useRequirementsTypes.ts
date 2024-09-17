@@ -62,7 +62,7 @@ export const useRequirementType = () => {
   return { fetchReqType, reqType, setReqType, isLoading }
 }
 
-export const useCreateReqTypeForm = (dataTable: NewReqType[]) => {
+export const useCreateReqTypeForm = (dataTable: NewReqType) => {
   const [onError, setOnError] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
   const router = useRouter()

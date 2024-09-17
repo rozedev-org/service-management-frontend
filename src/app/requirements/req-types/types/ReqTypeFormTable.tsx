@@ -1,63 +1,48 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import { NewReqType } from '../../types/requirement-type.types'
 import { Input, VStack } from '@chakra-ui/react'
+import { NewReqTypeField } from '../../types/requirement-type-field'
 
-const columnHelper = createColumnHelper<NewReqType>()
+const columnHelper = createColumnHelper<NewReqTypeField>()
 
 export const reqTypeFormColumn = [
-  columnHelper.accessor('requirementTypeField.title', {
-    cell: (row) =>
-      row.row.original.requirementTypeField.map((data) => (
-        <>
-          <VStack p={2}>
-            <Input value={data.title} isReadOnly={true} />
-          </VStack>
-        </>
-      )),
+  columnHelper.accessor('title', {
+    cell: ({ row }) => (
+      <VStack p={2}>
+        <Input value={row.original.title} isReadOnly={true} />
+      </VStack>
+    ),
     header: 'Titulo',
   }),
-  columnHelper.accessor('requirementTypeField.type', {
-    cell: (row) =>
-      row.row.original.requirementTypeField.map((data) => (
-        <>
-          <VStack p={2}>
-            <Input value={data.type} isReadOnly={true} />
-          </VStack>
-        </>
-      )),
+  columnHelper.accessor('type', {
+    cell: ({ row }) => (
+      <VStack p={2}>
+        <Input value={row.original.type} isReadOnly={true} />
+      </VStack>
+    ),
     header: 'Tipo',
   }),
-  columnHelper.accessor('requirementTypeField.order', {
-    cell: (row) =>
-      row.row.original.requirementTypeField.map((data) => (
-        <>
-          <VStack p={2}>
-            <Input value={data.order} isReadOnly={true} />
-          </VStack>
-        </>
-      )),
+  columnHelper.accessor('order', {
+    cell: ({ row }) => (
+      <VStack p={2}>
+        <Input value={row.original.order} isReadOnly={true} />
+      </VStack>
+    ),
     header: 'Orden',
   }),
-  columnHelper.accessor('requirementTypeField.isOptional', {
-    cell: (row) =>
-      row.row.original.requirementTypeField.map((data) => (
-        <>
-          <VStack p={2}>
-            <Input value={`${data.isOptional}`} isReadOnly={true} />
-          </VStack>
-        </>
-      )),
+  columnHelper.accessor('isOptional', {
+    cell: ({ row }) => (
+      <VStack p={2}>
+        <Input value={`${row.original.isOptional}`} isReadOnly={true} />
+      </VStack>
+    ),
     header: 'Es Opcional?',
   }),
-  columnHelper.accessor('requirementTypeField.isRequired', {
-    cell: (row) =>
-      row.row.original.requirementTypeField.map((data) => (
-        <>
-          <VStack p={2}>
-            <Input value={`${data.isRequired}`} isReadOnly={true} />
-          </VStack>
-        </>
-      )),
+  columnHelper.accessor('isRequired', {
+    cell: ({ row }) => (
+      <VStack p={2}>
+        <Input value={`${row.original.isRequired}`} isReadOnly={true} />
+      </VStack>
+    ),
     header: 'Es Requerido?',
   }),
 ]
