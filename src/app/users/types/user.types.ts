@@ -3,6 +3,7 @@ export interface NewUser {
   firstName: string
   lastName: string
   password: string
+  profileId: number
 }
 
 export interface UserEntity {

@@ -97,6 +97,7 @@ export const useCreateUserForm = () => {
       lastName: '',
       firstName: '',
       password: '',
+      profileId: 2,
     },
     onSubmit: async ({ value }) => {
       try {
@@ -137,6 +138,7 @@ export const useUpdateUserForm = (user?: UserEntity) => {
       lastName: user?.lastName || '',
       firstName: user?.firstName || '',
       password: user?.password || '',
+      profileId: 2,
     },
     onSubmit: async ({ value }) => {
       try {
