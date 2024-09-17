@@ -20,6 +20,7 @@ export interface NewReqTypeField {
   type: string
   order: number
   isOptional: boolean
+  isRequired: boolean
 }
 
 export interface RequirementFieldValueEntity {

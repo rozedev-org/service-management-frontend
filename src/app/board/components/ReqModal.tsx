@@ -78,7 +78,6 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
   }
 
   useEffect(() => {}, [])
-
   return (
     <>
       {/* Boton con un titulo que se renderiza en la columna */}
@@ -102,7 +101,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
           >
             <Avatar name={user?.userName || ''} w={'30px'} h={'30px'} />
             <Box textOverflow={'ellipsis'} overflow={'hidden'}>
-              Averia #{id}
+              {props.requirement?.requirementType.name} #{id}
             </Box>
             <Text fontSize={10} ml={'auto'}>
               REQ-{id}
@@ -124,7 +123,7 @@ export default function ReqModal(props: { requirement: RequirementEntity }) {
             <ModalBody>
               {/* Container con el menu desplegable de opciones, titulo y fecha */}
               <CardContainer
-                title={`Detalle del Requerimiento ${id}`}
+                title={`Detalle del Requerimiento - ${props.requirement.requirementType.name} #${id}`}
                 optionsButton={<ReqTableOptions id={id} />}
                 aditionalHeaderItems={
                   <Stack

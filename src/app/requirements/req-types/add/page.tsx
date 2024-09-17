@@ -192,13 +192,33 @@ export default function ReqTypesAddPage() {
                             return (
                               <FormControl>
                                 <FormLabel htmlFor='is-optional'>
-                                  isOptional
+                                  El campo es opcional
                                 </FormLabel>
                                 <Switch
                                   id='is-optional'
                                   onChange={() => {
                                     setSwitchCheck(!switchCheck)
-                                    console.log(switchCheck)
+                                    subField.handleChange(switchCheck)
+                                  }}
+                                />
+                              </FormControl>
+                            )
+                          }}
+                        </reqTypeForm.Field>
+
+                        <reqTypeForm.Field
+                          name={`requirementTypeField[${i}].isRequired`}
+                        >
+                          {(subField) => {
+                            return (
+                              <FormControl>
+                                <FormLabel htmlFor='is-required'>
+                                El campo es requerido
+                                </FormLabel>
+                                <Switch
+                                  id='is-required'
+                                  onChange={() => {
+                                    setSwitchCheck(!switchCheck)
                                     subField.handleChange(switchCheck)
                                   }}
                                 />
