@@ -19,7 +19,7 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { NewReqType } from '../../types/requirement-type.types'
 import { reqTypeFormColumn } from '../types/ReqTypeFormTable'
 import { NewReqTypeField } from '../../types/requirement-type-field'
@@ -43,27 +43,7 @@ export default function ReqTypesAddPage() {
     isRequired: false,
   })
   const { reqTypeForm } = useCreateReqTypeForm(newReqType)
-  // const [dataTable, setDataTable] = useState<NewReqType[]>([
-  //   {
-  //     name: 'Si',
-  //     requirementTypeField: [
-  //       {
-  //         title: 'Titulo',
-  //         order: 1,
-  //         type: 'Tipo',
-  //         isOptional: true,
-  //         isRequired: false,
-  //       },
-  //       {
-  //         title: 'Title',
-  //         order: 2,
-  //         type: 'Type',
-  //         isOptional: false,
-  //         isRequired: true,
-  //       },
-  //     ],
-  //   },
-  // ])
+
   const handleInputChange = (value: string | boolean, type: string) => {
     setNewField((prevField) => ({
       ...prevField,
@@ -82,19 +62,6 @@ export default function ReqTypesAddPage() {
       requirementTypeField: [...previousValue.requirementTypeField, newField],
     }))
 
-    // setDataTable((prevDataTable) => {
-
-    //   const updatedDataTable = [...prevDataTable]
-    //   if (updatedDataTable.length > 0) {
-    //     updatedDataTable[0].requirementTypeField.push(newField)
-    //   } else {
-    //     updatedDataTable.push({
-    //       name: nameInput,
-    //       requirementTypeField: [newField],
-    //     })
-    //   }
-    //   return updatedDataTable
-    // })
     onClose()
     setRequiredInput(true)
     setOptionalInput(true)
@@ -115,10 +82,18 @@ export default function ReqTypesAddPage() {
   const handleSubmit = () => {
     reqTypeForm.handleSubmit()
   }
+  const handleDeleteField = (index: number) => {
+    setNewReqType((prevReqType) => ({
+      ...prevReqType,
+      requirementTypeField: prevReqType.requirementTypeField.filter(
+        (_, i) => i !== index
+      ),
+    }))
+  }
 
   return (
     <CardContainer title='Crear tipo de Requerimiento'>
-      <FormControl isRequired>
+      <FormControl isRequired pb={4}>
         <FormLabel>Nombre</FormLabel>
         <Input
           onChange={(e) => {
@@ -129,13 +104,10 @@ export default function ReqTypesAddPage() {
 
       <PaginatedFormTable<NewReqTypeField>
         data={newReqType.requirementTypeField}
-        columns={reqTypeFormColumn}
+        columns={reqTypeFormColumn(handleDeleteField)}
         isLoadingData={false}
       />
       <HStack>
-        <Button colorScheme='purple' onClick={(e) => console.log(newReqType)}>
-          clg
-        </Button>
         <Button colorScheme='yellow' onClick={resetDataTable}>
           Limpiar
         </Button>

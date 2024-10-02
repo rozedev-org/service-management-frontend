@@ -1,10 +1,24 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import { Input, VStack } from '@chakra-ui/react'
+import { Button, Checkbox, Input, VStack } from '@chakra-ui/react'
 import { NewReqTypeField } from '../../types/requirement-type-field'
 
 const columnHelper = createColumnHelper<NewReqTypeField>()
 
-export const reqTypeFormColumn = [
+export const reqTypeFormColumn = (
+  handleDeleteField: (index: number) => void
+) => [
+  columnHelper.display({
+    id: 'delete-action',
+    cell: (props) => (
+      <Button
+        variant='outline'
+        onClick={() => handleDeleteField(props.row.index)}
+      >
+        x
+      </Button>
+    ),
+    header: '',
+  }),
   columnHelper.accessor('title', {
     cell: ({ row }) => (
       <VStack p={2}>
@@ -32,7 +46,15 @@ export const reqTypeFormColumn = [
   columnHelper.accessor('isOptional', {
     cell: ({ row }) => (
       <VStack p={2}>
-        <Input value={`${row.original.isOptional}`} isReadOnly={true} />
+        {row.original.isOptional ? (
+          <>
+            <Checkbox isDisabled defaultChecked />
+          </>
+        ) : (
+          <>
+            <Checkbox isDisabled />
+          </>
+        )}
       </VStack>
     ),
     header: 'Es Opcional?',
@@ -40,7 +62,15 @@ export const reqTypeFormColumn = [
   columnHelper.accessor('isRequired', {
     cell: ({ row }) => (
       <VStack p={2}>
-        <Input value={`${row.original.isRequired}`} isReadOnly={true} />
+        {row.original.isRequired ? (
+          <>
+            <Checkbox isDisabled defaultChecked />
+          </>
+        ) : (
+          <>
+            <Checkbox isDisabled />
+          </>
+        )}
       </VStack>
     ),
     header: 'Es Requerido?',
