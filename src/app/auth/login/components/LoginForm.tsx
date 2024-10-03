@@ -15,7 +15,7 @@ import {
   Text,
   Center,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BiBraille } from 'react-icons/bi'
 import { FaEyeSlash, FaEye } from 'react-icons/fa'
 import { useLoginForm } from '../hooks/useLogin'
@@ -28,12 +28,13 @@ export function LoginForm() {
   const handleSubmit = () => {
     loginForm.handleSubmit()
   }
+
   return (
     <form
       onSubmit={(e) => {
         e.preventDefault()
         e.stopPropagation()
-        void loginForm.handleSubmit()
+        loginForm.handleSubmit()
       }}
     >
       <Stack
@@ -56,7 +57,41 @@ export function LoginForm() {
             </Text>
           </Stack>
           <Stack w={'350px'}>
-            <FormControl>
+            <FormControl isInvalid={!!loginForm.errors.username}>
+              <FormLabel>Usuario</FormLabel>
+              <Input
+                id='username'
+                name='username'
+                type='text'
+                onChange={loginForm.handleChange}
+                value={loginForm.values.username}
+              />
+            </FormControl>
+
+            <FormControl isInvalid={!!loginForm.errors.password}>
+              <FormLabel>Contraseña</FormLabel>
+              <InputGroup size='md'>
+                <Input
+                  id='password'
+                  name='password'
+                  pr='4.5rem'
+                  type={show ? 'text' : 'password'}
+                  onChange={(e) => {
+                    setOnError(false)
+                    loginForm.handleChange(e)
+                  }}
+                  value={loginForm.values.password}
+                />
+
+                <InputRightElement width='4.5rem'>
+                  <Button h='1.75rem' size='sm' onClick={handleClick}>
+                    {show ? <FaEyeSlash /> : <FaEye />}
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </FormControl>
+
+            {/* <FormControl>
               <FormLabel>Usuario</FormLabel>
               {loginForm.Field({
                 name: 'username',
@@ -94,7 +129,7 @@ export function LoginForm() {
                   </Button>
                 </InputRightElement>
               </InputGroup>
-            </FormControl>
+            </FormControl> */}
           </Stack>
           <Stack alignItems={'center'}>
             <HStack gap={9}>
