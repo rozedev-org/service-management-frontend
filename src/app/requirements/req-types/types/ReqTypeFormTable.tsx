@@ -1,21 +1,52 @@
 import { createColumnHelper } from '@tanstack/react-table'
-import { Button, Checkbox, Input, VStack } from '@chakra-ui/react'
+import {
+  Button,
+  Checkbox,
+  HStack,
+  IconButton,
+  Input,
+  VStack,
+} from '@chakra-ui/react'
 import { NewReqTypeField } from '../../types/requirement-type-field'
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import React from 'react'
 
 const columnHelper = createColumnHelper<NewReqTypeField>()
 
 export const reqTypeFormColumn = (
-  handleDeleteField: (index: number) => void
+  handleDeleteField: (index: number) => void,
+  handleUpdateField: (index: number) => void,
+  onOpenModal: () => void
 ) => [
   columnHelper.display({
     id: 'delete-action',
     cell: (props) => (
-      <Button
-        variant='outline'
-        onClick={() => handleDeleteField(props.row.index)}
-      >
-        x
-      </Button>
+      <HStack>
+        <Button
+          variant='link'
+          onClick={() => handleDeleteField(props.row.index)}
+        >
+          <IconButton
+            ml={'auto'}
+            size='sm'
+            icon={<DeleteIcon />}
+            aria-label={''}
+          />
+        </Button>
+        <Button
+          variant='link'
+          onClick={(e) => {
+            onOpenModal(), handleUpdateField(props.row.index)
+          }}
+        >
+          <IconButton
+            ml={'auto'}
+            size='sm'
+            icon={<EditIcon />}
+            aria-label={''}
+          />
+        </Button>
+      </HStack>
     ),
     header: '',
   }),
