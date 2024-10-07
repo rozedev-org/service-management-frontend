@@ -27,7 +27,16 @@ import { PaginatedFormTable } from '@/components/table/CustomFormTable/CustomFor
 import { useCreateReqTypeForm } from '../hook/useRequirementsTypes'
 
 export default function ReqTypesAddPage() {
-  const { isOpen, onOpen, onClose } = useDisclosure()
+  const {
+    isOpen: isOpenAddField,
+    onOpen: onOpenAddField,
+    onClose: onCloseAddField,
+  } = useDisclosure()
+  const {
+    isOpen: isOpenEditField,
+    onOpen: onOpenEditField,
+    onClose: onCloseEditField,
+  } = useDisclosure()
   const [newReqType, setNewReqType] = useState<NewReqType>({
     name: '',
     requirementTypeField: [],
@@ -42,6 +51,10 @@ export default function ReqTypesAddPage() {
     isOptional: false,
     isRequired: false,
   })
+  const [selectedFieldIndex, setSelectedFieldIndex] = useState<number | null>(
+    null
+  )
+
   const { reqTypeForm } = useCreateReqTypeForm(newReqType)
 
   const handleInputChange = (value: string | boolean, type: string) => {
@@ -62,10 +75,7 @@ export default function ReqTypesAddPage() {
       requirementTypeField: [...previousValue.requirementTypeField, newField],
     }))
 
-    onClose()
-    setRequiredInput(true)
-    setOptionalInput(true)
-
+    onCloseAddField()
     setNewField({
       title: '',
       type: '',
@@ -90,6 +100,32 @@ export default function ReqTypesAddPage() {
       ),
     }))
   }
+  const handleUpdateField = (index: number) => {
+    const fieldToUpdate = newReqType.requirementTypeField[index]
+    setNewField(fieldToUpdate)
+    setSelectedFieldIndex(index)
+    onOpenEditField()
+  }
+  const handleSaveUpdatedField = () => {
+    if (selectedFieldIndex !== null) {
+      setNewReqType((prevReqType) => ({
+        ...prevReqType,
+        requirementTypeField: prevReqType.requirementTypeField.map((field, i) =>
+          i === selectedFieldIndex ? newField : field
+        ),
+      }))
+
+      onCloseEditField()
+      setSelectedFieldIndex(null)
+      setNewField({
+        title: '',
+        type: '',
+        order: 1,
+        isOptional: false,
+        isRequired: false,
+      })
+    }
+  }
 
   return (
     <CardContainer title='Crear tipo de Requerimiento'>
@@ -104,7 +140,11 @@ export default function ReqTypesAddPage() {
 
       <PaginatedFormTable<NewReqTypeField>
         data={newReqType.requirementTypeField}
-        columns={reqTypeFormColumn(handleDeleteField)}
+        columns={reqTypeFormColumn(
+          handleDeleteField,
+          handleUpdateField,
+          onOpenEditField
+        )}
         isLoadingData={false}
       />
       <HStack>
@@ -114,12 +154,14 @@ export default function ReqTypesAddPage() {
         <Button colorScheme='blue' onClick={handleSubmit}>
           Enviar
         </Button>
-        <Button onClick={onOpen} colorScheme='green'>
+        <Button onClick={onOpenAddField} colorScheme='green'>
           Agregar
         </Button>
       </HStack>
 
-      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      {/* Modal de agregado de datos */}
+
+      <Modal isOpen={isOpenAddField} onClose={onCloseAddField} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Agregar Nuevo Campo</ModalHeader>
@@ -171,6 +213,7 @@ export default function ReqTypesAddPage() {
                   <Switch
                     id='is-optional'
                     onChange={(e) => {
+                      setOptionalInput(!optionalInput)
                       handleInputChange(optionalInput, 'isOptional')
                     }}
                   />
@@ -181,6 +224,7 @@ export default function ReqTypesAddPage() {
                   <Switch
                     id='is-required'
                     onChange={(e) => {
+                      setRequiredInput(!requiredInput)
                       handleInputChange(requiredInput, 'isRequired')
                     }}
                   />
@@ -189,11 +233,100 @@ export default function ReqTypesAddPage() {
             </VStack>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme='red' mr={3} onClick={onClose}>
+            <Button colorScheme='red' mr={3} onClick={onCloseAddField}>
               Cerrar
             </Button>
             <Button colorScheme='blue' onClick={handleAddField}>
               Añadir
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal de modificacion de datos */}
+
+      <Modal isOpen={isOpenEditField} onClose={onCloseEditField} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Editar Campo</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <VStack w={'100%'}>
+              <FormControl isRequired>
+                <FormLabel>Titulo</FormLabel>
+                <Input
+                  value={newField.title}
+                  onChange={(e) => {
+                    handleInputChange(e.target.value, 'title')
+                  }}
+                />
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel>Tipo de Campo</FormLabel>
+                <Select
+                  value={newField.type}
+                  defaultValue=''
+                  onChange={(e) => {
+                    handleInputChange(e.target.value, 'type')
+                  }}
+                >
+                  <option value='' disabled hidden>
+                    Selecciona un tipo
+                  </option>
+                  <option value='date'>Fecha</option>
+                  <option value='email'>Email</option>
+                  <option value='number'>Numero de telefono</option>
+                  <option value='text'>Texto</option>
+                  <option value='checkbox'>Check</option>
+                </Select>
+              </FormControl>
+
+              <FormControl isRequired>
+                <FormLabel pt='20px'>Orden</FormLabel>
+                <Input
+                  value={newField.order}
+                  type='number'
+                  min={0}
+                  onChange={(e) => {
+                    handleInputChange(e.target.value, 'order')
+                  }}
+                />
+              </FormControl>
+
+              <HStack w={'100%'}>
+                <FormControl>
+                  <FormLabel htmlFor='is-optional'>Es Opcional?</FormLabel>
+                  <Switch
+                    defaultChecked={newField.isOptional}
+                    id='is-optional'
+                    onChange={(e) => {
+                      setOptionalInput(!optionalInput)
+                      handleInputChange(optionalInput, 'isOptional')
+                    }}
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel htmlFor='is-required'>Es Requerido?</FormLabel>
+                  <Switch
+                    defaultChecked={newField.isRequired}
+                    id='is-required'
+                    onChange={(e) => {
+                      setRequiredInput(!requiredInput)
+                      handleInputChange(requiredInput, 'isRequired')
+                    }}
+                  />
+                </FormControl>
+              </HStack>
+            </VStack>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme='red' mr={3} onClick={onCloseEditField}>
+              Cerrar
+            </Button>
+            <Button colorScheme='blue' onClick={handleSaveUpdatedField}>
+              Actualizar
             </Button>
           </ModalFooter>
         </ModalContent>
