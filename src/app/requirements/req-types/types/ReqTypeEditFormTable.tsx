@@ -8,13 +8,12 @@ import {
   VStack,
 } from '@chakra-ui/react'
 import { NewReqTypeField } from '../../types/requirement-type-field'
-import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { EditIcon } from '@chakra-ui/icons'
 import React from 'react'
 
 const columnHelper = createColumnHelper<NewReqTypeField>()
 
-export const reqTypeFormColumn = (
-  handleDeleteField: (index: number) => void,
+export const reqTypeEditFormColumn = (
   handleUpdateField: (index: number) => void,
   onOpenModal: () => void
 ) => [
@@ -22,17 +21,6 @@ export const reqTypeFormColumn = (
     id: 'delete-action',
     cell: (props) => (
       <HStack>
-        <Button
-          variant='link'
-          onClick={() => handleDeleteField(props.row.index)}
-        >
-          <IconButton
-            ml={'auto'}
-            size='sm'
-            icon={<DeleteIcon />}
-            aria-label={''}
-          />
-        </Button>
         <Button
           variant='link'
           onClick={(e) => {

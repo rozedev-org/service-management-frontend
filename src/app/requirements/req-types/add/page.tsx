@@ -21,10 +21,10 @@ import {
 } from '@chakra-ui/react'
 import { useState } from 'react'
 import { NewReqType } from '../../types/requirement-type.types'
-import { reqTypeFormColumn } from '../types/ReqTypeFormTable'
 import { NewReqTypeField } from '../../types/requirement-type-field'
 import { PaginatedFormTable } from '@/components/table/CustomFormTable/CustomFormTable'
 import { useCreateReqTypeForm } from '../hook/useRequirementsTypes'
+import { reqTypeAddFormColumn } from '../types/ReqTypeAddFormTable'
 
 export default function ReqTypesAddPage() {
   const {
@@ -140,7 +140,7 @@ export default function ReqTypesAddPage() {
 
       <PaginatedFormTable<NewReqTypeField>
         data={newReqType.requirementTypeField}
-        columns={reqTypeFormColumn(
+        columns={reqTypeAddFormColumn(
           handleDeleteField,
           handleUpdateField,
           onOpenEditField
