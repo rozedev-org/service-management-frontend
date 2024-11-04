@@ -15,6 +15,9 @@ export interface UpdateReqTypeField {
   type: string
   requirementTypeId: number
   order: number
+  isOptional: boolean
+  isRequired: boolean
+  options: any[]
 }
 
 export interface NewReqTypeField {

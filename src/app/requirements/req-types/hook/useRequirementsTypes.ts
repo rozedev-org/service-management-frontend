@@ -106,38 +106,33 @@ export const useCreateReqTypeForm = (dataTable: NewReqType) => {
   return { onError, errorMessage, reqTypeForm }
 }
 
-export const useReqTypeUpdateForm = (state?: ReqTypeEntity) => {
-  const [loading, setLoading] = useState(false)
-  const [onError, setOnError] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+export const useReqTypeUpdateForm = (dataTable?: ReqTypeEntity) => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const router = useRouter()
   const updateReqTypeForm = useForm<UpdateReqType>({
     defaultValues: {
-      name: state?.name || '',
-      requirementTypeField: state?.requirementTypeField || [],
+      name: dataTable?.name || '',
+      requirementTypeField: dataTable?.requirementTypeField || [],
     },
-    onSubmit: async ({ value }) => {
-      setLoading(true)
+    onSubmit: async () => {
+      setIsLoading(true)
       try {
-        const response = await axiosInstace.put<ReqTypeEntity>(
-          `/requirements/type/${state?.id}`,
-          value
+        const { id, ...dataToUpdate } = dataTable!
+        const response = await axiosInstace.put<UpdateReqType>(
+          `/requirements/type/${dataTable?.id}`,
+          dataToUpdate
         )
-        setLoading(false)
+        setIsLoading(false)
         toast.success(`Se ha actualizado correctamente`)
+        router.push(appRoutes.home.requirements.reqTypes.getOne.url(id))
       } catch (error: any) {
         toast.error(
           error.response?.data.message ||
             `Ocurrió un error al actualizar el tipo`
         )
-        setLoading(false)
-        setOnError(true)
-        setErrorMessage(
-          error.response?.data.message ||
-            'Ocurrió un error al intentar crear el usuario, por favor intente nuevamente'
-        )
+        setIsLoading(false)
       }
     },
   })
-  return { updateReqTypeForm, onError, errorMessage, loading, setLoading }
+  return { updateReqTypeForm, isLoading }
 }
